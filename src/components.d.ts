@@ -8,8 +8,16 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./components/AppFooter.vue')['default']
+    AuthForm: typeof import('./components/authorization/AuthForm.vue')['default']
+    Disput: typeof import('./components/report/Disput.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    Profit: typeof import('./components/report/Profit.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SealerReturn: typeof import('./components/report/SealerReturn.vue')['default']
+    SellersReturn: typeof import('./components/report/SellersReturn.vue')['default']
+    UIButton: typeof import('./components/authorization/UIButton.vue')['default']
+    UICheckbox: typeof import('./components/authorization/UICheckbox.vue')['default']
+    UIInput: typeof import('./components/authorization/UIInput.vue')['default']
   }
 }
