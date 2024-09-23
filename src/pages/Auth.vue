@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const handleLogin = () => {
-  router.push({ name: "PurchaseView" });
+  router.push({ name: '/' });
 };
 </script>
 

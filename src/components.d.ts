@@ -16,6 +16,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SealerReturn: typeof import('./components/report/SealerReturn.vue')['default']
     SellersReturn: typeof import('./components/report/SellersReturn.vue')['default']
+    SideBar: typeof import('./components/SideBar.vue')['default']
     UIButton: typeof import('./components/authorization/UIButton.vue')['default']
     UICheckbox: typeof import('./components/authorization/UICheckbox.vue')['default']
     UIInput: typeof import('./components/authorization/UIInput.vue')['default']
