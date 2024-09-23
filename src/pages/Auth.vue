@@ -16,6 +16,14 @@ const handleLogin = () => {
   </div>
 </template>
 
+<route lang="json">
+{
+  "meta": {
+    "layout": "auth"
+  }
+}
+</route>
+
 <style scoped lang="scss">
 .auth {
   height: 100vh;

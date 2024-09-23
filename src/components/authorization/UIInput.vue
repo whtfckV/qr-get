@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const model = defineModel();
-const error = defineModel<string>('error')
+  const model = defineModel()
+  const error = defineModel<string>('error')
 
 </script>
 
 <template>
   <input
-    :aria-invalid="error?.length !== 0"
     v-model="model"
+    :aria-invalid="error?.length !== 0"
     class="ui-input"
   >
 </template>

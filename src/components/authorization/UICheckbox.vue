@@ -1,20 +1,20 @@
 <script setup lang="ts">
-defineOptions({
-  inheritAttrs: false,
-})
+  defineOptions({
+    inheritAttrs: false,
+  })
 
-const model = defineModel();
+  const model = defineModel()
 </script>
 
 <template>
   <label class="checkbox">
     <input
-      class="checkbox__input"
       v-model="model"
+      class="checkbox__input"
       v-bind="$attrs"
       type="checkbox"
     >
-    <span class="checkbox__custom"></span>
+    <span class="checkbox__custom" />
     <slot />
   </label>
 </template>

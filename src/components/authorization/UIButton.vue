@@ -26,4 +26,5 @@
   &:focus {
     outline: 1px solid lighten(#4245ba, 20);
   }
-}</style>
+}
+</style>
