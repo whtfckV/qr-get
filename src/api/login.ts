@@ -3,5 +3,5 @@ import { Api, Post } from "."
 // import type { GenerateRequestBody, GenerateResponse } from "@/types/generation"
 
 export const generate = async (body: GenerateRequestBody): Promise<ApiResponse<GenerateResponse> | ApiError> => {
-  return await Api.post<GenerateResponse, GenerateRequestBody>(Post.generation, body)
+  return await Api.post<GenerateResponse, GenerateRequestBody>(Post.login, body)
 }
