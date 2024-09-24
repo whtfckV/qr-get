@@ -8,20 +8,27 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router/auto";
 import { setupLayouts } from "virtual:generated-layouts";
-import { components } from "vuetify/dist/vuetify-labs.js";
+// import { components } from "vuetify/dist/vuetify-labs.js";
 import { routes } from "vue-router/auto-routes";
-// import AuthView from "@/views/AuthView.vue";
-// const routes = [
-//   {
-//     name: "123",
-//     path: "/auth",
-//     component: AuthView,
-//   },
-// ];
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
+});
+
+router.beforeEach((to, from, next) => {
+  // if (from.name === '/') {
+  //   next({ name: '/Auth' });
+  // } else {
+  const authToken = localStorage.getItem('authToken');
+
+  if (!authToken && to.name !== '/Auth') {
+    next({ name: '/Auth' });
+  } else {
+    next();
+  }
+// }
 });
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

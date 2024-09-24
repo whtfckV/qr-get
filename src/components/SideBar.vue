@@ -18,17 +18,16 @@ const reports: Reports[] = [
 ]
 
 const toggleLogout = () => {
-  // localStorage.removeItem('authToken') // Или cookies.remove('authToken') если используешь cookies
+  localStorage.removeItem('authToken')
 
-  // Редирект на страницу логина
-  router.push('/auth')
+  router.push('/Auth')
 }
 </script>
 
 <template>
-      <!-- image="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg" -->
-      <!-- :width="200" -->
-      <v-navigation-drawer
+  <!-- :width="200" -->
+  <v-navigation-drawer
+  image="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
 
         :rail="rail"
         permanent

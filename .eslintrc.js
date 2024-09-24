@@ -10,7 +10,7 @@ module.exports = {
     node: true,
   },
   extends: [
-    // 'vuetify',
+    'vuetify',
     '@vue/eslint-config-typescript',
     './.eslintrc-auto-import.json',
   ],

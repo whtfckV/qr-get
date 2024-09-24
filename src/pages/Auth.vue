@@ -1,34 +1,46 @@
 <script setup lang="ts">
 // import AuthForm from "@/components/authorization/AuthForm.vue";
 import { token } from "@/api/auth";
-// import { useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 
-// const router = useRouter();
+const router = useRouter();
 
+const data = ref ({
+  login: "1",
+  password: "2"
+})
 
-
-const getToken = async () => {
+const getToken = async (login: string, password: string) => {
   const data = new URLSearchParams({
-    username: 'admin',
-    password:'oih9RaesoZoi2oc'
+    username: login,
+    password: password
   });
-  await token(data)
+  return await token(data)
 }
 
-const handleLogin = () => {
-  const token = getToken()
-  console.log(token)
-  // localStorage.setItem('authToken', token)
-  // if (token) {
-  //   router.push({ name: '/' });
-  // }
+const handleLogin = async (loginData: any) => {
+  // console.log(loginData.login, loginData.password)
+  const response = await getToken(loginData.login, loginData.password);
+
+  if (response.success) {
+    const token = response.data;
+    console.log(token);
+
+    if (token.access_token) {
+      localStorage.setItem('authToken', token.access_token);
+      router.push({ name: '/' });
+    }
+  } else {
+    console.error('Ошибка авторизации:', response.error);
+  }
 };
+
 </script>
 
 <template>
   <div class="auth">
     <div class="auth__container">
-      <AuthForm @login-success="handleLogin" />
+      <AuthForm v-model:data=data @login-success="handleLogin" />
     </div>
   </div>
 </template>
