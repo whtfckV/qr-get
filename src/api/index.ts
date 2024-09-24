@@ -3,7 +3,8 @@ import { ApiError, ApiResponse } from '@/types/api'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export enum Post {
-  generation = 'content-generation/generate_test_by_query'
+  generation = 'content-generation/generate_test_by_query',
+  login='auth/login'
 }
 
 export class Api {
@@ -37,14 +38,39 @@ export class Api {
     }
   }
 
+  static async get<T> (url: Post): Promise<ApiResponse<T> | ApiError> {
+    try {
+      const response = await fetch(`${BASE_URL}/${url}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // body: JSON.stringify(body),
+      })
+
+      return await this.response<T>(response)
+    } catch (error) {
+      console.error('GET request error:', error)
+      return this.error(error)
+    }
+  }
+
   static async post<T, B> (url: Post, body: B): Promise<ApiResponse<T> | ApiError> {
+    let headers: HeadersInit
+    if (url === Post.login) {
+      headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    } else {
+      headers = {'Content-Type': 'application/json'}
+
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/${url}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: body instanceof URLSearchParams ? body.toString() : JSON.stringify(body)
       })
 
       return await this.response<T>(response)

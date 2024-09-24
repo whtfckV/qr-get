@@ -1,10 +1,27 @@
 <script setup lang="ts">
-import AuthForm from "@/components/authorization/AuthForm.vue";
-import { useRouter } from "vue-router";
+// import AuthForm from "@/components/authorization/AuthForm.vue";
+import { token } from "@/api/auth";
+// import { useRouter } from "vue-router";
 
-const router = useRouter();
+// const router = useRouter();
+
+
+
+const getToken = async () => {
+  const data = new URLSearchParams({
+    username: 'admin',
+    password:'oih9RaesoZoi2oc'
+  });
+  await token(data)
+}
+
 const handleLogin = () => {
-  router.push({ name: '/' });
+  const token = getToken()
+  console.log(token)
+  // localStorage.setItem('authToken', token)
+  // if (token) {
+  //   router.push({ name: '/' });
+  // }
 };
 </script>
 

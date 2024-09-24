@@ -64,5 +64,14 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    host: '0.0.0.0',
+    cors: true,
+    proxy: {
+      '/qrget/api/': {
+        target: 'https://qrget.pro-terminal.ru/',
+        changeOrigin: true,
+        secure: false,
+      },
+    }
   },
 });
