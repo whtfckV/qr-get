@@ -55,28 +55,30 @@ export class Api {
     }
   }
 
-  static async post<T, B> (url: Post, body: B): Promise<ApiResponse<T> | ApiError> {
-    let headers: HeadersInit
-    if (url === Post.login) {
-      headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    } else {
-      headers = {'Content-Type': 'application/json'}
+  static async post<T, B>(url: Post, body: B): Promise<ApiResponse<T> | ApiError> {
+    let headers: HeadersInit;
+    let formattedBody: string;
 
+    if (url === Post.login) {
+      headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+      formattedBody = body instanceof URLSearchParams ? body.toString() : new URLSearchParams(body as Record<string, string>).toString();
+    } else {
+      headers = { 'Content-Type': 'application/json' };
+      formattedBody = JSON.stringify(body);
     }
 
     try {
       const response = await fetch(`${BASE_URL}/${url}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body instanceof URLSearchParams ? body.toString() : JSON.stringify(body)
-      })
+        headers: headers,
+        body: formattedBody
+      });
 
-      return await this.response<T>(response)
+      return await this.response<T>(response);
     } catch (error) {
-      console.error('POST request error:', error)
-      return this.error(error)
+      console.error('POST request error:', error);
+      return this.error(error);
     }
   }
+
 }
