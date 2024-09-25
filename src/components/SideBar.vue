@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { useUserStore } from '@/stores/user'
   import { useRouter } from 'vue-router'
 
   type Reports = {
@@ -6,8 +7,6 @@
     icon: string
     link: string
   }
-
-  const rail = ref(true)
 
   const router = useRouter()
 
@@ -22,37 +21,47 @@
 
     router.push('/Auth')
   }
+
+  const userStore = useUserStore()
+
+  onMounted(() => {
+    userStore.getUserInfo()
+  })
 </script>
 
 <template>
-  <!-- :width="200" -->
   <v-navigation-drawer
-    image="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
+    expand-on-hover
+    image="@/assets/1.jpg"
     permanent
-    :rail="rail"
-    @click="rail = false"
+    rail
+    width="300"
   >
-    <!-- rail -->
     <v-list>
-      <v-list-item prepend-icon="mdi-account-circle" subtitle="admin" title="My Application">
-        <template #append>
-          <v-btn icon="mdi-chevron-left" variant="text" @click.stop="rail = !rail" />
-        </template>
-      </v-list-item>
+      <v-list-item prepend-icon="mdi-account-circle" :subtitle="userStore.user?.role" :title="userStore.user?.fio" />
     </v-list>
 
     <v-divider />
 
     <v-list>
-      <v-list-item link prepend-icon="mdi-account-multiple" title="Пользователи" :to="'/admin/Users'" />
       <v-list-item
-        v-for="report in reports"
-        :key="report.title"
+        v-if="userStore.user?.role==='admin'"
         link
-        :prepend-icon="report.icon"
-        :title="report.title"
-        :to="`/reports/${report.link}`"
+        prepend-icon="mdi-account-multiple"
+        title="Пользователи"
+        :to="'/admin/Users'"
       />
+      <v-divider thickness="2" />
+      <template v-for="report in reports" :key="report.title">
+        <v-list-item
+          link
+          :prepend-icon="report.icon"
+          :title="report.title"
+          :to="`/reports/${report.link}`"
+        />
+        <v-divider thickness="2" />
+      </template>
+
     </v-list>
 
     <template #append>

@@ -1,62 +1,76 @@
 <script setup lang="ts">
-const headers = [
-  { title: 'Номер п/п', key: 'name' },
-  { title: 'ИД сектора', key: 'name' },
-  { title: 'Название сектора', key: 'name' },
-  { title: 'Номер сертификата', key: 'name' },
-  { title: 'ИД заказа', key: 'name' },
-  { title: 'ИД заказа партнера', key: 'name' },
-  { title: 'Дата/время (МСК)', key: 'name' },
-  { title: 'ФИО', key: 'name' },
-  { title: 'Паспортные данные', key: 'name' },
-  { title: 'Дата рождения', key: 'name' },
-  { title: 'Email клиента', key: 'name' },
-  { title: 'Номер телефона клиента', key: 'name' },
-  { title: 'Пакет ДЗ', key: 'name' },
-  { title: 'Стоимость услуги', key: 'name' },
-  { title: 'PAN Застрахованной карты', key: 'name' },
-  { title: 'Дата подписания Держателем карты Заявления о включении', key: 'name' },
-  { title: 'Дата начала срока страхования', key: 'name' },
-  { title: 'Дата окончания срока страхования', key: 'name' },
-  { title: 'Страховая сумма, руб.', key: 'name' },
-  { title: 'b2p', key: 'name' },
-  { title: 'АВ партнера(бонус)', key: 'name' },
-  { title: 'Страховая премия (бонус страховой)', key: 'name' },
-  { title: 'Премия Сервиса (бонус)', key: 'name' },
-  { title: 'Нетто Куаргет', key: 'name' },
-  { title: 'Дата заявления о расторжении', key: 'name' },
-  { title: 'Дата расторжения', key: 'name' },
-  { title: 'Диспут', key: 'name' },
-  { title: 'Тип операции продажа/возврат', key: 'name' },
-]
+  import { usePartnersStore } from '@/stores/reports/sellers_return'
 
-const partners = [
-{
-    name: 'Frozen Yogurt',
-    partner: 159,
-  },
-  {
-    name: 'Ice cream sandwich',
-    partner: 237,
-  },
-]
+  const headers = [
+    { title: 'Номер п/п', key: 'id' },
+    { title: 'ИД сектора', key: 'sector_id' },
+    { title: 'Название сектора', key: 'sector_name' },
+    { title: 'Номер сертификата', key: 'cert_number' },
+    { title: 'ИД заказа', key: 'order_id' },
+    { title: 'ИД заказа партнера', key: 'order_partner_id' },
+    { title: 'Дата/время (МСК)', key: 'datetime_msk' },
+    { title: 'ФИО', key: 'fio' },
+    { title: 'Паспортные данные', key: 'passport_info' },
+    { title: 'Дата рождения', key: 'birthday' },
+    { title: 'Email клиента', key: 'email' },
+    { title: 'Номер телефона клиента', key: 'phone' },
+    { title: 'Пакет ДЗ', key: 'packet_dz' },
+    { title: 'Стоимость услуги', key: 'sum' },
+    { title: 'PAN Застрахованной карты', key: 'card' },
+    { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
+    { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
+    { title: 'Дата окончания срока страхования', key: 'date_end_insurance' },
+    { title: 'Страховая сумма, руб.', key: 'insurance_sum' },
+    { title: 'b2p', key: 'commision_acquiring' },
+    { title: 'АВ партнера(бонус)', key: 'partner_bonus' },
+    { title: 'Страховая премия (бонус страховой)', key: 'insurance_bonus' },
+    { title: 'Премия Сервиса (бонус)', key: 'service_bonus' },
+    { title: 'Нетто Куаргет', key: 'netto_qrget' },
+    { title: 'Дата заявления о расторжении', key: 'date_application_termination' },
+    { title: 'Дата расторжения', key: 'date_termination' },
+    { title: 'Диспут', key: 'disput' },
+    { title: 'Тип операции продажа/возврат', key: 'type' },
+  ]
+
+  const partnersStore = usePartnersStore()
+
+  onMounted(() => {
+    partnersStore.getPartners()
+  })
+  // const partners = [
+  //   {
+  //     name: 'Frozen Yogurt',
+  //     partner: 159,
+  //   },
+  //   {
+  //     name: 'Ice cream sandwich',
+  //     partner: 237,
+  //   },
+  // ]
 </script>
 
 <template>
-  SellersReturn
-  <v-data-table
-    :headers="headers"
-    :items="partners"
-    item-value="name"
-    :show-rows-border="true"
-  >
-  <template v-slot:item="{ item }">
-      <tr>
-        <td>{{ item.name }}</td>
-        <td>{{ item.partner }}</td>
+  <v-app>
+    <v-main tag="section">
+      <v-container :fluid="true">
+        <v-app-bar title="Партнеры" />
 
-      </tr>
-    </template>
+        <v-data-table
+          :headers="headers"
+          item-value="name"
+          :items="partnersStore.partners"
+          :show-rows-border="true"
+        >
+          <template #item="{ item }">
+            <tr>
+              <td>{{ item.sector_id }}</td>
+              <td>{{ item.sector_name }}</td>
 
-  </v-data-table>
+            </tr>
+          </template>
+
+        </v-data-table>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>

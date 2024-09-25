@@ -6,7 +6,7 @@ export type User = {
   surname: string,
   name: string,
   patronymic: string,
-  role: 'user',
+  role: 'user' | 'admin',
   is_archived: boolean
   settings: Settings
 }

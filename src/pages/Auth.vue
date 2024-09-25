@@ -1,25 +1,18 @@
 <script setup lang="ts">
-// import AuthForm from "@/components/authorization/AuthForm.vue";
   import { token } from '@/api/auth'
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
-
-  const data = ref({
-    login: '1',
-    password: '2',
-  })
 
   const getToken = async (login: string, password: string) => {
     const data = new URLSearchParams({
       username: login,
       password,
     })
-    return await token(data)
+    return token(data)
   }
 
   const handleLogin = async (loginData: any) => {
-    // console.log(loginData.login, loginData.password)
     const response = await getToken(loginData.login, loginData.password)
 
     if (response.success) {
@@ -40,7 +33,7 @@
 <template>
   <div class="auth">
     <div class="auth__container">
-      <AuthForm v-model:data="data" @login-success="handleLogin" />
+      <AuthForm @login-success="handleLogin" />
     </div>
   </div>
 </template>
