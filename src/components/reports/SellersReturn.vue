@@ -63,8 +63,11 @@
         >
           <template #item="{ item }">
             <tr>
+
+              <td>1</td>
               <td>{{ item.sector_id }}</td>
               <td>{{ item.sector_name }}</td>
+              <td>{{ item.cert_number }}</td>
 
             </tr>
           </template>

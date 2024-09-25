@@ -31,7 +31,7 @@ export class Api {
     if (!response.ok) {
       const errorData = await response.json()
       if (response.status === 401) {
-        // const res = await this.get(Get.refresh)
+        const res = await this.get(Get.refresh)
         console.log(errorData)
       }
       return {
@@ -66,12 +66,18 @@ export class Api {
 
   static async post<T> (
     url: Post,
-    body: string
+    body?: string
   ): Promise<ApiResponse<T> | ApiError> {
-    let headers = {}
+    let headers = {
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+
+    }
 
     if (url === Post.login) {
-      headers = this.formHeaders
+      headers = {
+        ...headers,
+        ...this.formHeaders,
+      }
     }
 
     try {
