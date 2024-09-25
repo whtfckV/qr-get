@@ -6,6 +6,5 @@ export type Settings = {
 }
 
 export type SelectSettings = {
-  id: string,
-  setting: string[]
+  [key: string]: string[]
 }

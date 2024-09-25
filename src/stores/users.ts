@@ -1,73 +1,75 @@
 // import { SelectSettings } from '@/types/settings'
+import { getUsers } from '@/api/users'
+import { SelectSettings } from '@/types/settings'
 import { Users } from '@/types/users'
 import { defineStore } from 'pinia'
 
-const MockUsers: Users = [
-  {
-    id: '806a3a9a-eaed-4cae-933c-b5b368ed44e7',
-    username: 'test',
-    surname: 'test',
-    name: 'test',
-    patronymic: 'test',
-    role: 'user',
-    is_archived: false,
-    settings: {
-      id: 'dick',
-      report_sales_returns: true,
-      report_disput: true,
-      report_profit: true,
-    },
-  },
-  {
-    id: '0d8cbe7e-ff5e-4c69-bcc4-39670ca163e0',
-    username: 'test1',
-    surname: 'test1',
-    name: 'test1',
-    patronymic: 'test1',
-    role: 'user',
-    is_archived: false,
-    settings: {
-      id: 'pick',
-      report_sales_returns: true,
-      report_disput: false,
-      report_profit: false,
-    },
-  },
-  {
-    id: '39b92777-d392-46d0-ac5f-6567bac78bd7',
-    username: 'alinir',
-    surname: 'Богданова',
-    name: 'Алина',
-    patronymic: 'Сергеевна',
-    role: 'user',
-    is_archived: false,
-    settings: {
-      id: 'suck',
-      report_sales_returns: true,
-      report_disput: true,
-      report_profit: true,
-    },
-  },
-]
-
 export const useUsersStore = defineStore('users', () => {
-  const users = reactive<Users>(MockUsers)
-  // console.log(users.map(user => ({id: user.id, settings: Object.entries(user.settings)})))
-  // const settings = ref<SelectSettings>({});
-  // users.forEach((user) => {
-  //   settings.value.push({
-  //   id: user.id,
-  //   settings: Object.entries(user.settings)
-  //     .map(([setting, bool]) =>
-  //       typeof bool === "boolean" && bool ? setting : ""
-  //     )
-  //     .filter((settings) => settings),
-  // });
+  const users = reactive<Users>([])
+  const usersSettings = reactive<SelectSettings>({})
+  const isLoading = ref(false)
+  const error = ref<string | Error>('')
 
-  // console.log(settings.value);
+  const createSettings = () => {
+    users.forEach(user => {
+      usersSettings[user.id] = Object.entries(user.settings)
+        .map(([setting, bool]) =>
+          typeof bool === 'boolean' && bool
+            ? setting
+            : ''
+        )
+        .filter(settings => settings)
+    })
+  }
+
+  const getUsersWithSettings = async () => {
+    if (!users.length) {
+      isLoading.value = true
+    }
+
+    try {
+      const response = await getUsers()
+
+      if (response.success) {
+        users.splice(0)
+        users.push(...response.data)
+        createSettings()
+      } else {
+        error.value = response.error
+      }
+    } catch (error) {
+      console.log('Get users error: ' + error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const updateSettings = async (id: string) => {
+    users.map(user => {
+      if (user.id === id) {
+        // const settings = Object.entries(user.settings).filter(([_, value]) => typeof value !== 'string')
+        // console.log(settings)
+        return user
+        // user.settings = {
+        //   ...user.settings,
+        // }
+        // await updateUserSettings(user.settings, id)
+      } else {
+        return user
+      }
+    })
+  }
+
+  // watch(usersSettings, () => {
+  //   console.log(usersSettings)
+  // })
 
   return {
     users,
-    // settings,
+    usersSettings,
+    error,
+    isLoading,
+    getUsersWithSettings,
+    updateSettings,
   }
 })
