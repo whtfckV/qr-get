@@ -8,5 +8,5 @@ type Token = {
 }
 export const token = async (body: Object): Promise<ApiResponse<Token> | ApiError> => {
   const formattedBody = new URLSearchParams(body as Record<string, string>).toString()
-  return Api.post<Token, Object>(Post.login, formattedBody)
+  return Api.post<Token, string>(Post.login, formattedBody)
 }
