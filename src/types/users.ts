@@ -1,4 +1,4 @@
-import { Settings } from "./settings"
+import { Settings } from './settings'
 
 export type User = {
   id: string,
@@ -6,7 +6,7 @@ export type User = {
   surname: string,
   name: string,
   patronymic: string,
-  role: 'user',
+  role: 'user' | 'admin',
   is_archived: boolean
   settings: Settings
 }
