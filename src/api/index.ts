@@ -3,8 +3,7 @@ import { ApiError, ApiResponse } from '@/types/api'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export enum Post {
-  generation = 'content-generation/generate_test_by_query',
-  login='auth/login'
+  login = '/auth/Login',
 }
 
 export class Api {
@@ -38,12 +37,21 @@ export class Api {
     }
   }
 
+  private static loginHeaders: HeadersInit = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+  private static defaultHeaders: HeadersInit = {
+    'Content-Type': 'application/json'
+  }
+
   static async get<T> (url: Post): Promise<ApiResponse<T> | ApiError> {
+
     try {
       const response = await fetch(`${BASE_URL}/${url}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          ...this.defaultHeaders
+          ...headers
         },
         // body: JSON.stringify(body),
       })
