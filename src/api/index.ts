@@ -1,15 +1,18 @@
 import { ApiError, ApiResponse } from '@/types/api'
-import { Get, Post, Put } from './enums'
+import { Get, Methods, Post, Put } from './types'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export class Api {
-  private static defaultHeaders = {
-    'Content-Type': 'application/json',
-  }
-
-  private static formHeaders = {
-    'Content-Type': 'application/x-www-form-urlencoded',
+  private static getHeaders (
+    isFormData: boolean = false
+  ): Record<string, string> {
+    return {
+      'Content-Type': isFormData
+        ? 'application/x-www-form-urlencoded'
+        : 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    }
   }
 
   private static error (error: unknown): ApiError {
@@ -25,90 +28,111 @@ export class Api {
     }
   }
 
+  // Доделать обработку ошибки авторизации
+  private static async handleUnauthorized<T> (
+    retry: () => Promise<ApiResponse<T> | ApiError>
+  ): Promise<ApiResponse<T> | ApiError> {
+    try {
+      const refreshResponse = await this.get<T>(Get.refresh)
+      if (refreshResponse.success) {
+        const newToken = (refreshResponse.data as any).token // Получаем новый токен из ответа
+        localStorage.setItem('authToken', newToken) // Сохраняем новый токен
+
+        // Повторно выполняем исходный запрос
+        return retry()
+      } else {
+        // Если реавторизация не удалась, возвращаем ошибку
+        return {
+          success: false,
+          error: 'Failed to refresh token',
+        }
+      }
+    } catch (error) {
+      console.error('Error during token refresh:', error)
+      return this.error(error)
+    }
+  }
+
   private static async response<T> (
     response: Response
   ): Promise<ApiResponse<T> | ApiError> {
+    const data = await response.json()
     if (!response.ok) {
-      const errorData = await response.json()
-      if (response.status === 401) {
-        // const res = await this.get(Get.refresh)
-        console.log(errorData)
-      }
+      const errorMessage =
+        data?.message || `Ошибка ${response.status}: ${response.statusText}`
       return {
         success: false,
-        error:
-          errorData?.message ||
-          `Ошибка ${response.status}: ${response.statusText}`,
+        error: errorMessage,
+        // тут привести тип к типу ошибки
+        details: data,
       }
     }
 
-    const data = await response.json()
     return {
       success: true,
       data: data as T,
     }
   }
 
-  static async get<T> (url: Get): Promise<ApiResponse<T> | ApiError> {
+  private static async request<T> (
+    url: string,
+    method: Methods,
+    body?: string,
+    headers: Record<string, string> = {}
+  ): Promise<ApiResponse<T> | ApiError> {
+    this.logRequest(method, url, body)
     try {
       const response = await fetch(`${BASE_URL}${url}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
+        method,
+        headers,
+        body,
       })
+
+      if (response.status === 401) {
+        return this.handleUnauthorized(() =>
+          this.request<T>(url, method, body, headers)
+        )
+      }
+      if (response.status === 403) {
+        console.log(response)
+      }
 
       return await this.response<T>(response)
     } catch (error) {
-      console.error('GET request error:', error)
+      console.error(`${method} request error:`, error)
       return this.error(error)
     }
+  }
+
+  static async get<T> (url: Get): Promise<ApiResponse<T> | ApiError> {
+    return this.request<T>(url, 'GET', undefined, this.getHeaders())
   }
 
   static async post<T> (
     url: Post,
     body: string
   ): Promise<ApiResponse<T> | ApiError> {
-    let headers = {}
-
-    if (url === Post.login) {
-      headers = this.formHeaders
-    }
-
-    try {
-      const response = await fetch(`${BASE_URL}${url}`, {
-        method: 'POST',
-        headers: {
-          ...this.defaultHeaders,
-          ...headers,
-        },
-        body,
-      })
-
-      return await this.response<T>(response)
-    } catch (error) {
-      console.error('POST request error:', error)
-      return this.error(error)
-    }
+    const isForm = url === Post.login
+    return this.request<T>(url, 'POST', body, this.getHeaders(isForm))
   }
 
   static async put<T> (
     url: Put,
     body: string,
-    id?: string,
+    id?: string
   ): Promise<ApiResponse<T> | ApiError> {
-    try {
-      const response = await fetch(`${BASE_URL}${url}${id || ''}`, {
-        method: 'PUT',
-        headers: {
-          ...this.defaultHeaders,
-        },
-        body,
-      })
+    return this.request<T>(
+      `${url}/${id || ''}`,
+      'PUT',
+      body,
+      this.getHeaders()
+    )
+  }
 
-      return await this.response<T>(response)
-    } catch (error) {
-      console.error('PUT request error:', error)
-      return this.error(error)
-    }
+  private static logRequest (method: string, url: string, body?: string) {
+    console.log(
+      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ''}`,
+      'color:cyan;font-weight:300;font-size:10px'
+    )
   }
 }

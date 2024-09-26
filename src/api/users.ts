@@ -1,6 +1,6 @@
 import { ApiError, ApiResponse } from '@/types/api'
 import { Api } from '.'
-import { Get, Put } from './enums'
+import { Get, Put } from './types'
 import { Users } from '@/types/users'
 import { Settings } from '@/types/settings'
 

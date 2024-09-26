@@ -46,6 +46,7 @@
     <v-list>
       <v-list-item
         v-if="userStore.user?.role==='admin'"
+        active-color="#FF9140"
         link
         prepend-icon="mdi-account-multiple"
         title="Пользователи"
@@ -54,6 +55,7 @@
       <v-divider thickness="2" />
       <template v-for="report in reports" :key="report.title">
         <v-list-item
+          active-color="#FF9140"
           link
           :prepend-icon="report.icon"
           :title="report.title"

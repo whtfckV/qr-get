@@ -13,7 +13,7 @@
 
   const handleFocus = (bool: boolean, id: string) => {
     if (!bool) {
-      usersStore.updateSettings(id)
+      usersStore.updateLocalSettings(id)
     }
   }
 
@@ -37,10 +37,12 @@
                 <v-select
                   v-model="usersSettings[user.id]"
                   chips
+                  clearable
                   density="comfortable"
                   :items="items"
-                  label="Дооступные отчеты"
+                  label="Доступные отчеты"
                   multiple
+                  variant="outlined"
                   @update:focused="(e) => handleFocus(e, user.id)"
                 />
               </v-list-item>

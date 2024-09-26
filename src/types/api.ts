@@ -8,4 +8,5 @@ export interface ApiResponse<T> {
 export interface ApiError {
   success: false;
   error: Error | string;
+  details?: any
 }

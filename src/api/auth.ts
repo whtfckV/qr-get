@@ -1,6 +1,6 @@
 import type { ApiError, ApiResponse } from '@/types/api'
 import { Api } from '.'
-import { Post } from './enums'
+import { Post } from './types'
 // import type { GenerateRequestBody, GenerateResponse } from "@/types/generation"
 
 type Token = {

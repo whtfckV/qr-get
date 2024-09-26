@@ -1,7 +1,7 @@
 // import { SelectSettings } from '@/types/settings'
-import { getUsers } from '@/api/users'
-import { SelectSettings } from '@/types/settings'
-import { Users } from '@/types/users'
+import { getUsers, updateUserSettings } from '@/api/users'
+import { SelectSettings, updateSettings } from '@/types/settings'
+import { User, Users } from '@/types/users'
 import { defineStore } from 'pinia'
 
 export const useUsersStore = defineStore('users', () => {
@@ -14,12 +14,26 @@ export const useUsersStore = defineStore('users', () => {
     users.forEach(user => {
       usersSettings[user.id] = Object.entries(user.settings)
         .map(([setting, bool]) =>
-          typeof bool === 'boolean' && bool
-            ? setting
-            : ''
+          typeof bool === 'boolean' && bool ? setting : ''
         )
         .filter(settings => settings)
     })
+  }
+
+  const updateSettings = async (usr: User) => {
+    const data: updateSettings = {
+      report_sales_returns: usr.settings.report_sales_returns,
+      report_disput: usr.settings.report_disput,
+      report_profit: usr.settings.report_profit,
+    }
+    try {
+      const response = await updateUserSettings(data, usr.id)
+      if (response.success) {
+        usr.settings = response.data
+      }
+    } catch (error) {
+      console.log('Update settings error', error)
+    }
   }
 
   const getUsersWithSettings = async () => {
@@ -44,32 +58,26 @@ export const useUsersStore = defineStore('users', () => {
     }
   }
 
-  const updateSettings = async (id: string) => {
+  const updateLocalSettings = async (id: string) => {
     users.map(user => {
       if (user.id === id) {
-        // const settings = Object.entries(user.settings).filter(([_, value]) => typeof value !== 'string')
-        // console.log(settings)
-        return user
-        // user.settings = {
-        //   ...user.settings,
-        // }
-        // await updateUserSettings(user.settings, id)
-      } else {
-        return user
+        Object.keys(user.settings).forEach(userSetting => {
+          if (userSetting !== 'id') {
+            user.settings[userSetting] =
+              usersSettings[user.id].includes(userSetting)
+          }
+        })
+        updateSettings(user)
       }
+      return user
     })
   }
-
-  // watch(usersSettings, () => {
-  //   console.log(usersSettings)
-  // })
-
   return {
     users,
     usersSettings,
     error,
     isLoading,
     getUsersWithSettings,
-    updateSettings,
+    updateLocalSettings,
   }
 })

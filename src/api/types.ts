@@ -10,5 +10,7 @@ export enum Get {
 }
 
 export enum Put {
-  updateUserSettings = '/settings/'
+  updateUserSettings = '/settings'
 }
+
+export type Methods = 'GET' | 'PUT' | 'POST'
