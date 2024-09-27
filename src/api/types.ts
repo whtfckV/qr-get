@@ -1,7 +1,7 @@
 export enum Post {
   generation = 'content-generation/generate_test_by_query',
   login = '/auth/login',
-  partners= 'sales_returns'
+  partners= '/sales_returns'
 }
 
 export enum Get {

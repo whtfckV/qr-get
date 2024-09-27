@@ -111,7 +111,7 @@ export class Api {
 
   static async post<T> (
     url: Post,
-    body: string
+    body?: string
   ): Promise<ApiResponse<T> | ApiError> {
     const isForm = url === Post.login
     return this.request<T>(url, 'POST', body, this.getHeaders(isForm))

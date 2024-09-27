@@ -5,4 +5,5 @@ import { Post } from './types'
 
 export const getReport = async (body: Object): Promise<ApiResponse<SellersReturn[]> | ApiError> => {
   return Api.post<SellersReturn[]>(Post.partners, JSON.stringify(body))
+  return Api.post<SellersReturn[]>(Post.partners, JSON.stringify(body))
 }
