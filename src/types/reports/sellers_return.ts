@@ -1,4 +1,5 @@
 export type SellersReturn = {
+  id?: number
   sector_id: number
   sector_name: string
   cert_number: string
@@ -6,7 +7,7 @@ export type SellersReturn = {
   order_partner_id: number
   datetime_msk: string
   fio: string
-  pasport_info: string
+  passport_info: string
   birthday: string
   email: string
   phone: string
@@ -16,10 +17,10 @@ export type SellersReturn = {
   date_contract_create: string
   date_start_insurance: string
   date_end_insurance: string
-  isurance_sum: number
+  insurance_sum: number
   commision_acquiring: number
   partner_bonus: number
-  isurance_bonus: number
+  insurance_bonus: number
   service_bonus: number
   netto_qrget: number
   date_application_termination: string

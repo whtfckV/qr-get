@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { SellersReturn } from '@/types/reports/sellers_return'
-import { getReport } from '@/api/sellers_returns'
+import { getSellersReturnReport } from '@/api/reports/reports'
 
 const filters = {
   partners: [
@@ -29,7 +29,7 @@ export const usePartnersStore = defineStore('partner', () => {
     }
 
     try {
-      const response = await getReport(filters)
+      const response = await getSellersReturnReport(filters)
 
       if (response.success) {
         partners.splice(0)

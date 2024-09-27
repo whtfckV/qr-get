@@ -1,7 +1,11 @@
 <script setup lang="ts">
   import { usePartnersStore } from '@/stores/reports/sellers_return'
+  import { SellersReturn } from '@/types/reports/sellers_return'
+  import { useFiltersCustomersStore } from '@/stores/reports/filters/filters_customers'
+  import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
+  import { useFiltersProductsStore } from '@/stores/reports/filters/filters_products'
 
-  const headers = [
+  const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
     { title: 'Номер п/п', key: 'id' },
     { title: 'ИД сектора', key: 'sector_id' },
     { title: 'Название сектора', key: 'sector_name' },
@@ -33,9 +37,15 @@
   ]
 
   const partnersStore = usePartnersStore()
+  const filterCustomerStore = useFiltersCustomersStore()
+  const filterPartnersStore = useFiltersPartnersStore()
+  const filterProductsStore = useFiltersProductsStore()
 
-  onMounted(() => {
-    partnersStore.getPartners()
+  onMounted(async () => {
+    await partnersStore.getPartners()
+    filterCustomerStore.getFilter()
+    filterPartnersStore.getFilter()
+    filterProductsStore.getFilter()
   })
 
 </script>
@@ -55,13 +65,13 @@
             <TypeFilter />
           </v-col>
           <v-col cols="12" md="2">
-            <v-select label="Покупатель" />
+            <Filters :entitys="filterCustomerStore.filters" label="Покупатель" />
           </v-col>
           <v-col cols="12" md="2">
-            <v-select label="Товар" />
+            <Filters :entitys="filterProductsStore.filters" label="Товар" />
           </v-col>
           <v-col cols="12" md="2">
-            <v-select label="Партнер" />
+            <Filters :entitys="filterPartnersStore.filters" label="Партнер" />
           </v-col>
         </v-row>
         <v-data-table
@@ -70,10 +80,10 @@
           :items="partnersStore.partners"
           :show-rows-border="true"
         >
-          <template #item="{ item }">
+          <template #item="{ index, item }">
             <tr>
               <td v-for="header in headers" :key="header.key">
-                {{ item[header.key] }}
+                {{ header.key in item ? item[header.key] : index + 1 }}
               </td>
             </tr>
           </template>
