@@ -15,6 +15,7 @@ declare module 'vue' {
     Filters: typeof import('./components/reports/Filters/Filters.vue')['default']
     Graph: typeof import('./components/reports/components/Graph.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    LineChart: typeof import('./components/LineChart/LineChart.vue')['default']
     PartnerFilter: typeof import('./components/reports/Filters/PartnerFilter.vue')['default']
     Profit: typeof import('./components/reports/Profit.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

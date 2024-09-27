@@ -1,5 +1,6 @@
 <script setup lang="ts">
   // import { jwtDecode } from '@/utils/jwt_decode'
+  import { useSellesReturnGraph } from '@/stores/graphs/selles_returns'
   import { VDateInput } from 'vuetify/labs/VDateInput'
 
   const snackbar = ref(true)
@@ -9,6 +10,8 @@
   // console.log(a.value)
   // })
   const dates = ref(null)
+
+  const sellesReturnGraph = useSellesReturnGraph()
 
 </script>
 
@@ -50,6 +53,8 @@
       </v-btn>
     </template> -->
   </v-snackbar>
+
+  <line-chart :data="sellesReturnGraph.graph" />
 
   <!-- <v-date-picker
     multiple="range"
