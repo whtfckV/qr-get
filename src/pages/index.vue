@@ -1,11 +1,14 @@
 <script setup lang="ts">
   // import { jwtDecode } from '@/utils/jwt_decode'
+  import { VDateInput } from 'vuetify/labs/VDateInput'
+
   const snackbar = ref(true)
   // const a = ref()
   // onMounted(() => {
-    // a.value = jwtDecode(localStorage.getItem('authToken'))
-    // console.log(a.value)
+  // a.value = jwtDecode(localStorage.getItem('authToken'))
+  // console.log(a.value)
   // })
+  const dates = ref(null)
 
 </script>
 
@@ -17,6 +20,16 @@
     type="success"
     closable
   /> -->
+
+  <!-- <div class="d-flex justify-center"> -->
+  <v-date-input
+    v-model="dates"
+    label="Select range"
+    max-width="368"
+    multiple="range"
+  />
+  <!-- </div> -->
+
   <v-snackbar
     v-model="snackbar"
     :absolute="false"
@@ -38,7 +51,7 @@
     </template> -->
   </v-snackbar>
 
-  <v-date-picker
+  <!-- <v-date-picker
     multiple="range"
-  />
+  /> -->
 </template>

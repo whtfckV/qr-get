@@ -37,16 +37,7 @@
   onMounted(() => {
     partnersStore.getPartners()
   })
-  // const partners = [
-  //   {
-  //     name: 'Frozen Yogurt',
-  //     partner: 159,
-  //   },
-  //   {
-  //     name: 'Ice cream sandwich',
-  //     partner: 237,
-  //   },
-  // ]
+
 </script>
 
 <template>
@@ -54,7 +45,25 @@
     <v-main tag="section">
       <v-container :fluid="true">
         <v-app-bar title="Партнеры" />
+        <v-row dense>
+          <v-col cols="12" md="1" />
 
+          <v-col cols="12" md="2">
+            <DateFilter />
+          </v-col>
+          <v-col cols="12" md="2">
+            <TypeFilter />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-select label="Покупатель" />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-select label="Товар" />
+          </v-col>
+          <v-col cols="12" md="2">
+            <v-select label="Партнер" />
+          </v-col>
+        </v-row>
         <v-data-table
           :headers="headers"
           item-value="name"
@@ -63,12 +72,9 @@
         >
           <template #item="{ item }">
             <tr>
-
-              <td>1</td>
-              <td>{{ item.sector_id }}</td>
-              <td>{{ item.sector_name }}</td>
-              <td>{{ item.cert_number }}</td>
-
+              <td v-for="header in headers" :key="header.key">
+                {{ item[header.key] }}
+              </td>
             </tr>
           </template>
 
