@@ -37,7 +37,9 @@ export class Api {
       const refreshResponse = await this.get<T>(Get.refresh)
       if (refreshResponse.success) {
         const newToken = (refreshResponse.data as any).token // Получаем новый токен из ответа
-        localStorage.setItem('authToken', newToken) // Сохраняем новый токен
+        if (newToken) {
+          localStorage.setItem('authToken', newToken) // Сохраняем новый токен
+        }
 
         // Повторно выполняем исходный запрос
         return retry()
