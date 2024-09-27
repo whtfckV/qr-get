@@ -1,5 +1,6 @@
 import { ApiError, ApiResponse } from '@/types/api'
 import { Get, Methods, Post, Put } from './types'
+import router from '@/router'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -94,7 +95,7 @@ export class Api {
         )
       }
       if (response.status === 403) {
-        console.log(response)
+        router.push('/Auth')
       }
 
       return await this.response<T>(response)
