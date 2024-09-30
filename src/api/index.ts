@@ -1,6 +1,7 @@
 import { ApiError, ApiResponse } from '@/types/api'
 import { Get, Methods, Post, Put, Token } from './types'
 import router from '@/router'
+import { getToken } from '@/utils/getToken'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -12,7 +13,7 @@ export class Api {
       'Content-Type': isFormData
         ? 'application/x-www-form-urlencoded'
         : 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${getToken()}`,
     }
   }
 
@@ -83,7 +84,7 @@ export class Api {
     body?: string,
     headers: Record<string, string> = {}
   ): Promise<ApiResponse<T> | ApiError> {
-    this.logRequest(method, url, body)
+    this.logRequest(method, url, body, this.getHeaders())
     try {
       const response = await fetch(`${BASE_URL}${url}`, {
         method,
@@ -132,9 +133,9 @@ export class Api {
     )
   }
 
-  private static logRequest (method: string, url: string, body?: string) {
+  private static logRequest (method: string, url: string, body?: string, headers?: ReturnType<typeof this.getHeaders>) {
     console.log(
-      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ''}`,
+      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ''} ${headers}`,
       'color:cyan;font-weight:300;font-size:10px'
     )
   }
