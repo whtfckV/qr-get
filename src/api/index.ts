@@ -1,6 +1,7 @@
 import { ApiError, ApiResponse } from '@/types/api'
 import { Get, Methods, Post, Put, Token } from './types'
 import router from '@/router'
+import { getToken } from '@/utils/getToken'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -12,7 +13,7 @@ export class Api {
       'Content-Type': isFormData
         ? 'application/x-www-form-urlencoded'
         : 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+      Authorization: `Bearer ${getToken()}`,
     }
   }
 
