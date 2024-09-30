@@ -5,13 +5,15 @@
 </script>
 
 <template>
-  <v-date-input
-    v-model="dates"
-    label="Выберите дату"
-    multiple="range"
+  <v-locale-provider locale="ru">
 
-    prepend-icon=""
-    prepend-inner-icon="$calendar"
-    variant="outlined"
-  />
+    <v-date-input
+      v-model="dates"
+      label="Выберите дату"
+      multiple="range"
+      prepend-icon=""
+      prepend-inner-icon="$calendar"
+      variant="outlined"
+    />
+  </v-locale-provider>
 </template>
