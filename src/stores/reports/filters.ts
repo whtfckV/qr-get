@@ -9,7 +9,7 @@ const FiltersMethods: Record<FiltersTypes, () => Promise<ApiResponse<FilterEntit
   partners: getPartnersFilters,
 }
 
-export const useFiltersCustomersStore = defineStore('costumers', () => {
+export const useFiltersStore = defineStore('filters', () => {
   const filters = reactive<Filters>({
     partners: [],
     products: [],
