@@ -29,12 +29,15 @@ export const useSalesReturnsStore = defineStore('partner', () => {
     if (!partners.length) {
       isLoading.value = true
     }
+    const start = filterStore.filters.dates[0]
+    const end = filterStore.filters.dates.at(-1)
+
     const filters = {
       partners: filterStore.filters.partners,
       customers: filterStore.filters.customers,
       products: filterStore.filters.products,
-      date_start: filterStore.filters.dates[0].toISOString().split('T')[0],
-      date_end: filterStore.filters.dates.at(-1)?.toISOString().split('T')[0],
+      date_start: `${start.getFullYear()}-${start.getMonth()}-${start.getDay()}`,
+      date_end: `${end?.getFullYear()}-${end?.getMonth()}-${end?.getDay()}`,
     }
 
     console.log(filters)
