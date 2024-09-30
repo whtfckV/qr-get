@@ -94,7 +94,7 @@ export class Api {
 
       if (response.status === 401) {
         return this.handleUnauthorized(() =>
-          this.request<T>(url, method, body, headers)
+          this.request<T>(url, method, body, this.getHeaders())
         )
       }
       if (response.status === 403) {

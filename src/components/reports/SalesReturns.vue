@@ -1,9 +1,7 @@
 <script setup lang="ts">
-  import { useSalesReturnsStore } from '@/stores/reports/sales_return'
-  import { SellersReturn } from '@/types/reports/sales_return'
-  import { useFiltersCustomersStore } from '@/stores/reports/filters/filters_customers'
-  import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
-  import { useFiltersProductsStore } from '@/stores/reports/filters/filters_products'
+  import { useFiltersStore } from '@/stores/reports/filters'
+  import { usePartnersStore } from '@/stores/reports/sellers_return'
+  import { SellersReturn } from '@/types/reports/sellers_return'
 
   const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
     { title: 'Номер п/п', key: 'id' },
@@ -36,16 +34,14 @@
     { title: 'Тип операции продажа/возврат', key: 'type' },
   ]
 
-  const partnersStore = useSalesReturnsStore()
-  const filterCustomerStore = useFiltersCustomersStore()
-  const filterPartnersStore = useFiltersPartnersStore()
-  const filterProductsStore = useFiltersProductsStore()
+  const partnersStore = usePartnersStore()
+  const filtersStore = useFiltersStore()
 
   onMounted(async () => {
     await partnersStore.getPartners()
-    filterCustomerStore.getFilter()
-    filterPartnersStore.getFilter()
-    filterProductsStore.getFilter()
+    filtersStore.getFilter('customers')
+    filtersStore.getFilter('partners')
+    filtersStore.getFilter('products')
   })
 
 </script>
@@ -65,13 +61,13 @@
             <TypeFilter />
           </v-col>
           <v-col cols="12" md="2">
-            <Filters :entitys="filterCustomerStore.filters" label="Покупатель" />
+            <Filters :entitys="filtersStore.filters.customers" label="Покупатель" />
           </v-col>
           <v-col cols="12" md="2">
-            <Filters :entitys="filterProductsStore.filters" label="Товар" />
+            <Filters :entitys="filtersStore.filters.products" label="Товар" />
           </v-col>
           <v-col cols="12" md="2">
-            <Filters :entitys="filterPartnersStore.filters" label="Партнер" />
+            <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
           </v-col>
         </v-row>
         <v-data-table
