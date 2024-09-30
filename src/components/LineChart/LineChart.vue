@@ -1,49 +1,55 @@
 <script lang="ts" setup>
   import { Line } from 'vue-chartjs'
   import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js'
-  import { CustomDataset, Props } from '.'
-  import { formatDate } from '@/utils/formatDate'
+  import { CustomDataset, Props, TLine } from './types'
 
   ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement)
 
   const props = defineProps<Props>()
-
-  const data = {
-    labels: props.data.map(({ period }) => formatDate(period)),
+  const inputs = ref(props.data.map(item => item.name))
+  const old = ref(true)
+  const data = computed(() => ({
+    labels: props.dates,
     datasets: [
-      {
-        label: 'Продажи',
-        data: props.data.map(item => item.sales),
-        borderColor: '#FF9140',
-        cubicInterpolationMode: 'monotone',
-        tension: 0.4,
-      },
-      {
-        label: 'Возвраты',
-        data: props.data.map(item => item.returns),
-        borderColor: '#FFF140',
-        cubicInterpolationMode: 'monotone',
-        tension: 0.4,
-      },
-      {
-        label: 'Разница',
-        data: props.data.map(item => item.remaind),
-        borderColor: '#FF3140',
-        cubicInterpolationMode: 'monotone',
-        tension: 0.4,
-      },
+      ...props.data.filter(item => inputs.value.includes(item.name)).map(createData),
+      ...(old.value ? props.oldData.filter(item => inputs.value.includes(item.name)).map(createData) : []),
     ] as CustomDataset[],
-  }
+  }))
+
+  const createData = (item:TLine) => ({
+    label: item.name,
+    data: item.data,
+    borderColor: item.color,
+    backgroundColor: item.color,
+    hoverBorderWidth: 5,
+    cubicInterpolationMode: 'monotone',
+    tension: 0.4,
+  })
+
   const options = {
     responsive: true,
     // maintainAspectRatio: false,
   }
+
 </script>
 <template>
   <v-container fluid>
     <v-card>
       <v-card-title>Графическое отображение</v-card-title>
       <v-card-text>
+        <div class="d-flex">
+          <v-checkbox
+            v-for="item in props.data"
+            :key="item.name"
+            v-model="inputs"
+            :defaults-target="item.name"
+            :label="item.name"
+            multiple
+            :value="item.name"
+          />
+          <v-spacer />
+          <v-checkbox v-model="old" label="Прошлый период" />
+        </div>
         <Line :data="data" :options="options" />
       </v-card-text>
     </v-card>

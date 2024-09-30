@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import { useUserStore } from '@/stores/user'
-  import { useRouter } from 'vue-router'
+  import { RouteLocationRaw, useRouter } from 'vue-router'
 
   type Reports = {
     title: string
     icon: string
-    link: string
+    link: RouteLocationRaw
   }
 
   const router = useRouter()
