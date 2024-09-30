@@ -31,10 +31,12 @@
 
 <template>
   <v-navigation-drawer
+    class="sidebar"
     expand-on-hover
     image="@/assets/1.jpg"
     permanent
     rail
+
     width="300"
   >
     <v-list>
@@ -78,3 +80,9 @@
     </template>
   </v-navigation-drawer>
 </template>
+
+<style>
+.sidebar {
+  height: 100%;
+}
+</style>

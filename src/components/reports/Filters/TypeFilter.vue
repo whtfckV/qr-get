@@ -1,6 +1,5 @@
 <script setup lang="ts">
   const partners = [
-    { title: 'Все', value: 'all' },
     { title: 'Продажа', value: 'sells' },
     { title: 'Возврат', value: 'returns' },
   ]
@@ -9,7 +8,7 @@
 <template>
   <v-select
     :items="partners"
-    label="Партнер"
+    label="Тип операции"
     variant="outlined"
   />
 
