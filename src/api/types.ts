@@ -20,3 +20,8 @@ export enum Put {
 }
 
 export type Methods = 'GET' | 'PUT' | 'POST'
+
+export type Token = {
+  access_token: string
+  token_type: string
+}
