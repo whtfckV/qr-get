@@ -1,5 +1,5 @@
 import { ApiError, ApiResponse } from '@/types/api'
-import { Get, Methods, Post, Put } from './types'
+import { Get, Methods, Post, Put, Token } from './types'
 import router from '@/router'
 
 const BASE_URL = import.meta.env.VITE_API_URL
@@ -34,9 +34,9 @@ export class Api {
     retry: () => Promise<ApiResponse<T> | ApiError>
   ): Promise<ApiResponse<T> | ApiError> {
     try {
-      const refreshResponse = await this.get<T>(Get.refresh)
+      const refreshResponse = await this.get<Token>(Get.refresh)
       if (refreshResponse.success) {
-        const newToken = (refreshResponse.data as any).token // Получаем новый токен из ответа
+        const newToken = refreshResponse.data.access_token // Получаем новый токен из ответа
         if (newToken) {
           localStorage.setItem('authToken', newToken) // Сохраняем новый токен
         }
