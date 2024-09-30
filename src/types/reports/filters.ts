@@ -10,4 +10,13 @@ export type FilterEntityTranformed = {
   value: string
 }
 
-export type Filters = Record<FiltersTypes, FilterEntityTranformed[]>
+type FilterDates = {
+  dates: Date[]
+}
+
+// type FilterType = {
+//   date_start: string
+//   date_end: string
+// }
+
+export type Filters = Record<FiltersTypes, FilterEntityTranformed[]>&FilterDates
