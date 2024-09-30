@@ -19,6 +19,7 @@ declare module 'vue' {
     Profit: typeof import('./components/reports/Profit.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SalesReturns: typeof import('./components/reports/SalesReturns.vue')['default']
     SellersReturn: typeof import('./components/reports/SellersReturn.vue')['default']
     SideBar: typeof import('./components/SideBar.vue')['default']
     Table: typeof import('./components/reports/components/Table.vue')['default']

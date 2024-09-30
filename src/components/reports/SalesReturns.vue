@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import { usePartnersStore } from '@/stores/reports/sellers_return'
-  import { SellersReturn } from '@/types/reports/sellers_return'
+  import { useSalesReturnsStore } from '@/stores/reports/sales_return'
+  import { SellersReturn } from '@/types/reports/sales_return'
   import { useFiltersCustomersStore } from '@/stores/reports/filters/filters_customers'
   import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
   import { useFiltersProductsStore } from '@/stores/reports/filters/filters_products'
@@ -36,7 +36,7 @@
     { title: 'Тип операции продажа/возврат', key: 'type' },
   ]
 
-  const partnersStore = usePartnersStore()
+  const partnersStore = useSalesReturnsStore()
   const filterCustomerStore = useFiltersCustomersStore()
   const filterPartnersStore = useFiltersPartnersStore()
   const filterProductsStore = useFiltersProductsStore()

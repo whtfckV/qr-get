@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { SellersReturn } from '@/types/reports/sellers_return'
+import type { SellersReturn } from '@/types/reports/sales_return'
 import { getSellersReturnReport } from '@/api/reports/reports'
 
 const filters = {
@@ -18,7 +18,7 @@ const filters = {
   type: 'sell',
 }
 
-export const usePartnersStore = defineStore('partner', () => {
+export const useSalesReturnsStore = defineStore('partner', () => {
   const partners = reactive<SellersReturn[]>([])
   const isLoading = ref(false)
   const error = ref()
@@ -29,7 +29,7 @@ export const usePartnersStore = defineStore('partner', () => {
     }
 
     try {
-      const response = await getSellersReturnReport(filters)
+      const response = await getSalesReturnsReport(filters)
 
       if (response.success) {
         partners.splice(0)
