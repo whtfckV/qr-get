@@ -84,7 +84,7 @@ export class Api {
     body?: string,
     headers: Record<string, string> = {}
   ): Promise<ApiResponse<T> | ApiError> {
-    this.logRequest(method, url, body, this.getHeaders())
+    this.logRequest(method, url, body)
     try {
       const response = await fetch(`${BASE_URL}${url}`, {
         method,
@@ -133,9 +133,9 @@ export class Api {
     )
   }
 
-  private static logRequest (method: string, url: string, body?: string, headers?: ReturnType<typeof this.getHeaders>) {
+  private static logRequest (method: string, url: string, body?: string) {
     console.log(
-      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ''} ${headers}`,
+      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ''}`,
       'color:cyan;font-weight:300;font-size:10px'
     )
   }
