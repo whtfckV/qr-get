@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useFiltersStore } from '@/stores/reports/filters'
-  import { usePartnersStore } from '@/stores/reports/sellers_return'
-  import { SellersReturn } from '@/types/reports/sellers_return'
+  import { useSalesReturnsStore } from '@/stores/reports/sales_return'
+  import { SellersReturn } from '@/types/reports/sales_return'
 
   const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
     { title: 'Номер п/п', key: 'id' },
@@ -34,7 +34,7 @@
     { title: 'Тип операции продажа/возврат', key: 'type' },
   ]
 
-  const partnersStore = usePartnersStore()
+  const partnersStore = useSalesReturnsStore()
   const filtersStore = useFiltersStore()
 
   onMounted(async () => {

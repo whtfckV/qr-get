@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
+  import { useFiltersStore } from '@/stores/reports/filters'
   import { useProfitStore } from '@/stores/reports/profit'
   import type { Profits } from '@/types/reports/profit'
 
@@ -20,12 +20,11 @@
     { title: 'Прибыль до налога КУАРГЕТ, руб.', key: 'profit_before_taxes' },
   ]
   const profitsStore = useProfitStore()
-
-  const filterPartnersStore = useFiltersPartnersStore()
+  const filtersStore = useFiltersStore()
 
   onMounted(async () => {
     profitsStore.getProfits()
-    filterPartnersStore.getFilter()
+    filtersStore.getFilter('partners')
   })
 </script>
 <template>
@@ -40,7 +39,7 @@
             <DateFilter />
           </v-col>
           <v-col cols="12" md="2">
-            <Filters :entitys="filterPartnersStore.filters" label="Партнер" />
+            <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
           </v-col>
         </v-row>
         <v-data-table

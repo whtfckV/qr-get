@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { useDisputsStore } from '@/stores/reports/disput'
-  import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
-  import { useFiltersProductsStore } from '@/stores/reports/filters/filters_products'
+  import { useFiltersStore } from '@/stores/reports/filters'
   import type { Disput } from '@/types/reports/disput'
 
   const headers: { title: string, key: keyof Disput }[] = [
@@ -16,13 +15,11 @@
     { title: '% диспутов по сумме', key: 'disputs_percent_by_sum' },
   ]
   const disputsStore = useDisputsStore()
-
-  const filterPartnersStore = useFiltersPartnersStore()
-  const filterProductsStore = useFiltersProductsStore()
+  const filtersStore = useFiltersStore()
 
   onMounted(async () => {
-    filterPartnersStore.getFilter()
-    filterProductsStore.getFilter()
+    filtersStore.getFilter('partners')
+    filtersStore.getFilter('products')
     disputsStore.getDisputs()
   })
 
@@ -41,10 +38,10 @@
           </v-col>
 
           <v-col cols="12" md="2">
-            <Filters :entitys="filterProductsStore.filters" label="Товар" />
+            <Filters :entitys="filtersStore.filters.products" label="Товар" />
           </v-col>
           <v-col cols="12" md="2">
-            <Filters :entitys="filterPartnersStore.filters" label="Партнер" />
+            <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
           </v-col>
         </v-row>
         <v-data-table
