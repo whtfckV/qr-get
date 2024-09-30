@@ -2,11 +2,11 @@
   import { useDisputsStore } from '@/stores/reports/disput'
   import { useFiltersPartnersStore } from '@/stores/reports/filters/filters_partners'
   import { useFiltersProductsStore } from '@/stores/reports/filters/filters_products'
-  import type { Disputs } from '@/types/reports/disput'
+  import type { Disput } from '@/types/reports/disput'
 
-  const headers: { title: string, key: keyof Disputs }[] = [
+  const headers: { title: string, key: keyof Disput }[] = [
     // { title: 'Период', key: 'period' },
-    // { title: 'Партнер', key: 'partner' },
+    { title: 'Партнер', key: 'name' },
     { title: 'Успешные платежи, шт', key: 'succesful_payments' },
     { title: 'Общая сумма услуг, руб', key: 'total_sum_services' },
 
@@ -21,9 +21,9 @@
   const filterProductsStore = useFiltersProductsStore()
 
   onMounted(async () => {
-    disputsStore.getDisputs()
     filterPartnersStore.getFilter()
     filterProductsStore.getFilter()
+    disputsStore.getDisputs()
   })
 
 </script>

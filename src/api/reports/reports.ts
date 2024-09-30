@@ -13,6 +13,6 @@ export const getProfitsReport = async (body: Object): Promise<ApiResponse<Profit
   return Api.post<Profits[]>(Post.disputs, JSON.stringify(body))
 }
 
-export const getDisputsReport = async (body: Object): Promise<ApiResponse<Disputs[]> | ApiError> => {
-  return Api.post<Disputs[]>(Post.disputs, JSON.stringify(body))
+export const getDisputsReport = async (body: Object): Promise<ApiResponse<Disputs> | ApiError> => {
+  return Api.post<Disputs>(Post.disputs, JSON.stringify(body))
 }

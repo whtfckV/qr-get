@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { SellersReturn } from '@/types/reports/sales_return'
-import { getSellersReturnReport } from '@/api/reports/reports'
+import { getSalesReturnsReport } from '@/api/reports/reports'
 
 const filters = {
   partners: [

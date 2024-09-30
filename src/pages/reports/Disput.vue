@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Disput from "@/components/reports/Disput.vue";
+  import Disput from '@/components/reports/Disput.vue'
 </script>
 
 <template>

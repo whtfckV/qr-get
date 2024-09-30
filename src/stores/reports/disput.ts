@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Disputs } from '@/types/reports/disput'
+import type { Disput } from '@/types/reports/disput'
 import { getDisputsReport } from '@/api/reports/reports'
 
 const filters = {
@@ -15,7 +15,7 @@ const filters = {
 }
 
 export const useDisputsStore = defineStore('disput', () => {
-  const disputs = reactive<Disputs[]>([])
+  const disputs = reactive<Disput[]>([])
   const isLoading = ref(false)
   const error = ref()
 
@@ -29,7 +29,11 @@ export const useDisputsStore = defineStore('disput', () => {
 
       if (response.success) {
         disputs.splice(0)
-        disputs.push(...response.data)
+        disputs.push(
+          ...response.data.disputs,
+          response.data.total
+        )
+        console.log(disputs)
       } else {
         error.value = response.error
       }

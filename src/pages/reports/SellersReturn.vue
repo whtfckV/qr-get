@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SellersReturn from '@/components/reports/SellersReturn.vue';
+  import SalesReturns from '@/components/reports/SalesReturns.vue'
 </script>
 <template>
-  <SellersReturn />
+  <SalesReturns />
 </template>
