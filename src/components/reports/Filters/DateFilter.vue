@@ -21,7 +21,7 @@
       prepend-icon=""
       prepend-inner-icon="$calendar"
       variant="outlined"
-      @update:blur="() => emit('changeDate')"
+      @update:model-value="() => emit('changeDate')"
     />
   </v-locale-provider>
 </template>

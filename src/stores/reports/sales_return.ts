@@ -24,18 +24,20 @@ export const useSalesReturnsStore = defineStore('partner', () => {
   const isLoading = ref(false)
   const error = ref()
   const filterStore = useFiltersStore()
-  const filters = {
-    partners: filterStore.filters.partners,
-    customers: filterStore.filters.customers,
-    products: filterStore.filters.products,
-    date_start: filterStore.filters.dates[0],
-    date_end: filterStore.filters.dates.at(-1),
-  }
 
   const getPartners = async () => {
     if (!partners.length) {
       isLoading.value = true
     }
+    const filters = {
+      partners: filterStore.filters.partners,
+      customers: filterStore.filters.customers,
+      products: filterStore.filters.products,
+      date_start: filterStore.filters.dates[0].toISOString().split('T')[0],
+      date_end: filterStore.filters.dates.at(-1)?.toISOString().split('T')[0],
+    }
+
+    console.log(filters)
 
     try {
       const response = await getSalesReturnsReport(filters)

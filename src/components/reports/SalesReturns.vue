@@ -38,7 +38,6 @@
   const filtersStore = useFiltersStore()
 
   const handleDateChange = async () => {
-    console.log(filtersStore.filters.dates)
     await partnersStore.getPartners()
   }
 

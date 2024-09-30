@@ -14,7 +14,7 @@ export const useFiltersStore = defineStore('filters', () => {
     partners: [],
     products: [],
     customers: [],
-    dates: [],
+    dates: [new Date(), new Date()],
     // date_start: new Date().toISOString().split('T')[0],
     // date_end: new Date().toISOString().split('T')[0],
   })
