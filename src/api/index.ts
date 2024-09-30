@@ -97,7 +97,7 @@ export class Api {
         )
       }
       if (response.status === 403) {
-        router.push('/Auth')
+        router.push('/auth')
       }
 
       return await this.response<T>(response)
