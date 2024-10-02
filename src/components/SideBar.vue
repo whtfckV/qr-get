@@ -11,15 +11,15 @@
   const router = useRouter()
 
   const reports: Reports[] = [
-    { title: 'Отчет по партнерам', icon: 'mdi-scale-balance', link: 'SellersReturn' },
-    { title: 'Отчет о рентабельности', icon: 'mdi-finance', link: 'Profit' },
-    { title: 'Отчет по диспутам', icon: 'mdi-fire', link: 'Disput' },
+    { title: 'Отчет по партнерам', icon: 'mdi-scale-balance', link: 'sellersreturn' },
+    { title: 'Отчет о рентабельности', icon: 'mdi-finance', link: 'profit' },
+    { title: 'Отчет по диспутам', icon: 'mdi-fire', link: 'disput' },
   ]
 
   const toggleLogout = () => {
     localStorage.removeItem('authToken')
 
-    router.push('/Auth')
+    router.push('/auth')
   }
 
   const userStore = useUserStore()
@@ -52,7 +52,7 @@
         link
         prepend-icon="mdi-account-multiple"
         title="Пользователи"
-        :to="'/admin/Users'"
+        :to="'/admin/users'"
       />
       <v-divider thickness="2" />
       <template v-for="report in reports" :key="report.title">

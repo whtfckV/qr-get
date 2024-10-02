@@ -1,32 +1,46 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import type { SellersReturn } from '@/types/reports/sales_return'
 import { getSalesReturnsReport } from '@/api/reports/reports'
+import { useFiltersStore } from './filters'
 
-const filters = {
-  partners: [
-    'b9c64d47-6f70-4084-8012-b33f8d4cc4cc',
-    '236fb7ff-bb24-4966-b6a7-b8fdc145f45c',
-  ],
-  customers: [
-    '410ff829-a8cf-4430-a887-0cc69dd25747',
-  ],
-  products: [
-    '743bf09e-373b-4f0f-9816-dd679f733250',
-  ],
-  date_start: '2024-08-26',
-  date_end: '2024-09-25',
-  type: 'sell',
-}
+// const filters = {
+//   partners: [
+//     'b9c64d47-6f70-4084-8012-b33f8d4cc4cc',
+//     '236fb7ff-bb24-4966-b6a7-b8fdc145f45c',
+//   ],
+//   customers: [
+//     '410ff829-a8cf-4430-a887-0cc69dd25747',
+//   ],
+//   products: [
+//     '743bf09e-373b-4f0f-9816-dd679f733250',
+//   ],
+//   date_start: '2024-08-26',
+//   date_end: '2024-09-25',
+//   type: 'sell',
+// }
 
 export const useSalesReturnsStore = defineStore('partner', () => {
   const partners = reactive<SellersReturn[]>([])
   const isLoading = ref(false)
   const error = ref()
+  const filterStore = useFiltersStore()
 
   const getPartners = async () => {
     if (!partners.length) {
       isLoading.value = true
     }
+    const start = filterStore.filters.dates[0]
+    const end = filterStore.filters.dates.at(-1)
+
+    const filters = {
+      partners: filterStore.filters.partners,
+      customers: filterStore.filters.customers,
+      products: filterStore.filters.products,
+      date_start: `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDay()).padStart(2, '0')}`,
+      date_end: end ? `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDay()).padStart(2, '0')}` : undefined,
+    }
+
+    console.log(filters)
 
     try {
       const response = await getSalesReturnsReport(filters)

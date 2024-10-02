@@ -6,7 +6,7 @@
 
   const props = defineProps<{ entitys: FilterEntityTranformed[] }>()
   // const filterStore = useFiltersStore()
-  console.log(props.entitys)
+  // console.log(props.entitys)
 
   // onMounted(() => {
   //   filterStore.getFilter(props.type)
@@ -17,6 +17,7 @@
   <v-select
     :items="props.entitys"
     label="Покупатель"
+    multiple
     variant="outlined"
   />
 </template>

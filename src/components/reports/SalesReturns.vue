@@ -37,11 +37,15 @@
   const partnersStore = useSalesReturnsStore()
   const filtersStore = useFiltersStore()
 
-  onMounted(async () => {
+  const handleDateChange = async () => {
     await partnersStore.getPartners()
+  }
+
+  onMounted(async () => {
     filtersStore.getFilter('customers')
     filtersStore.getFilter('partners')
     filtersStore.getFilter('products')
+    await partnersStore.getPartners()
   })
 
 </script>
@@ -55,7 +59,7 @@
           <v-col cols="12" md="1" />
 
           <v-col cols="12" md="2">
-            <DateFilter />
+            <DateFilter @change-date="handleDateChange" />
           </v-col>
           <v-col cols="12" md="2">
             <TypeFilter />

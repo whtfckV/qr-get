@@ -14,9 +14,18 @@ export const useFiltersStore = defineStore('filters', () => {
     partners: [],
     products: [],
     customers: [],
+    dates: [new Date(), new Date()],
+    // date_start: new Date().toISOString().split('T')[0],
+    // date_end: new Date().toISOString().split('T')[0],
   })
+
   const isLoading = ref(false)
   const error = ref()
+
+  // const updateDate = (dates:any) => {
+  //   filters.date_start = dates[0]
+  //   filters.date_start = dates.At(-1)
+  // }
 
   const updateFilter = (data: FilterEntity[], filterType: FiltersTypes) => {
     filters[filterType].splice(0)
@@ -31,7 +40,7 @@ export const useFiltersStore = defineStore('filters', () => {
     try {
       const response = await FiltersMethods[filterType]()
       if (response.success) {
-        updateFilter(response.data, 'customers')
+        updateFilter(response.data, filterType)
       } else {
         error.value = response.error
       }
@@ -44,6 +53,7 @@ export const useFiltersStore = defineStore('filters', () => {
 
   return {
     filters,
+    // updateDate,
     getFilter,
   }
 })
