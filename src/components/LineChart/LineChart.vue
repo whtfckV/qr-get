@@ -69,21 +69,6 @@
 
   let delayed: boolean = false
 
-/*
-  options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Школа' // Здесь указывается текст для оси Y
-                }
-            }
-        }
-    }
-        */
-
 </script>
 <template>
   <v-container fluid>
@@ -102,15 +87,17 @@
           <slot />
         </v-row>
         <div class="d-flex">
-          <v-checkbox
-            v-for="item in props.data"
-            :key="item.name"
-            v-model="inputs"
-            :defaults-target="item.name"
-            :label="item.name"
-            multiple
-            :value="item.name"
-          />
+          <template v-if="props.data.length > 1">
+            <v-checkbox
+              v-for="item in props.data"
+              :key="item.name"
+              v-model="inputs"
+              :defaults-target="item.name"
+              :label="item.name"
+              multiple
+              :value="item.name"
+            />
+          </template>
           <v-spacer />
           <v-checkbox v-model="old" label="Прошлый период" />
         </div>
