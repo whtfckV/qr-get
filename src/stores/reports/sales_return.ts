@@ -36,8 +36,8 @@ export const useSalesReturnsStore = defineStore('partner', () => {
       partners: filterStore.filters.partners,
       customers: filterStore.filters.customers,
       products: filterStore.filters.products,
-      date_start: `${start.getFullYear()}-${start.getMonth()}-${start.getDay()}`,
-      date_end: `${end?.getFullYear()}-${end?.getMonth()}-${end?.getDay()}`,
+      date_start: `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDay()).padStart(2, '0')}`,
+      date_end: end ? `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDay()).padStart(2, '0')}` : undefined,
     }
 
     console.log(filters)
