@@ -45,22 +45,6 @@
         return delay
       },
     },
-    // scales: {
-    //   x: {
-    //     display: true,
-    //     title: {
-    //       display: true,
-    //     },
-    //   },
-    //   y: {
-    //     display: true,
-    //     title: {
-    //       display: true,
-    //       text: 'Value',
-    //     },
-    //   },
-    // },
-    // maintainAspectRatio: false,
   }
 
 </script>
@@ -87,6 +71,3 @@
     </v-card>
   </v-container>
 </template>
-
-<style scoped>
-</style>

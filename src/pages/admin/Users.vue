@@ -32,7 +32,7 @@
             <template v-for="(user, index) in users" :key="user.id">
               <v-list-item>
                 <v-list-item-title class="text-h6 mb-4" tag="h2">
-                  {{ `${user.surname} ${user.name} ${user.patronymic}` }}
+                  {{ `${user.surname} ${user.name} ${user.patronymic || ''}` }}
                 </v-list-item-title>
                 <v-select
                   v-model="usersSettings[user.id]"

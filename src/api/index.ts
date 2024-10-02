@@ -1,5 +1,5 @@
 import { ApiError, ApiResponse } from '@/types/api'
-import { Get, Methods, Post, Put, Token } from './types'
+import { Get, Graphs, Methods, Post, Put, Token } from './types'
 import router from '@/router'
 import { getToken } from '@/utils/getToken'
 
@@ -113,7 +113,7 @@ export class Api {
   }
 
   static async post<T> (
-    url: Post,
+    url: Post | Graphs,
     body?: string
   ): Promise<ApiResponse<T> | ApiError> {
     const isForm = url === Post.login

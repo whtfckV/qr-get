@@ -1,45 +1,49 @@
 <script setup lang="ts">
   import { TLine } from '@/components/LineChart/types'
-  import { useSellesReturnGraph } from '@/stores/graphs/selles_returns'
+  import { useSalesGraph } from '@/stores/graphs/sales'
   import { formatDate } from '@/utils/formatDate'
 
-  const sellesReturnGraph = useSellesReturnGraph()
+  const salesStore = useSalesGraph()
+  const dates = computed<string[]>(() => salesStore.graph.map(({ period }) => formatDate(new Date(period))))
 
-  const dates = sellesReturnGraph.graph.map(({ period }) => formatDate(period))
-  const data: TLine[] = [
+  const data = computed<TLine[]>(() => ([
     {
       name: 'Продажи',
-      data: sellesReturnGraph.graph.map(({ sales }) => sales),
+      data: salesStore.graph.map(({ sales }) => sales),
       color: '#36FF30',
     },
     {
       name: 'Возвраты',
-      data: sellesReturnGraph.graph.map(({ returns }) => returns),
+      data: salesStore.graph.map(({ returns }) => returns),
       color: '#FF364F',
     },
     {
       name: 'Разница',
-      data: sellesReturnGraph.graph.map(({ remaind }) => remaind),
+      data: salesStore.graph.map(({ remaind }) => remaind),
       color: '#00CAFF',
     },
-  ]
-  const oldData: TLine[] = [
+  ]))
+  const oldData = computed<TLine[]>(() => ([
     {
       name: 'Продажи',
-      data: sellesReturnGraph.graph.map(({ sales }) => sales - 2),
+      data: salesStore.graph.map(({ sales }) => sales - 2),
       color: '#36FF3046',
     },
     {
       name: 'Возвраты',
-      data: sellesReturnGraph.graph.map(({ returns }) => returns - 3),
+      data: salesStore.graph.map(({ returns }) => returns - 3),
       color: '#FF364F46',
     },
     {
       name: 'Разница',
-      data: sellesReturnGraph.graph.map(({ remaind }) => remaind - 3),
+      data: salesStore.graph.map(({ remaind }) => remaind - 3),
       color: '#00CAFF46',
     },
-  ]
+  ]))
+
+  onMounted(() => {
+    salesStore.get()
+  })
 
 </script>
 

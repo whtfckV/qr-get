@@ -3,7 +3,7 @@ export enum Post {
   login = '/auth/login',
   partners= '/sales_returns',
   profit = '/profit',
-  disputs = '/disputs'
+  disputs = '/disputs',
 }
 
 export enum Get {
@@ -12,11 +12,16 @@ export enum Get {
   customers = '/filters/customers',
   partners = '/filters/partners',
   products = '/filters/products'
-
 }
 
 export enum Put {
   updateUserSettings = '/settings'
+}
+
+export enum Graphs {
+  sales = '/sales_returns/graphs',
+  profits = '/profit/graphs',
+  disputs = '/disputs/graphs',
 }
 
 export type Methods = 'GET' | 'PUT' | 'POST'
