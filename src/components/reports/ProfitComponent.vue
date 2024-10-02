@@ -28,34 +28,33 @@
   })
 </script>
 <template>
-  <v-app>
-    <v-main tag="section">
-      <v-container :fluid="true">
-        <v-app-bar title="Рентабельность" />
-        <v-row dense>
-          <v-col cols="12" md="1" />
+  <v-container :fluid="true">
+    <v-app-bar title="Рентабельность" />
+    <v-row dense>
+      <v-col cols="12" md="1" />
 
-          <v-col cols="12" md="2">
-            <DateFilter />
-          </v-col>
-          <v-col cols="12" md="2">
-            <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
-          </v-col>
-        </v-row>
-        <v-data-table
-          :headers="headers"
-          item-value="name"
-          :items="profitsStore.profits"
-          :show-rows-border="true"
-        >
-          <template #item="{ item }">
-            <tr>
-              <td v-for="header in headers" :key="header.key">
-                {{ item[header.key] }}
-              </td>
-            </tr>
-          </template>
-          <!-- <template #item="{ item }">
+      <v-col cols="12" md="2">
+        <DateFilter />
+      </v-col>
+      <v-col cols="12" md="2">
+        <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
+      </v-col>
+    </v-row>
+    <v-card>
+      <v-data-table
+        :headers="headers"
+        item-value="name"
+        :items="profitsStore.profits"
+        :show-rows-border="true"
+      >
+        <template #item="{ item }">
+          <tr>
+            <td v-for="header in headers" :key="header.key">
+              {{ item[header.key] }}
+            </td>
+          </tr>
+        </template>
+        <!-- <template #item="{ item }">
             <tr>
               <td>{{ item.name }}</td>
               <td>{{ item.partner }}</td>
@@ -63,8 +62,7 @@
             </tr>
           </template> -->
 
-        </v-data-table>
-      </v-container>
-    </v-main>
-  </v-app>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>

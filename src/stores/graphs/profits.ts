@@ -1,16 +1,8 @@
 import { defineStore } from 'pinia'
 import { useFiltersStore } from '../reports/filters'
 import { getProfitsGraphPoints } from '@/api/reports/graphs'
-import { Profits } from '@/types/reports/graphs'
-
-const MOCK_FILTERS = {
-  partners: [
-    '5c8c3333-1321-4ce0-bf83-d5d81e5efcca',
-    'b3dfb8f4-c8e8-4394-910e-55f069d4b64d',
-  ],
-  date_start: '2024-10-01',
-  date_end: '2024-10-01',
-}
+import { GraphStep, ProfitRequestBody, Profits } from '@/types/reports/graphs'
+import moment from 'moment'
 
 export const useProfitsGraph = defineStore('ProfitsGraph', () => {
   const filtersStore = useFiltersStore()
@@ -18,12 +10,20 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
   const graph = ref<Profits>([])
   const isLoading = ref(false)
   const error = ref('')
+  const step = ref<GraphStep>('day')
+
+  const createFilters = (): ProfitRequestBody => ({
+    partners: filtersStore.filters.partners.map(({ value }) => value),
+    date_start: moment(filtersStore.filters.dates[0]).format('YYYY-MM-DD'),
+    date_end: moment(filtersStore.filters.dates.at(-1)).format('YYYY-MM-DD'),
+    step: step.value,
+  })
 
   const get = async () => {
     isLoading.value = true
     try {
       console.log(filtersStore.filters)
-      const response = await getProfitsGraphPoints(MOCK_FILTERS)
+      const response = await getProfitsGraphPoints(createFilters())
 
       if (response.success) {
         graph.value.splice(0)
@@ -39,8 +39,13 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
     }
   }
 
+  watch([step, filtersStore.filters], () => {
+    get()
+  })
+
   return {
     graph,
+    step,
     get,
   }
 })

@@ -1,6 +1,14 @@
-export function formatDate (date: Date): string {
-  const day = String(date.getDate()).padStart(2, '0')
-  const month = String(date.getMonth() + 1).padStart(2, '0')
+import { GraphStep } from '@/types/reports/graphs'
 
-  return `${day}.${month}`
+export function formatDate (step: GraphStep): string {
+  switch (step) {
+    case 'day':
+      return 'DD.MM'
+    case 'week':
+      return 'WW'
+    case 'month':
+      return 'MM.YY'
+    default:
+      return 'DD.MM.YYYY'
+  }
 }

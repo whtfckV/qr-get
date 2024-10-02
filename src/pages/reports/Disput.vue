@@ -3,5 +3,10 @@
 </script>
 
 <template>
-  <Disput />
+  <v-app>
+    <v-main tag="section">
+      <Disput />
+      <DisputsGraph />
+    </v-main>
+  </v-app>
 </template>

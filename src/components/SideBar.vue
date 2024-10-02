@@ -36,7 +36,6 @@
     image="@/assets/1.jpg"
     permanent
     rail
-
     width="300"
   >
     <v-list>

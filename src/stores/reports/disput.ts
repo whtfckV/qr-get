@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { Disput } from '@/types/reports/disput'
 import { getDisputsReport } from '@/api/reports/reports'
 
-const filters = {
+const FILTERS_MOCK = {
   partners: [
     'b9c64d47-6f70-4084-8012-b33f8d4cc4cc',
     '236fb7ff-bb24-4966-b6a7-b8fdc145f45c',
@@ -25,7 +25,7 @@ export const useDisputsStore = defineStore('disput', () => {
     }
 
     try {
-      const response = await getDisputsReport(filters)
+      const response = await getDisputsReport(FILTERS_MOCK)
 
       if (response.success) {
         disputs.splice(0)

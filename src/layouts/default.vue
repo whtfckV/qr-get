@@ -3,8 +3,8 @@
 </script>
 
 <template>
+  <SideBar />
   <v-app>
-    <SideBar />
     <v-main>
       <router-view />
     </v-main>

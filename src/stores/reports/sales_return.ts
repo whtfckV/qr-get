@@ -1,7 +1,8 @@
-import { defineStore, storeToRefs } from 'pinia'
+import { defineStore } from 'pinia'
 import type { SellersReturn } from '@/types/reports/sales_return'
 import { getSalesReturnsReport } from '@/api/reports/reports'
 import { useFiltersStore } from './filters'
+import moment from 'moment'
 
 // const filters = {
 //   partners: [
@@ -33,11 +34,11 @@ export const useSalesReturnsStore = defineStore('partner', () => {
     const end = filterStore.filters.dates.at(-1)
 
     const filters = {
-      partners: filterStore.filters.partners,
-      customers: filterStore.filters.customers,
-      products: filterStore.filters.products,
-      date_start: `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-${String(start.getDay()).padStart(2, '0')}`,
-      date_end: end ? `${end.getFullYear()}-${String(end.getMonth() + 1).padStart(2, '0')}-${String(end.getDay()).padStart(2, '0')}` : undefined,
+      partners: filterStore.filters.partners.map(({ value }) => value),
+      customers: filterStore.filters.customers.map(({ value }) => value),
+      products: filterStore.filters.products.map(({ value }) => value),
+      date_start: moment(start).format('YYYY-MM-DD'),
+      date_end: moment(end).format('YYYY-MM-DD'),
     }
 
     console.log(filters)

@@ -3,8 +3,8 @@ type Period = {
 }
 
 type SaleKeys = 'sales' | 'returns'| 'remaind'
-type DisputKeys = 'amount' | 'sum'
-type ProfitKeys = 'profit'
+type DisputKeys = 'value'
+type ProfitKeys = 'value'
 
 export type Sale = Record<SaleKeys, number> & Period
 export type Disput = Record<DisputKeys, number> & Period
@@ -14,14 +14,18 @@ export type Sales = Sale[]
 export type Disputs = Disput[]
 export type Profits = Profit[]
 
+export type GraphType = 'sum' | 'amount'
+export type GraphStep = 'day' | 'week'| 'month'
+
 export type SalesRequestBody = {
   partners: string[],
   customers: string[],
   products: string[],
   date_start: string,
   date_end: string,
-  type: string
+  type: GraphType
+  step: GraphStep
 }
 
-export type DisputsRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start' | 'date_end' | 'products'>
-export type ProfitRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start'| 'date_end'>
+export type DisputsRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start' | 'date_end' | 'products' | 'step'>
+export type ProfitRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start'| 'date_end' | 'step'>

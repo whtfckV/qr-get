@@ -10,7 +10,7 @@ export const getSalesReturnsReport = async (body: Object): Promise<ApiResponse<S
 }
 
 export const getProfitsReport = async (body: Object): Promise<ApiResponse<Profits[]> | ApiError> => {
-  return Api.post<Profits[]>(Post.disputs, JSON.stringify(body))
+  return Api.post<Profits[]>(Post.profit, JSON.stringify(body))
 }
 
 export const getDisputsReport = async (body: Object): Promise<ApiResponse<Disputs> | ApiError> => {

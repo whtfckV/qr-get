@@ -1,23 +1,8 @@
 import { defineStore } from 'pinia'
 import { useFiltersStore } from '../reports/filters'
 import { getSalesGraphPoints } from '@/api/reports/graphs'
-import { Sales } from '@/types/reports/graphs'
-
-const MOCK_FILTERS = {
-  partners: [
-    'b6be3f21-6674-43c6-84f6-baa0921d02e7',
-    'f4b853ea-4e00-4268-ad40-89c92db47932',
-  ],
-  customers: [
-    'af6d3e71-0373-48b7-b3e6-37c116d771c5',
-  ],
-  products: [
-    '5acf7e0f-ec58-4758-9e3d-01268d94c627',
-  ],
-  date_start: '2024-09-01',
-  date_end: '2024-10-01',
-  type: 'sell',
-}
+import { GraphStep, GraphType, Sales, SalesRequestBody } from '@/types/reports/graphs'
+import moment from 'moment'
 
 export const useSalesGraph = defineStore('salesGraph', () => {
   const filtersStore = useFiltersStore()
@@ -25,13 +10,23 @@ export const useSalesGraph = defineStore('salesGraph', () => {
   const graph = ref<Sales>([])
   const isLoading = ref(false)
   const error = ref('')
+  const step = ref<GraphStep>('day')
+  const type = ref<GraphType>('sum')
+
+  const createFilters = (): SalesRequestBody => ({
+    partners: filtersStore.filters.partners.map(({ value }) => value),
+    customers: filtersStore.filters.customers.map(({ value }) => value),
+    products: filtersStore.filters.products.map(({ value }) => value),
+    date_start: moment(filtersStore.filters.dates[0]).format('YYYY-MM-DD'),
+    date_end: moment(filtersStore.filters.dates.at(-1)).format('YYYY-MM-DD'),
+    step: step.value,
+    type: type.value,
+  })
 
   const get = async () => {
     isLoading.value = true
     try {
-      console.log(filtersStore.filters)
-      const response = await getSalesGraphPoints(MOCK_FILTERS)
-
+      const response = await getSalesGraphPoints(createFilters())
       if (response.success) {
         graph.value.splice(0)
         graph.value.push(...response.data)
@@ -46,8 +41,14 @@ export const useSalesGraph = defineStore('salesGraph', () => {
     }
   }
 
+  watch([step, type, filtersStore.filters], () => {
+    get()
+  })
+
   return {
     graph,
+    step,
+    type,
     get,
   }
 })

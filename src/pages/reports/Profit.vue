@@ -1,7 +1,8 @@
-<script setup lang="ts">
-import Profit from '@/components/reports/Profit.vue';
-
-</script>
 <template>
-  <Profit />
+  <v-app>
+    <v-main>
+      <ProfitComponent />
+      <ProfitsGraph />
+    </v-main>
+  </v-app>
 </template>

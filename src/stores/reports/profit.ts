@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { Profits } from '@/types/reports/profit'
 import { getProfitsReport } from '@/api/reports/reports'
 import { useFiltersStore } from './filters'
+import moment from 'moment'
 
 // const filters = {
 //   partners: [
@@ -23,11 +24,20 @@ export const useProfitStore = defineStore('profit', () => {
   const profits = reactive<Profits[]>([])
   const isLoading = ref(false)
   const error = ref()
-  const filters = useFiltersStore()
+  const filterStore = useFiltersStore()
 
   const getProfits = async () => {
     if (!profits.length) {
       isLoading.value = true
+    }
+
+    const start = filterStore.filters.dates[0]
+    const end = filterStore.filters.dates.at(-1)
+
+    const filters = {
+      partners: filterStore.filters.partners.map(({ value }) => value),
+      date_start: moment(start).format('YYYY-MM-DD'),
+      date_end: moment(end).format('YYYY-MM-DD'),
     }
 
     try {

@@ -51,45 +51,43 @@
 </script>
 
 <template>
-  <v-app>
-    <v-main tag="section">
-      <v-container :fluid="true">
-        <v-app-bar title="Партнеры" />
-        <v-row dense>
-          <v-col cols="12" md="1" />
+  <v-container :fluid="true">
+    <v-app-bar title="Партнеры" />
+    <v-row dense>
+      <v-col cols="12" md="1" />
 
-          <v-col cols="12" md="2">
-            <DateFilter @change-date="handleDateChange" />
-          </v-col>
-          <v-col cols="12" md="2">
-            <TypeFilter />
-          </v-col>
-          <v-col cols="12" md="2">
-            <Filters :entitys="filtersStore.filters.customers" label="Покупатель" />
-          </v-col>
-          <v-col cols="12" md="2">
-            <Filters :entitys="filtersStore.filters.products" label="Товар" />
-          </v-col>
-          <v-col cols="12" md="2">
-            <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
-          </v-col>
-        </v-row>
-        <v-data-table
-          :headers="headers"
-          item-value="name"
-          :items="partnersStore.partners"
-          :show-rows-border="true"
-        >
-          <template #item="{ index, item }">
-            <tr>
-              <td v-for="header in headers" :key="header.key">
-                {{ header.key in item ? item[header.key] : index + 1 }}
-              </td>
-            </tr>
-          </template>
+      <v-col cols="12" md="2">
+        <DateFilter @change-date="handleDateChange" />
+      </v-col>
+      <v-col cols="12" md="2">
+        <TypeFilter />
+      </v-col>
+      <v-col cols="12" md="2">
+        <Filters :entitys="filtersStore.filters.customers" label="Покупатель" />
+      </v-col>
+      <v-col cols="12" md="2">
+        <Filters :entitys="filtersStore.filters.products" label="Товар" />
+      </v-col>
+      <v-col cols="12" md="2">
+        <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
+      </v-col>
+    </v-row>
+    <v-card>
+      <v-data-table
+        :headers="headers"
+        item-value="name"
+        :items="partnersStore.partners"
+        :show-rows-border="true"
+      >
+        <template #item="{ index, item }">
+          <tr>
+            <td v-for="header in headers" :key="header.key">
+              {{ header.key in item ? item[header.key] : index + 1 }}
+            </td>
+          </tr>
+        </template>
 
-        </v-data-table>
-      </v-container>
-    </v-main>
-  </v-app>
+      </v-data-table>
+    </v-card>
+  </v-container>
 </template>
