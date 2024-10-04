@@ -11,7 +11,7 @@ type FilterDates = {
 
 export type SelectedFilters ={
   selectedPartners: FilterEntity[],
-  selectedProducts: FilterEntity[],
+  selectedProducts: string[],
   selectedCustomers: FilterEntity[],
 }
 

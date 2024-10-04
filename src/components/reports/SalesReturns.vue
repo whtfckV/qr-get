@@ -52,6 +52,13 @@
     await partnersStore.getPartners()
   }
 
+  const handleChangeProducts = (close: boolean) => {
+    // запрос
+    if (!close) {
+      console.log(filtersStore.filters.selectedProducts)
+    }
+  }
+
   onMounted(async () => {
     filtersStore.getFilter('customers')
     filtersStore.getFilter('partners')
@@ -85,7 +92,11 @@
 
           :entitys="filtersStore.filters.products"
           label="Товар"
+<<<<<<< Updated upstream
           @change-filter="handleChange(filtersStore.filters.selectedProducts, 'products')"
+=======
+          @change-filter="handleChangeProducts"
+>>>>>>> Stashed changes
         />
       </v-col>
       <v-col cols="12" md="2">

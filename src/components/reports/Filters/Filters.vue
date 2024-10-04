@@ -7,7 +7,7 @@
   const model = defineModel<FilterEntity[]>()
 
   type Emits = {
-    changeFilter: []
+    changeFilter: [e: boolean]
   }
 
   const emit = defineEmits<Emits>()
@@ -22,6 +22,6 @@
     label="Покупатель"
     multiple
     variant="outlined"
-    @update:model-value="() => emit('changeFilter')"
+    @update:menu="(e) => emit('changeFilter', e)"
   />
 </template>
