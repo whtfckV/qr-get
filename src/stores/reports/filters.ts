@@ -36,8 +36,9 @@ export const useFiltersStore = defineStore('filters', () => {
 
   const updateFilter = (data: FilterEntity[], filterType: FiltersTypes) => {
     // filters[filterType].splice(0)
+    console.log(`suka ${data}`)
     filters[filterType].push(...data)
-    filters.typeFilter = 'sas'
+    filters.typeFilter = 'sell'
   }
 
   const getFilter = async (filterType: FiltersTypes) => {

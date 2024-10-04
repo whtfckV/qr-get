@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useFiltersStore } from '@/stores/reports/filters'
   import { useSalesReturnsStore } from '@/stores/reports/sales_return'
-  import { FiltersTypes } from '@/types/reports/filters'
+  import { FilterEntity, FiltersTypes } from '@/types/reports/filters'
   import { SellersReturn } from '@/types/reports/sales_return'
 
   const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
@@ -45,7 +45,8 @@
   const handleTypeChange = async () => {
     await partnersStore.getPartners()
   }
-  const handleChange = async (data: any, type: FiltersTypes) => {
+  const handleChange = async (data: FilterEntity[], type: FiltersTypes) => {
+    console.log(`tvar  ${data}`)
     filtersStore.updateFilter(data, type)
 
     await partnersStore.getPartners()
@@ -76,23 +77,22 @@
         <Filters
           :entitys="filtersStore.filters.customers"
           label="Покупатель"
-          @change-type="handleChange(filtersStore.filters.selectedCustomers, 'customers')"
+          @change-filter="handleChange(filtersStore.filters.selectedCustomers, 'customers')"
         />
       </v-col>
       <v-col cols="12" md="2">
         <Filters
-          v-model="filtersStore.filters.selectedProducts"
+
           :entitys="filtersStore.filters.products"
           label="Товар"
-          @change-type="handleChange(filtersStore.filters.selectedProducts, 'products')"
+          @change-filter="handleChange(filtersStore.filters.selectedProducts, 'products')"
         />
       </v-col>
       <v-col cols="12" md="2">
         <Filters
-          v-model="filtersStore.filters.selectedPartners"
           :entitys="filtersStore.filters.partners"
           label="Партнер"
-          @change-type="handleChange(filtersStore.filters.selectedPartners, 'partners')"
+          @change-filter="handleChange(filtersStore.filters.selectedPartners, 'partners')"
         />
       </v-col>
     </v-row>

@@ -4,7 +4,7 @@
 
   // const filtersStore = useFiltersStore()
   const props = defineProps<{ entitys: FilterEntity[] }>()
-  const model = defineModel<string[]>()
+  const model = defineModel<FilterEntity[]>()
 
   type Emits = {
     changeFilter: []
