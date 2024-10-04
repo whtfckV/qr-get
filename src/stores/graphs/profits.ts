@@ -13,7 +13,7 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
   const step = ref<GraphStep>('day')
 
   const createFilters = (): ProfitRequestBody => ({
-    partners: filtersStore.filters.partners.map(({ value }) => value),
+    partners: filtersStore.filters.partners.map(({ id }) => id),
     date_start: moment(filtersStore.filters.dates[0]).format('YYYY-MM-DD'),
     date_end: moment(filtersStore.filters.dates.at(-1)).format('YYYY-MM-DD'),
     step: step.value,

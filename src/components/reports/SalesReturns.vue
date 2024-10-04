@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { useFiltersStore } from '@/stores/reports/filters'
   import { useSalesReturnsStore } from '@/stores/reports/sales_return'
+  import { FiltersTypes } from '@/types/reports/filters'
   import { SellersReturn } from '@/types/reports/sales_return'
 
   const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
@@ -41,6 +42,15 @@
     await partnersStore.getPartners()
   }
 
+  const handleTypeChange = async () => {
+    await partnersStore.getPartners()
+  }
+  const handleChange = async (data: any, type: FiltersTypes) => {
+    filtersStore.updateFilter(data, type)
+
+    await partnersStore.getPartners()
+  }
+
   onMounted(async () => {
     filtersStore.getFilter('customers')
     filtersStore.getFilter('partners')
@@ -60,16 +70,30 @@
         <DateFilter @change-date="handleDateChange" />
       </v-col>
       <v-col cols="12" md="2">
-        <TypeFilter />
+        <TypeFilter @change-type="handleTypeChange" />
       </v-col>
       <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.customers" label="Покупатель" />
+        <Filters
+          :entitys="filtersStore.filters.customers"
+          label="Покупатель"
+          @change-type="handleChange(filtersStore.filters.selectedCustomers, 'customers')"
+        />
       </v-col>
       <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.products" label="Товар" />
+        <Filters
+          v-model="filtersStore.filters.selectedProducts"
+          :entitys="filtersStore.filters.products"
+          label="Товар"
+          @change-type="handleChange(filtersStore.filters.selectedProducts, 'products')"
+        />
       </v-col>
       <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
+        <Filters
+          v-model="filtersStore.filters.selectedPartners"
+          :entitys="filtersStore.filters.partners"
+          label="Партнер"
+          @change-type="handleChange(filtersStore.filters.selectedPartners, 'partners')"
+        />
       </v-col>
     </v-row>
     <v-card>

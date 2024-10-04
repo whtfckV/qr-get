@@ -35,7 +35,7 @@ export const useProfitStore = defineStore('profit', () => {
     const end = filterStore.filters.dates.at(-1)
 
     const filters = {
-      partners: filterStore.filters.partners.map(({ value }) => value),
+      partners: filterStore.filters.partners.map(({ id }) => id),
       date_start: moment(start).format('YYYY-MM-DD'),
       date_end: moment(end).format('YYYY-MM-DD'),
     }

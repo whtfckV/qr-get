@@ -5,18 +5,14 @@ export type FilterEntity = {
 
 export type FiltersTypes = 'partners' | 'products'| 'customers'
 
-export type FilterEntityTranformed = {
-  title: string
-  value: string
-}
-
 type FilterDates = {
   dates: Date[]
 }
 
-// type FilterType = {
-//   date_start: string
-//   date_end: string
-// }
+export type SelectedFilters ={
+  selectedPartners: FilterEntity[],
+  selectedProducts: FilterEntity[],
+  selectedCustomers: FilterEntity[],
+}
 
-export type Filters = Record<FiltersTypes, FilterEntityTranformed[]>&FilterDates
+export type Filters = Record<FiltersTypes, FilterEntity[]>&FilterDates & { typeFilter: string } & SelectedFilters

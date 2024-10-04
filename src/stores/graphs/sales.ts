@@ -14,9 +14,9 @@ export const useSalesGraph = defineStore('salesGraph', () => {
   const type = ref<GraphType>('sum')
 
   const createFilters = (): SalesRequestBody => ({
-    partners: filtersStore.filters.partners.map(({ value }) => value),
-    customers: filtersStore.filters.customers.map(({ value }) => value),
-    products: filtersStore.filters.products.map(({ value }) => value),
+    partners: filtersStore.filters.selectedPartners.map(({ id }) => id),
+    customers: filtersStore.filters.selectedCustomers.map(({ id }) => id),
+    products: filtersStore.filters.selectedProducts.map(({ id }) => id),
     date_start: moment(filtersStore.filters.dates[0]).format('YYYY-MM-DD'),
     date_end: moment(filtersStore.filters.dates.at(-1)).format('YYYY-MM-DD'),
     step: step.value,
