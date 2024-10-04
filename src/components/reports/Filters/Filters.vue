@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import { useFiltersStore } from '@/stores/reports/filters'
+  // import { useFiltersStore } from '@/stores/reports/filters'
   import type{ FilterEntity } from '@/types/reports/filters'
 
-  const filtersStore = useFiltersStore()
+  // const filtersStore = useFiltersStore()
   const props = defineProps<{ entitys: FilterEntity[] }>()
+  const model = defineModel<string[]>()
 
   type Emits = {
     changeFilter: []
@@ -14,7 +15,7 @@
 
 <template>
   <v-select
-    v-model="filtersStore.filters.selectedCustomers"
+    v-model="model"
     item-title="name"
     item-value="id"
     :items="props.entitys"
