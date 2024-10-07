@@ -1,27 +1,22 @@
 <script setup lang="ts">
-  const selectedType = { title: 'Продажа', value: 'sell' }
+  import { ReportType } from '@/types/reports/sales_return'
+
   const partners = [
     { title: 'Продажа', value: 'sell' },
     { title: 'Возврат', value: 'return' },
   ]
 
-  type Emits = {
-    changeType: []
-  }
+  const model = defineModel<ReportType>()
 
-  const emit = defineEmits<Emits>()
 </script>
 
 <template>
   <v-select
-    v-model="selectedType"
+    v-model="model"
     :items="partners"
     label="Тип операции"
     persistent-hint
-    return-object
     single-line
     variant="outlined"
-    @update:model-value="() => emit('changeType')"
   />
-
 </template>

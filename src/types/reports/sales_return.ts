@@ -28,3 +28,12 @@ export type SellersReturn = {
   disput: boolean,
   type: 'sell' | 'return'
 }
+
+export type ReportType = 'sell' | 'retern'
+export type SalesReturnsFilters = {
+  partners: string[];
+  products: string[];
+  customers: string[];
+  dates: Date[];
+  type: ReportType;
+}

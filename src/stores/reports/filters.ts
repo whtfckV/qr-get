@@ -10,42 +10,25 @@ const FiltersMethods: Record<FiltersTypes, () => Promise<ApiResponse<FilterEntit
 }
 
 export const useFiltersStore = defineStore('filters', () => {
-  // const partnersSelecterd = reactive([])
   const filters = reactive<Filters>({
     partners: [],
     products: [],
     customers: [],
-    selectedPartners: [],
-    selectedProducts: [],
-    selectedCustomers: [],
-    typeFilter: 'sell',
-    dates: [new Date(), new Date()],
   })
 
   const isLoading = ref(false)
   const error = ref()
 
-  const getValuesFilters = (data: FilterEntity[], filterType: FiltersTypes) => {
+  const setValuesFilters = (data: FilterEntity[], filterType: FiltersTypes) => {
     filters[filterType].splice(0)
-    // const transformedData = data.map(item => ({
-    //   value: item.id,
-    //   title: item.name,
-    // }))
     filters[filterType].push(...data)
-  }
-
-  const updateFilter = (data: FilterEntity[], filterType: FiltersTypes) => {
-    // filters[filterType].splice(0)
-    console.log(`suka ${data}`)
-    filters[filterType].push(...data)
-    filters.typeFilter = 'sell'
   }
 
   const getFilter = async (filterType: FiltersTypes) => {
     try {
       const response = await FiltersMethods[filterType]()
       if (response.success) {
-        getValuesFilters(response.data, filterType)
+        setValuesFilters(response.data, filterType)
       } else {
         error.value = response.error
       }
@@ -58,7 +41,6 @@ export const useFiltersStore = defineStore('filters', () => {
 
   return {
     filters,
-    updateFilter,
     getFilter,
   }
 })

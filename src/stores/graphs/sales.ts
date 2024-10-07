@@ -1,24 +1,24 @@
 import { defineStore } from 'pinia'
-import { useFiltersStore } from '../reports/filters'
 import { getSalesGraphPoints } from '@/api/reports/graphs'
 import { GraphStep, GraphType, Sales, SalesRequestBody } from '@/types/reports/graphs'
 import moment from 'moment'
+import { useSalesReturnsStore } from '../reports/sales_return'
 
 export const useSalesGraph = defineStore('salesGraph', () => {
-  const filtersStore = useFiltersStore()
-
   const graph = ref<Sales>([])
   const isLoading = ref(false)
   const error = ref('')
   const step = ref<GraphStep>('day')
   const type = ref<GraphType>('sum')
 
+  const salesReturnsStore = useSalesReturnsStore()
+
   const createFilters = (): SalesRequestBody => ({
-    partners: filtersStore.filters.selectedPartners.map(({ id }) => id),
-    customers: filtersStore.filters.selectedCustomers.map(({ id }) => id),
-    products: filtersStore.filters.selectedProducts.map(({ id }) => id),
-    date_start: moment(filtersStore.filters.dates[0]).format('YYYY-MM-DD'),
-    date_end: moment(filtersStore.filters.dates.at(-1)).format('YYYY-MM-DD'),
+    partners: salesReturnsStore.partners,
+    customers: salesReturnsStore.customers,
+    products: salesReturnsStore.products,
+    date_start: moment(salesReturnsStore.dates[0]).format('YYYY-MM-DD'),
+    date_end: moment(salesReturnsStore.dates.at(-1)).format('YYYY-MM-DD'),
     step: step.value,
     type: type.value,
   })
@@ -41,7 +41,7 @@ export const useSalesGraph = defineStore('salesGraph', () => {
     }
   }
 
-  watch([step, type, filtersStore.filters], () => {
+  watch([step, type], () => {
     get()
   })
 

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import type { Profits } from '@/types/reports/profit'
+import type { Partner } from '@/types/reports/profit'
 import { getProfitsReport } from '@/api/reports/reports'
-import { useFiltersStore } from './filters'
 import moment from 'moment'
+import { useProfitsGraph } from '../graphs/profits'
 
 // const filters = {
 //   partners: [
@@ -21,21 +21,24 @@ import moment from 'moment'
 // }
 
 export const useProfitStore = defineStore('profit', () => {
-  const profits = reactive<Profits[]>([])
+  const profits = reactive<Partner[]>([])
   const isLoading = ref(false)
   const error = ref()
-  const filterStore = useFiltersStore()
+  const partners = ref<string[]>([])
+  const dates = ref<Date[]>([new Date(), new Date()])
+
+  const profitDisputsGraph = useProfitsGraph()
 
   const getProfits = async () => {
     if (!profits.length) {
       isLoading.value = true
     }
 
-    const start = filterStore.filters.dates[0]
-    const end = filterStore.filters.dates.at(-1)
+    const start = dates.value[0]
+    const end = dates.value.at(-1)
 
     const filters = {
-      partners: filterStore.filters.partners.map(({ id }) => id),
+      partners: partners.value,
       date_start: moment(start).format('YYYY-MM-DD'),
       date_end: moment(end).format('YYYY-MM-DD'),
     }
@@ -45,7 +48,10 @@ export const useProfitStore = defineStore('profit', () => {
 
       if (response.success) {
         profits.splice(0)
-        profits.push(...response.data)
+        profits.push(
+          ...response.data.partners,
+          response.data.total
+        )
       } else {
         error.value = response.error
       }
@@ -55,9 +61,15 @@ export const useProfitStore = defineStore('profit', () => {
       isLoading.value = false
     }
   }
+  watch(dates, () => {
+    getProfits()
+    profitDisputsGraph.get()
+  })
 
   return {
     profits,
+    partners,
+    dates,
     getProfits,
   }
 })

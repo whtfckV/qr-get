@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { useDisputsGraph } from '@/stores/graphs/disputs'
   import { useDisputsStore } from '@/stores/reports/disput'
   import { useFiltersStore } from '@/stores/reports/filters'
   import type { Disput } from '@/types/reports/disput'
@@ -15,7 +16,15 @@
     { title: '% диспутов по сумме', key: 'disputs_percent_by_sum' },
   ]
   const disputsStore = useDisputsStore()
+  const disputsGraph = useDisputsGraph()
   const filtersStore = useFiltersStore()
+
+  const handleChange = (open: boolean) => {
+    if (!open) {
+      disputsStore.getDisputs()
+      disputsGraph.get()
+    }
+  }
 
   onMounted(async () => {
     filtersStore.getFilter('partners')
@@ -26,20 +35,30 @@
 </script>
 
 <template>
-  <v-container :fluid="true">
+  <v-container fluid>
     <v-app-bar title="Диспуты" />
     <v-row dense>
       <v-col cols="12" md="1" />
 
       <v-col cols="12" md="2">
-        <DateFilter />
+        <DateFilter v-model="disputsStore.dates" />
       </v-col>
 
-      <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.products" label="Товар" />
+      <v-col cols="12" md="4">
+        <Filters
+          v-model="disputsStore.products"
+          :entitys="filtersStore.filters.products"
+          label="Товар"
+          @change-filter="handleChange"
+        />
       </v-col>
-      <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
+      <v-col cols="12" md="4">
+        <Filters
+          v-model="disputsStore.partners"
+          :entitys="filtersStore.filters.partners"
+          label="Партнер"
+          @change-filter="handleChange"
+        />
       </v-col>
     </v-row>
     <v-data-table

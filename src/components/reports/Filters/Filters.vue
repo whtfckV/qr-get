@@ -4,7 +4,7 @@
 
   // const filtersStore = useFiltersStore()
   const props = defineProps<{ entitys: FilterEntity[] }>()
-  const model = defineModel<FilterEntity[]>()
+  const model = defineModel<string[]>()
 
   type Emits = {
     changeFilter: [e: boolean]
@@ -16,10 +16,10 @@
 <template>
   <v-select
     v-model="model"
+    chips
     item-title="name"
     item-value="id"
     :items="props.entitys"
-    label="Покупатель"
     multiple
     variant="outlined"
     @update:menu="(e) => emit('changeFilter', e)"

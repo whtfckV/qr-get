@@ -1,7 +1,7 @@
 <script setup lang="ts">
+  import { useSalesGraph } from '@/stores/graphs/sales'
   import { useFiltersStore } from '@/stores/reports/filters'
   import { useSalesReturnsStore } from '@/stores/reports/sales_return'
-  import { FilterEntity, FiltersTypes } from '@/types/reports/filters'
   import { SellersReturn } from '@/types/reports/sales_return'
 
   const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
@@ -36,26 +36,13 @@
   ]
 
   const partnersStore = useSalesReturnsStore()
+  const salesGraphStore = useSalesGraph()
   const filtersStore = useFiltersStore()
 
-  const handleDateChange = async () => {
-    await partnersStore.getPartners()
-  }
-
-  const handleTypeChange = async () => {
-    await partnersStore.getPartners()
-  }
-  const handleChange = async (data: FilterEntity[], type: FiltersTypes) => {
-    console.log(`tvar  ${data}`)
-    filtersStore.updateFilter(data, type)
-
-    await partnersStore.getPartners()
-  }
-
-  const handleChangeProducts = (close: boolean) => {
-    // запрос
-    if (!close) {
-      console.log(filtersStore.filters.selectedProducts)
+  const handleChangeSelect = (open: boolean) => {
+    if (!open) {
+      partnersStore.getPartners()
+      salesGraphStore.get()
     }
   }
 
@@ -69,41 +56,37 @@
 </script>
 
 <template>
-  <v-container :fluid="true">
+  <v-container fluid>
     <v-app-bar title="Партнеры" />
     <v-row dense>
-      <v-col cols="12" md="1" />
-
       <v-col cols="12" md="2">
-        <DateFilter @change-date="handleDateChange" />
+        <DateFilter v-model="partnersStore.dates" />
       </v-col>
       <v-col cols="12" md="2">
-        <TypeFilter @change-type="handleTypeChange" />
+        <TypeFilter v-model="partnersStore.type" />
       </v-col>
       <v-col cols="12" md="2">
         <Filters
+          v-model="partnersStore.customers"
           :entitys="filtersStore.filters.customers"
           label="Покупатель"
-          @change-filter="handleChange(filtersStore.filters.selectedCustomers, 'customers')"
+          @change-filter="handleChangeSelect"
         />
       </v-col>
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="3">
         <Filters
-
+          v-model="partnersStore.products"
           :entitys="filtersStore.filters.products"
           label="Товар"
-<<<<<<< Updated upstream
-          @change-filter="handleChange(filtersStore.filters.selectedProducts, 'products')"
-=======
-          @change-filter="handleChangeProducts"
->>>>>>> Stashed changes
+          @change-filter="handleChangeSelect"
         />
       </v-col>
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="3">
         <Filters
+          v-model="partnersStore.partners"
           :entitys="filtersStore.filters.partners"
           label="Партнер"
-          @change-filter="handleChange(filtersStore.filters.selectedPartners, 'partners')"
+          @change-filter="handleChangeSelect"
         />
       </v-col>
     </v-row>
@@ -111,7 +94,7 @@
       <v-data-table
         :headers="headers"
         item-value="name"
-        :items="partnersStore.partners"
+        :items="partnersStore.data"
         :show-rows-border="true"
       >
         <template #item="{ index, item }">

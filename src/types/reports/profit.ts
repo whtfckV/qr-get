@@ -1,7 +1,8 @@
 // disput.ts
 
-export type Profits = {
-  id: string
+export type Partner = {
+  // id: string
+  partner: string;
   succesful_payments: number
   averange_sum_services:number
   total_sum_services:number
@@ -15,4 +16,9 @@ export type Profits = {
   total_sum_rewards_d2:number
   total_sum_reward_d3:number
   profit_before_taxes:number
+}
+
+export type Profit = {
+  partners: Partner[],
+  total: Partner
 }

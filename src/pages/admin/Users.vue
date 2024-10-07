@@ -24,11 +24,21 @@
 
 <template>
   <v-app>
-    <v-app-bar title="Пользователи" />
+    <v-app-bar title="Пользователи">
+      <template #append>
+        <v-btn
+          base-color="indigo-lighten-2"
+          prepend-icon="mdi-account-plus"
+          variant="tonal"
+        >
+          Добавить
+        </v-btn>
+      </template>
+    </v-app-bar>
     <v-main tag="section">
       <v-container fluid>
         <v-card>
-          <v-list bg-color="indigo-lighten-2">
+          <v-list v-if="users.length" bg-color="indigo-lighten-2">
             <template v-for="(user, index) in users" :key="user.id">
               <v-list-item>
                 <v-list-item-title class="text-h6 mb-4" tag="h2">

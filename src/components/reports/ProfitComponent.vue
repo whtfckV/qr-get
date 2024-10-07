@@ -1,10 +1,11 @@
 <script setup lang="ts">
+  import { useProfitsGraph } from '@/stores/graphs/profits'
   import { useFiltersStore } from '@/stores/reports/filters'
   import { useProfitStore } from '@/stores/reports/profit'
-  import type { Profits } from '@/types/reports/profit'
+  import type { Partner } from '@/types/reports/profit'
 
-  const headers: { title: string, key: keyof Profits }[] = [
-    // { title: 'Партнер', key: 'name' },
+  const headers: { title: string, key: keyof Partner }[] = [
+    { title: 'Партнер', key: 'partner' },
     { title: 'Успешнные платежи', key: 'succesful_payments' },
     { title: 'Средняя Сумма услуги, руб.', key: 'averange_sum_services' },
     { title: 'Общая сумма услуги, руб.', key: 'total_sum_services' },
@@ -19,25 +20,38 @@
     { title: 'Общая сумма вознаграждения ДЗ, руб.', key: 'total_sum_reward_d3' },
     { title: 'Прибыль до налога КУАРГЕТ, руб.', key: 'profit_before_taxes' },
   ]
+
   const profitsStore = useProfitStore()
+  const profitGraphStore = useProfitsGraph()
   const filtersStore = useFiltersStore()
 
+  const handleChange = (open: boolean) => {
+    if (!open) {
+      profitsStore.getProfits()
+      profitGraphStore.get()
+    }
+  }
+
   onMounted(async () => {
-    profitsStore.getProfits()
     filtersStore.getFilter('partners')
+    profitsStore.getProfits()
   })
 </script>
 <template>
-  <v-container :fluid="true">
+  <v-container fluid>
     <v-app-bar title="Рентабельность" />
     <v-row dense>
-      <v-col cols="12" md="1" />
-
+      <v-col cols="12" md="3" />
       <v-col cols="12" md="2">
-        <DateFilter />
+        <DateFilter v-model="profitsStore.dates" />
       </v-col>
-      <v-col cols="12" md="2">
-        <Filters :entitys="filtersStore.filters.partners" label="Партнер" />
+      <v-col cols="12" md="4">
+        <Filters
+          v-model="profitsStore.partners"
+          :entitys="filtersStore.filters.partners"
+          label="Партнер"
+          @change-filter="handleChange"
+        />
       </v-col>
     </v-row>
     <v-card>
@@ -54,14 +68,6 @@
             </td>
           </tr>
         </template>
-        <!-- <template #item="{ item }">
-            <tr>
-              <td>{{ item.name }}</td>
-              <td>{{ item.partner }}</td>
-
-            </tr>
-          </template> -->
-
       </v-data-table>
     </v-card>
   </v-container>

@@ -27,5 +27,5 @@ export type SalesRequestBody = {
   step: GraphStep
 }
 
-export type DisputsRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start' | 'date_end' | 'products' | 'step'>
+export type DisputsRequestBody = Omit<SalesRequestBody, 'customers'>
 export type ProfitRequestBody = Pick<SalesRequestBody, 'partners' | 'date_start'| 'date_end' | 'step'>
