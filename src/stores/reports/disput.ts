@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import type { Disput } from '@/types/reports/disput'
 import { getDisputsReport } from '@/api/reports/reports'
 import moment from 'moment'
-import { useProfitsGraph } from '../graphs/profits'
 import { useDisputsGraph } from '../graphs/disputs'
 
 // const FILTERS_MOCK = {

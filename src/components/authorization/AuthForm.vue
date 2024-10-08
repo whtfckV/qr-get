@@ -2,7 +2,7 @@
   import { onMounted, onUnmounted, ref, watch } from 'vue'
   import UIButton from './UIButton.vue'
   import UIInput from './UIInput.vue'
-  import UICheckbox from './UICheckbox.vue'
+  // import UICheckbox from './UICheckbox.vue'
 
   export type tDataLogin = {
     login: string;

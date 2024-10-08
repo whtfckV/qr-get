@@ -1,13 +1,10 @@
 import { defineStore } from 'pinia'
-import { useFiltersStore } from '../reports/filters'
 import { getDisputsGraphPoints } from '@/api/reports/graphs'
 import { Disputs, DisputsRequestBody, GraphStep, GraphType } from '@/types/reports/graphs'
 import moment from 'moment'
 import { useDisputsStore } from '../reports/disput'
 
 export const useDisputsGraph = defineStore('DisputsGraph', () => {
-  const filtersStore = useFiltersStore()
-
   const graph = ref<Disputs>([])
   const isLoading = ref(false)
   const error = ref('')
