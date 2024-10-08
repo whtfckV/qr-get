@@ -1,5 +1,5 @@
 import { ApiError, ApiResponse } from '@/types/api'
-import { Get, Graphs, Methods, Post, Put, Token } from './types'
+import { Delete, Get, Graphs, Methods, Post, Put, Token } from './types'
 import router from '@/router'
 import { getToken } from '@/utils/getToken'
 
@@ -110,6 +110,10 @@ export class Api {
 
   static async get<T> (url: Get): Promise<ApiResponse<T> | ApiError> {
     return this.request<T>(url, 'GET', undefined, this.getHeaders())
+  }
+
+  static async delete<T> (url: Delete, id: string): Promise<ApiResponse<T> | ApiError> {
+    return this.request<T>(`${url}/${id}`, 'DELETE', undefined, this.getHeaders())
   }
 
   static async post<T> (

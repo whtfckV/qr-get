@@ -1,6 +1,7 @@
 export enum Post {
   generation = 'content-generation/generate_test_by_query',
   login = '/auth/login',
+  register = '/auth/register',
   partners= '/sales_returns',
   profit = '/profit',
   disputs = '/disputs',
@@ -18,13 +19,17 @@ export enum Put {
   updateUserSettings = '/settings'
 }
 
+export enum Delete {
+  user = '/user'
+}
+
 export enum Graphs {
   sales = '/sales_returns/graphs',
   profits = '/profit/graphs',
   disputs = '/disputs/graphs',
 }
 
-export type Methods = 'GET' | 'PUT' | 'POST'
+export type Methods = 'GET' | 'PUT' | 'POST' | 'DELETE'
 
 export type Token = {
   access_token: string

@@ -71,10 +71,11 @@
       <div class="pa-2">
         <v-btn
           block
-          prepend-icon="mdi-logout"
           title="Выйти"
           @click="toggleLogout"
-        />
+        >
+        <v-icon icon="mdi-logout" />
+        </v-btn>
       </div>
     </template>
   </v-navigation-drawer>

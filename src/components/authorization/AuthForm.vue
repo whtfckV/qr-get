@@ -143,7 +143,7 @@
       </div>
       <div v-if="hash !== '#forget'" class="login__input-group login__password-group">
         <label for="password"><strong>Пароль</strong></label>
-        <a v-if="hash === ''" class="login__link password__forget" href="#forget">Забыли пароль?</a>
+        <!-- <a v-if="hash === ''" class="login__link password__forget" href="#forget">Забыли пароль?</a> -->
         <UIInput
           id="password"
           v-model.trim="password"
@@ -178,7 +178,7 @@
         >{{
           passwordConfirmError }}</span>
       </div> -->
-      <UICheckbox v-if="hash === ''" id="'remember'" v-model="rememberMe" name="remember">Запомнить меня</UICheckbox>
+      <!-- <UICheckbox v-if="hash === ''" id="'remember'" v-model="rememberMe" name="remember">Запомнить меня</UICheckbox> -->
       <UIButton type="submit">{{ btnDescr }}</UIButton>
       <p v-if="hash === '#forget'" class="login__no-account">
         Вернуться

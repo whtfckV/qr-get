@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddUsers: typeof import('./components/AddUser/AddUsers.vue')['default']
     AuthForm: typeof import('./components/authorization/AuthForm.vue')['default']
     DateFilter: typeof import('./components/reports/Filters/DateFilter.vue')['default']
     Disput: typeof import('./components/reports/Disput.vue')['default']

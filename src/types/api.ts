@@ -7,6 +7,6 @@ export interface ApiResponse<T> {
 // Интерфейс для ошибок с сервера
 export interface ApiError {
   success: false;
-  error: Error | string;
+  error: string;
   details?: any
 }

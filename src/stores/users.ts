@@ -1,5 +1,5 @@
 // import { SelectSettings } from '@/types/settings'
-import { getUsers, updateUserSettings } from '@/api/users'
+import { deleteUser, getUsers, updateUserSettings } from '@/api/users'
 import { SelectSettings, updateSettings } from '@/types/settings'
 import { User, Users } from '@/types/users'
 import { defineStore } from 'pinia'
@@ -72,6 +72,21 @@ export const useUsersStore = defineStore('users', () => {
       return user
     })
   }
+
+  const deleteCurrentUser = async (id: string) => {
+    try {
+      const response = await deleteUser(id)
+      if (!response.success) {
+        throw new Error(response.details)
+      }
+      const usersWithoutDeleted = users.filter(user => user.id !== id)
+      users.splice(0)
+      users.push(...usersWithoutDeleted)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     users,
     usersSettings,
@@ -79,5 +94,6 @@ export const useUsersStore = defineStore('users', () => {
     isLoading,
     getUsersWithSettings,
     updateLocalSettings,
+    deleteCurrentUser,
   }
 })

@@ -25,6 +25,7 @@ export const useFiltersStore = defineStore('filters', () => {
   }
 
   const getFilter = async (filterType: FiltersTypes) => {
+    if (filters[filterType].length) return
     try {
       const response = await FiltersMethods[filterType]()
       if (response.success) {
