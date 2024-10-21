@@ -15,7 +15,7 @@ export const useSalesReturnsStore = defineStore('partner', () => {
   const partners = ref<string[]>([])
   const products = ref<string[]>([])
   const customers = ref<string[]>([])
-  const dates = ref([new Date(), new Date()])
+  const dates = ref<Date[]>([new Date((new Date()).setDate(0))])
   const type = ref<ReportType>('sell')
 
   const salesGraphStore = useSalesGraph()

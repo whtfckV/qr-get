@@ -20,6 +20,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SalesGraph: typeof import('./components/reports/graphs/Sales/SalesGraph.vue')['default']
     SalesReturns: typeof import('./components/reports/SalesReturns.vue')['default']
+    SearchSelect: typeof import('./components/reports/Filters/SearchSelect.vue')['default']
     SideBar: typeof import('./components/SideBar.vue')['default']
     TypeFilter: typeof import('./components/reports/Filters/TypeFilter.vue')['default']
     UIButton: typeof import('./components/authorization/UIButton.vue')['default']

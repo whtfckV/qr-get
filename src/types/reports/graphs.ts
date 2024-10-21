@@ -16,6 +16,7 @@ export type Profits = Profit[]
 
 export type GraphType = 'sum' | 'amount'
 export type GraphStep = 'day' | 'week'| 'month'
+export type GraphOldStep = 'month' | 'year'
 
 export type SalesRequestBody = {
   partners: string[],

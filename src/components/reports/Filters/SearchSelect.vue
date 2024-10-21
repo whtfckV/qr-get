@@ -14,15 +14,17 @@
 </script>
 
 <template>
-  <v-select
-    v-model="model"
-    chips
-    small-chips
-    item-title="name"
-    item-value="id"
-    :items="props.entitys"
-    multiple
-    variant="outlined"
-    @update:menu="(e) => emit('changeFilter', e)"
-  />
+    <v-autocomplete
+      v-model="model"
+      :items="props.entitys"
+      multiple
+      chips
+      clearable
+      small-chips
+      hide-selected
+      variant="outlined"
+      item-title="name"
+      item-value="id"
+      @update:menu="(e) => emit('changeFilter', e)"
+    />
 </template>

@@ -25,7 +25,7 @@ export const useProfitStore = defineStore('profit', () => {
   const isLoading = ref(false)
   const error = ref()
   const partners = ref<string[]>([])
-  const dates = ref<Date[]>([new Date(), new Date()])
+  const dates = ref<Date[]>([new Date((new Date()).setDate(1))])
 
   const profitDisputsGraph = useProfitsGraph()
 

@@ -19,7 +19,7 @@
   const oldData = computed<TLine[]>(() => ([
     {
       name: 'Диспуты',
-      data: disputsStore.graph.map(({ value }) => value * Math.pow(value, Math.random() / 10)),
+      data: disputsStore.graph.map(({ value }) => value),
       color: '#36FF3046',
     },
   ]))

@@ -4,13 +4,18 @@
   import { useSalesReturnsStore } from '@/stores/reports/sales_return'
   import { SellersReturn } from '@/types/reports/sales_return'
 
-  const headers: {title: string, key: keyof SellersReturn | 'id' }[] = [
+  type Headers = {
+    title: string,
+    key: keyof SellersReturn
+  }
+
+  const headers: Headers[] = [
     { title: 'Номер п/п', key: 'id' },
-    { title: 'ИД сектора', key: 'sector_id' },
+    // { title: 'ИД сектора', key: 'sector_id' },
     { title: 'Название сектора', key: 'sector_name' },
     { title: 'Номер сертификата', key: 'cert_number' },
-    { title: 'ИД заказа', key: 'order_id' },
-    { title: 'ИД заказа партнера', key: 'order_partner_id' },
+    // { title: 'ИД заказа', key: 'order_id' },
+    // { title: 'ИД заказа партнера', key: 'order_partner_id' },
     { title: 'Дата/время (МСК)', key: 'datetime_msk' },
     { title: 'ФИО', key: 'fio' },
     { title: 'Паспортные данные', key: 'passport_info' },
@@ -18,7 +23,7 @@
     { title: 'Email клиента', key: 'email' },
     { title: 'Номер телефона клиента', key: 'phone' },
     { title: 'Пакет ДЗ', key: 'packet_dz' },
-    { title: 'Стоимость услуги', key: 'sum' },
+    { title: 'Стоимость услуги', key: 'price' },
     { title: 'PAN Застрахованной карты', key: 'card' },
     { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
     { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
@@ -59,19 +64,11 @@
   <v-container fluid>
     <v-app-bar title="Партнеры" />
     <v-row dense>
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="3">
         <DateFilter v-model="partnersStore.dates" />
       </v-col>
       <v-col cols="12" md="2">
         <TypeFilter v-model="partnersStore.type" />
-      </v-col>
-      <v-col cols="12" md="2">
-        <Filters
-          v-model="partnersStore.customers"
-          :entitys="filtersStore.filters.customers"
-          label="Покупатель"
-          @change-filter="handleChangeSelect"
-        />
       </v-col>
       <v-col cols="12" md="3">
         <Filters
@@ -81,11 +78,21 @@
           @change-filter="handleChangeSelect"
         />
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="4">
         <Filters
           v-model="partnersStore.partners"
           :entitys="filtersStore.filters.partners"
           label="Партнер"
+          @change-filter="handleChangeSelect"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <SearchSelect
+          v-model="partnersStore.customers"
+          :entitys="filtersStore.filters.customers"
+          label="Покупатель"
           @change-filter="handleChangeSelect"
         />
       </v-col>

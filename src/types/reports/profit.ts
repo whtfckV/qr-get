@@ -11,7 +11,9 @@ export type Partner = {
   returns_sum:number
   returns_percent_by_things:number
   returns_percent_by_money:number
-  service_sum_minus_rewarnds:number
+  service_bonus_sum: number
+  insurance_bonus_sum: number
+  // service_sum_minus_rewards:number
   total_partner_reward:number
   total_sum_rewards_d2:number
   total_sum_reward_d3:number

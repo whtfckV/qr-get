@@ -28,17 +28,17 @@
   const oldData = computed<TLine[]>(() => ([
     {
       name: 'Продажи',
-      data: salesStore.graph.map(({ sales }) => sales * Math.pow(sales, Math.random() / 10)),
+      data: salesStore.oldGraph.map(({ sales }) => sales),
       color: '#36FF3046',
     },
     {
       name: 'Возвраты',
-      data: salesStore.graph.map(({ returns }) => returns * Math.pow(returns, Math.random() / 10)),
+      data: salesStore.oldGraph.map(({ returns }) => returns),
       color: '#FF364F46',
     },
     {
       name: 'Разница',
-      data: salesStore.graph.map(({ remaind }) => remaind * Math.pow(remaind, Math.random() / 10)),
+      data: salesStore.oldGraph.map(({ remaind }) => remaind),
       color: '#00CAFF46',
     },
   ]))
@@ -51,6 +51,7 @@
 <template>
   <line-chart
     v-model="salesStore.step"
+    v-model:old="salesStore.oldStep"
     :data
     :dates
     :old-data

@@ -17,7 +17,7 @@
   const oldData = computed<TLine[]>(() => ([
     {
       name: 'Прибыль',
-      data: profitStore.graph.map(({ value }) => value * Math.pow(value, Math.random() / 10)),
+      data: profitStore.oldGraph.map(({ value }) => value),
       color: '#36FF3046',
     },
   ]))
@@ -30,8 +30,9 @@
 <template>
   <line-chart
     v-model="profitStore.step"
+    v-model:old="profitStore.oldStep"
     :data
     :dates
-    :old-data
+    :oldData
   />
 </template>
