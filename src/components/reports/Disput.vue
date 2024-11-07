@@ -6,7 +6,7 @@
 
   const headers: { title: string, key: keyof Disput }[] = [
     // { title: 'Период', key: 'period' },
-    { title: 'Партнер', key: 'name' },
+    { title: 'Партнер', key: 'partner' },
     { title: 'Успешные платежи, шт', key: 'succesful_payments' },
     { title: 'Общая сумма услуг, руб', key: 'total_sum_services' },
 

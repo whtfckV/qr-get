@@ -1,32 +1,51 @@
 <script setup lang="ts">
-  import { token } from '@/api/auth'
-  import { useRouter } from 'vue-router'
+import { token } from '@/api/auth'
+import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router'
 
-  const router = useRouter()
+const router = useRouter()
+const userStore = useUserStore()
 
-  const getToken = async (login: string, password: string) => {
-    const data = new URLSearchParams({
-      username: login,
-      password,
-    })
-    return token(data)
-  }
+const getToken = async (login: string, password: string) => {
+  const data = new URLSearchParams({
+    username: login,
+    password,
+  })
+  return token(data)
+}
 
-  const handleLogin = async (loginData: any) => {
-    const response = await getToken(loginData.login, loginData.password)
+const handleLogin = async (loginData: any) => {
+  const response = await getToken(loginData.login, loginData.password)
 
-    if (response.success) {
-      const token = response.data
-      console.log(token)
+  if (response.success) {
+    const token = response.data
 
-      if (token.access_token) {
-        localStorage.setItem('authToken', token.access_token)
-        router.push({ name: '/' })
+    if (token.access_token) {
+      localStorage.setItem('authToken', token.access_token)
+      userStore.getUserInfo()
+
+      if (userStore.user?.role === 'admin') {
+        router.push({ name: '/admin/Users' })
+      } else {
+        userStore.getSettings()
+        const settings = userStore.settings;
+        if (settings) {
+          if (settings.report_sales_returns) {
+            router.push({ name: '/reports/SellersReturn' })
+          } else if (settings.report_disput) {
+            router.push({ name: '/reports/Disput' })
+          } else if (settings.report_profit) {
+            router.push({ name: '/reports/Profit' })
+          } else {
+            alert('Нет доступных отчетов')
+          }
+        }
       }
-    } else {
-      console.error('Ошибка авторизации:', response.error)
     }
+  } else {
+    console.error('Ошибка авторизации:', response.error)
   }
+}
 
 </script>
 
@@ -38,13 +57,11 @@
   </div>
 </template>
 
-<route lang="json">
-{
+<route lang="json">{
   "meta": {
     "layout": "auth"
   }
-}
-</route>
+}</route>
 
 <style scoped lang="scss">
 .auth {

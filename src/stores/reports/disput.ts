@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia'
-import type { Disput } from '@/types/reports/disput'
-import { getDisputsReport } from '@/api/reports/reports'
-import moment from 'moment'
-import { useDisputsGraph } from '../graphs/disputs'
+import { defineStore } from "pinia";
+import type { Disput } from "@/types/reports/disput";
+import { getDisputsReport } from "@/api/reports/reports";
+import moment from "moment";
+import { useDisputsGraph } from "../graphs/disputs";
 
 // const FILTERS_MOCK = {
 //   partners: [
@@ -16,55 +16,63 @@ import { useDisputsGraph } from '../graphs/disputs'
 //   date_end: '2024-09-25',
 // }
 
-export const useDisputsStore = defineStore('disput', () => {
-  const disputs = reactive<Disput[]>([])
-  const isLoading = ref(false)
-  const error = ref()
+export const useDisputsStore = defineStore("disput", () => {
+  const disputs = reactive<Disput[]>([]);
+  const isLoading = ref(false);
+  const error = ref();
 
-  const partners = ref<string[]>([])
-  const products = ref<string[]>([])
-  const dates = ref<Date[]>([new Date(), new Date()])
+  const partners = ref<string[]>([]);
+  const products = ref<string[]>([]);
+  const dates = ref<Date[]>([]);
 
-  const disputsGraphStore = useDisputsGraph()
+  const today = new Date();
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  for (
+    let date = startOfMonth;
+    date <= today;
+    date.setDate(date.getDate() + 1)
+  ) {
+    dates.value.push(new Date(date));
+  }
+
+  const disputsGraphStore = useDisputsGraph();
 
   const getDisputs = async () => {
     if (!disputs.length) {
-      isLoading.value = true
+      isLoading.value = true;
     }
 
-    const start = dates.value[0]
-    const end = dates.value.at(-1)
+    const start = dates.value[0];
+    const end = dates.value.at(-1);
 
     const filters = {
       partners: partners.value,
       products: products.value,
-      date_start: moment(start).format('YYYY-MM-DD'),
-      date_end: moment(end).format('YYYY-MM-DD'),
-    }
+      date_start: moment(start).format("YYYY-MM-DD"),
+      date_end: moment(end).format("YYYY-MM-DD"),
+    };
 
     try {
-      const response = await getDisputsReport(filters)
+      const response = await getDisputsReport(filters);
 
       if (response.success) {
-        disputs.splice(0)
-        disputs.push(
-          ...response.data.disputs,
-          response.data.total
-        )
+        disputs.splice(0);
+        disputs.push(...response.data.partners, response.data.total);
       } else {
-        error.value = response.error
+        error.value = response.error;
       }
     } catch (error) {
-      console.log('Get partners error: ' + error)
+      console.log("Get partners error: " + error);
     } finally {
-      isLoading.value = false
+      isLoading.value = false;
     }
-  }
+  };
 
   watch(dates, () => {
-    getDisputs()
-    disputsGraphStore.get()
-  })
+    getDisputs();
+    disputsGraphStore.get();
+  });
 
   return {
     disputs,
@@ -72,5 +80,5 @@ export const useDisputsStore = defineStore('disput', () => {
     partners,
     dates,
     getDisputs,
-  }
-})
+  };
+});

@@ -1,5 +1,4 @@
 export type Settings = {
-  [key: string]: boolean | string;
   id: string;
   report_sales_returns: boolean;
   report_disput: boolean;

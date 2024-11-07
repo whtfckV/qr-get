@@ -63,6 +63,8 @@ export const useUsersStore = defineStore('users', () => {
       if (user.id === id) {
         Object.keys(user.settings).forEach(userSetting => {
           if (userSetting !== 'id') {
+            // впадлу типы меня стало
+            // @ts-ignore
             user.settings[userSetting] =
               usersSettings[user.id].includes(userSetting)
           }

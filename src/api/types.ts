@@ -12,7 +12,8 @@ export enum Get {
   refresh = '/auth/refresh',
   customers = '/filters/customers',
   partners = '/filters/partners',
-  products = '/filters/products'
+  products = '/filters/products',
+  userSettings = '/settings',
 }
 
 export enum Put {

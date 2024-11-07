@@ -77,19 +77,19 @@ let delayed: boolean = false
 watch(() => props.dates, (newDates) => {
   if (!newDates.length) return;
 
-  const start = newDates[0];
-  const end = newDates.at(-1);
+  // const start = newDates[0];
+  // const end = newDates.at(-1);
 
-  const startMonth = start.split('.')[1];
-  const endMonth = end!.split('.')[1];
+  // const startMonth = start.split('.')[1];
+  // const endMonth = end!.split('.')[1];
 
   oldItems.value = [
     {
       title: 'Прошлый месяц',
       value: 'month',
-      props: {
-        disabled: startMonth !== endMonth,
-      },
+      // props: {
+      //   disabled: startMonth !== endMonth,
+      // },
     },
     {
       title: 'Прошлый год',

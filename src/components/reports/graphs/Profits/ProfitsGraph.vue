@@ -33,6 +33,6 @@
     v-model:old="profitStore.oldStep"
     :data
     :dates
-    :oldData
+    :old-data
   />
 </template>

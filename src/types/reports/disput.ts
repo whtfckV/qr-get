@@ -2,7 +2,7 @@
 
 export type Disput = {
   // id: string
-  name: string
+  partner: string
   succesful_payments: number
   total_sum_services: number
   disputs: number
@@ -12,6 +12,6 @@ export type Disput = {
 }
 
 export type Disputs = {
-  disputs: Disput[]
+  partners: Disput[]
   total: Disput
 }
