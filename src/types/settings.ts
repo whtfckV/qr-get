@@ -1,15 +1,12 @@
+export type reposrtsTypes = 'report_sales_returns' | 'report_disput' | 'report_profit'
+
 export type Settings = {
   id: string;
-  report_sales_returns: boolean;
-  report_disput: boolean;
-  report_profit: boolean;
-};
+} & Record<reposrtsTypes, boolean>;
 
-export type updateSettings = {
-  report_sales_returns: boolean;
-  report_disput: boolean;
-  report_profit: boolean;
-};
+export type SettingsWithoutId = Omit<Settings, 'id'>;
+
+export type updateSettings = Record<reposrtsTypes, boolean>;
 
 export type SelectSettings = {
   [key: string]: string[];

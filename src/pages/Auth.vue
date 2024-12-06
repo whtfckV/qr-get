@@ -27,7 +27,7 @@ const handleLogin = async (loginData: any) => {
       if (userStore.user?.role === 'admin') {
         router.push({ name: '/admin/Users' })
       } else {
-        userStore.getSettings()
+        await userStore.getSettings()
         const settings = userStore.settings;
         if (settings) {
           if (settings.report_sales_returns) {
@@ -43,7 +43,9 @@ const handleLogin = async (loginData: any) => {
       }
     }
   } else {
-    console.error('Ошибка авторизации:', response.error)
+    if (response.details.detail === 'User not found') {
+      alert('ПОльзовтель не найден')
+    }
   }
 }
 

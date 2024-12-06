@@ -58,9 +58,9 @@ const options = computed(() => ({
   },
 }))
 
-onMounted(() => {
-  console.log(props.oldData)
-})
+// onMounted(() => {
+//   console.log(props.oldData)
+// })
 
 const createData = (item: TLine) => ({
   label: item.name,

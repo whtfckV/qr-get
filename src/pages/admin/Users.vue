@@ -34,7 +34,7 @@
   }
 
   const items = [
-    { title: 'Продажы/возвраты', value: 'report_sales_returns' },
+    { title: 'Продажи/возвраты', value: 'report_sales_returns' },
     { title: 'Диспуты', value: 'report_disput' },
     { title: 'Прибыль', value: 'report_profit' },
   ]

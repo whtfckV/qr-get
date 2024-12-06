@@ -1,62 +1,62 @@
 <script setup lang="ts">
-  import { useSalesGraph } from '@/stores/graphs/sales'
-  import { useFiltersStore } from '@/stores/reports/filters'
-  import { useSalesReturnsStore } from '@/stores/reports/sales_return'
-  import { SellersReturn } from '@/types/reports/sales_return'
+import { useSalesGraph } from '@/stores/graphs/sales'
+import { useFiltersStore } from '@/stores/reports/filters'
+import { useSalesReturnsStore } from '@/stores/reports/sales_return'
+import { SellersReturn } from '@/types/reports/sales_return'
 
-  type Headers = {
-    title: string,
-    key: keyof SellersReturn
+type Headers = {
+  title: string,
+  key: keyof SellersReturn
+}
+
+const headers: Headers[] = [
+  { title: 'Номер п/п', key: 'id' },
+  // { title: 'ИД сектора', key: 'sector_id' },
+  { title: 'Название сектора', key: 'sector_name' },
+  { title: 'Номер сертификата', key: 'cert_number' },
+  // { title: 'ИД заказа', key: 'order_id' },
+  // { title: 'ИД заказа партнера', key: 'order_partner_id' },
+  { title: 'Дата/время (МСК)', key: 'datetime_msk' },
+  { title: 'ФИО', key: 'fio' },
+  { title: 'Паспортные данные', key: 'passport_info' },
+  { title: 'Дата рождения', key: 'birthday' },
+  { title: 'Email клиента', key: 'email' },
+  { title: 'Номер телефона клиента', key: 'phone' },
+  { title: 'Пакет ДЗ', key: 'packet_dz' },
+  { title: 'Стоимость услуги', key: 'price' },
+  { title: 'PAN Застрахованной карты', key: 'card' },
+  { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
+  { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
+  { title: 'Дата окончания срока страхования', key: 'date_end_insurance' },
+  { title: 'Страховая сумма, руб.', key: 'insurance_sum' },
+  { title: 'b2p', key: 'commision_acquiring' },
+  { title: 'АВ партнера(бонус)', key: 'partner_bonus' },
+  { title: 'Страховая премия (бонус страховой)', key: 'insurance_bonus' },
+  { title: 'Премия Сервиса (бонус)', key: 'service_bonus' },
+  { title: 'Нетто Куаргет', key: 'netto_qrget' },
+  { title: 'Дата заявления о расторжении', key: 'date_application_termination' },
+  { title: 'Дата расторжения', key: 'date_termination' },
+  { title: 'Диспут', key: 'disput' },
+  { title: 'Тип операции продажа/возврат', key: 'type' },
+]
+
+const partnersStore = useSalesReturnsStore()
+const salesGraphStore = useSalesGraph()
+const filtersStore = useFiltersStore()
+
+const handleChangeSelect = (open: boolean) => {
+  if (!open) {
+    partnersStore.getPartners()
+    salesGraphStore.get()
   }
+}
 
-  const headers: Headers[] = [
-    { title: 'Номер п/п', key: 'id' },
-    // { title: 'ИД сектора', key: 'sector_id' },
-    { title: 'Название сектора', key: 'sector_name' },
-    { title: 'Номер сертификата', key: 'cert_number' },
-    // { title: 'ИД заказа', key: 'order_id' },
-    // { title: 'ИД заказа партнера', key: 'order_partner_id' },
-    { title: 'Дата/время (МСК)', key: 'datetime_msk' },
-    { title: 'ФИО', key: 'fio' },
-    { title: 'Паспортные данные', key: 'passport_info' },
-    { title: 'Дата рождения', key: 'birthday' },
-    { title: 'Email клиента', key: 'email' },
-    { title: 'Номер телефона клиента', key: 'phone' },
-    { title: 'Пакет ДЗ', key: 'packet_dz' },
-    { title: 'Стоимость услуги', key: 'price' },
-    { title: 'PAN Застрахованной карты', key: 'card' },
-    { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
-    { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
-    { title: 'Дата окончания срока страхования', key: 'date_end_insurance' },
-    { title: 'Страховая сумма, руб.', key: 'insurance_sum' },
-    { title: 'b2p', key: 'commision_acquiring' },
-    { title: 'АВ партнера(бонус)', key: 'partner_bonus' },
-    { title: 'Страховая премия (бонус страховой)', key: 'insurance_bonus' },
-    { title: 'Премия Сервиса (бонус)', key: 'service_bonus' },
-    { title: 'Нетто Куаргет', key: 'netto_qrget' },
-    { title: 'Дата заявления о расторжении', key: 'date_application_termination' },
-    { title: 'Дата расторжения', key: 'date_termination' },
-    { title: 'Диспут', key: 'disput' },
-    { title: 'Тип операции продажа/возврат', key: 'type' },
-  ]
-
-  const partnersStore = useSalesReturnsStore()
-  const salesGraphStore = useSalesGraph()
-  const filtersStore = useFiltersStore()
-
-  const handleChangeSelect = (open: boolean) => {
-    if (!open) {
-      partnersStore.getPartners()
-      salesGraphStore.get()
-    }
-  }
-
-  onMounted(async () => {
-    filtersStore.getFilter('customers')
-    filtersStore.getFilter('partners')
-    filtersStore.getFilter('products')
-    await partnersStore.getPartners()
-  })
+onMounted(async () => {
+  filtersStore.getFilter('customers')
+  filtersStore.getFilter('partners')
+  filtersStore.getFilter('products')
+  await partnersStore.getPartners()
+})
 
 </script>
 
@@ -71,47 +71,34 @@
         <TypeFilter v-model="partnersStore.type" />
       </v-col>
       <v-col cols="12" md="3">
-        <Filters
-          v-model="partnersStore.products"
-          :entitys="filtersStore.filters.products"
-          label="Товар"
-          @change-filter="handleChangeSelect"
-        />
+        <Filters v-model="partnersStore.products" :entitys="filtersStore.filters.products" label="Товар"
+          @change-filter="handleChangeSelect" />
       </v-col>
       <v-col cols="12" md="4">
-        <Filters
-          v-model="partnersStore.partners"
-          :entitys="filtersStore.filters.partners"
-          label="Партнер"
-          @change-filter="handleChangeSelect"
-        />
+        <Filters v-model="partnersStore.partners" :entitys="filtersStore.filters.partners" label="Партнер"
+          @change-filter="handleChangeSelect" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <SearchSelect
-          v-model="partnersStore.customers"
-          :entitys="filtersStore.filters.customers"
-          label="Покупатель"
-          @change-filter="handleChangeSelect"
-        />
+        <SearchSelect v-model="partnersStore.customers" :entitys="filtersStore.filters.customers" label="Покупатель"
+          @change-filter="handleChangeSelect" />
       </v-col>
     </v-row>
     <v-card>
-      <v-data-table
-        :headers="headers"
-        item-value="name"
-        :items="partnersStore.data"
-        :show-rows-border="true"
-      >
+      <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true">
         <template #item="{ index, item }">
           <tr>
             <td v-for="header in headers" :key="header.key">
-              {{ header.key in item ? item[header.key] : index + 1 }}
+              <template v-if="header.key === 'datetime_msk'">
+                {{ header.key === 'datetime_msk' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
+              </template>
+              <template v-else>
+                {{ header.key in item ? item[header.key] : index + 1 }}
+              </template>
             </td>
           </tr>
         </template>
-
       </v-data-table>
     </v-card>
   </v-container>
