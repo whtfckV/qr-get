@@ -27,9 +27,9 @@ const headers: Headers[] = [
   { title: 'PAN Застрахованной карты', key: 'card' },
   { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
   { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
-  { title: 'Дата окончания срока страхования', key: 'date_end_insurance' },
+  { title: 'Дата окончания срока страхования', key: 'date_end_insurace' },
   { title: 'Страховая сумма, руб.', key: 'insurance_sum' },
-  { title: 'b2p', key: 'commision_acquiring' },
+  { title: 'b2p', key: 'commission_acquiring' },
   { title: 'АВ партнера(бонус)', key: 'partner_bonus' },
   { title: 'Страховая премия (бонус страховой)', key: 'insurance_bonus' },
   { title: 'Премия Сервиса (бонус)', key: 'service_bonus' },
@@ -37,7 +37,7 @@ const headers: Headers[] = [
   { title: 'Дата заявления о расторжении', key: 'date_application_termination' },
   { title: 'Дата расторжения', key: 'date_termination' },
   { title: 'Диспут', key: 'disput' },
-  { title: 'Тип операции продажа/возврат', key: 'type' },
+  // { title: 'Тип операции продажа/возврат', key: 'type' },
 ]
 
 const partnersStore = useSalesReturnsStore()
@@ -87,18 +87,43 @@ onMounted(async () => {
     </v-row>
     <v-card>
       <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true">
-        <template #item="{ index, item }">
+        <template #item.datetime_msk="{ item }">
+          {{ new Date(item['datetime_msk']).toLocaleTimeString().slice(0, -3) + '/' + new
+            Date(item['datetime_msk']).toLocaleDateString() }}
+        </template>
+        <template #item.date_contract_create="{ item }">
+          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+        </template>
+        <template #item.date_start_insurance="{ item }">
+          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+        </template>
+        <template #item.date_end_insurace="{ item }">
+          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+        </template>
+        <template #item.disput="{ item }">
+          {{ item['disput'] ? 'Да' : 'Нет' }}
+        </template>
+        <!-- <template #item="{ index, item }">
           <tr>
             <td v-for="header in headers" :key="header.key">
               <template v-if="header.key === 'datetime_msk'">
                 {{ header.key === 'datetime_msk' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
+              </template>
+              <template v-if="header.key === 'date_contract_create'">
+                {{ header.key === 'date_contract_create' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
+              </template>
+              <template v-if="header.key === 'date_start_insurance'">
+                {{ header.key === 'date_start_insurance' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
+              </template>
+              <template v-if="header.key === 'date_end_insurance'">
+                {{ header.key === 'date_end_insurance' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
               </template>
               <template v-else>
                 {{ header.key in item ? item[header.key] : index + 1 }}
               </template>
             </td>
           </tr>
-        </template>
+        </template> -->
       </v-data-table>
     </v-card>
   </v-container>
