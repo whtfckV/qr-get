@@ -1,3 +1,10 @@
+export type SellersData = {
+  data: SellersReturn[];
+  size: number
+  limit: number
+  offset: number
+}
+
 export type SellersReturn = {
   id?: number
   // sector_id: number

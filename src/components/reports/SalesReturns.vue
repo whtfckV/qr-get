@@ -3,6 +3,7 @@ import { useSalesGraph } from "@/stores/graphs/sales";
 import { useFiltersStore } from "@/stores/reports/filters";
 import { useSalesReturnsStore } from "@/stores/reports/sales_return";
 import { SellersReturn } from "@/types/reports/sales_return";
+import { VDataTableServer } from "vuetify/components";
 
 type Headers = {
   title: string;
@@ -25,10 +26,7 @@ const headers: Headers[] = [
   { title: "Пакет ДЗ", key: "packet_dz" },
   { title: "Стоимость услуги", key: "price" },
   { title: "PAN Застрахованной карты", key: "card" },
-  {
-    title: "Дата подписания Держателем карты Заявления о включении",
-    key: "date_contract_create",
-  },
+  { title: "Дата подписания Держателем карты Заявления о включении", key: "date_contract_create", },
   { title: "Дата начала срока страхования", key: "date_start_insurance" },
   { title: "Дата окончания срока страхования", key: "date_end_insurace" },
   { title: "Страховая сумма, руб.", key: "insurance_sum" },
@@ -43,6 +41,11 @@ const headers: Headers[] = [
   // { title: 'Тип операции продажа/возврат', key: 'type' },
 ];
 
+type Options = {
+  itemsPerPage: 10,
+  page: 2
+}
+
 const partnersStore = useSalesReturnsStore();
 const salesGraphStore = useSalesGraph();
 const filtersStore = useFiltersStore();
@@ -53,6 +56,12 @@ const handleChangeSelect = (open: boolean) => {
     salesGraphStore.get();
   }
 };
+
+const handleChangeOptions = (options: Options) => {
+  partnersStore.setLimit(options.itemsPerPage)
+  partnersStore.setPage(options.page - 1)
+  partnersStore.getPartners()
+}
 
 onMounted(async () => {
   filtersStore.getFilter("customers");
@@ -88,7 +97,8 @@ onMounted(async () => {
       </v-col>
     </v-row>
     <v-card>
-      <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true">
+      <v-data-table-server :headers="headers" :loading="partnersStore.isLoading" :items-per-page="partnersStore.limit"
+        :items="partnersStore.data" :items-length="partnersStore.size" @update:options="handleChangeOptions">
         <template #item.datetime_msk="{ item }">
           {{
             new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
@@ -111,7 +121,34 @@ onMounted(async () => {
         <template #item.birthday="{ item }">
           {{ new Date(item["birthday"]).toLocaleDateString() }}
         </template>
-      </v-data-table>
+        <template v-slot:loading>
+          <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+        </template>
+      </v-data-table-server>
+      <!-- <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true" :items-per-page="partnersStore.limit">
+        <template #item.datetime_msk="{ item }">
+          {{
+            new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
+          }} / {{
+            new Date(item["datetime_msk"]).toLocaleDateString()
+          }}
+        </template>
+        <template #item.date_contract_create="{ item }">
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+        </template>
+        <template #item.date_start_insurance="{ item }">
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+        </template>
+        <template #item.date_end_insurace="{ item }">
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+        </template>
+        <template #item.disput="{ item }">
+          {{ item["disput"] ? "Да" : "Нет" }}
+        </template>
+        <template #item.birthday="{ item }">
+          {{ new Date(item["birthday"]).toLocaleDateString() }}
+        </template>
+      </v-data-table> -->
     </v-card>
   </v-container>
 </template>

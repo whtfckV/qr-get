@@ -14,11 +14,10 @@
     { title: 'Возвраты, руб.', key: 'returns_sum' },
     { title: '% возвратовб шт.', key: 'returns_percent_by_things' },
     { title: '% возвратов, руб.', key: 'returns_percent_by_money' },
+    { title: 'Сумма услуги за минусом вознаграждения b2p и возвратов, руб.', key: 'total_sum_minus_b2p_returns' },
     { title: 'Сумма бонуса сервесера, руб.', key: 'service_bonus_sum' },
     { title: 'Сумма страхового бонуса, руб.', key: 'insurance_bonus_sum' },
     { title: 'Общая сумма вознаграждения партнера, руб.', key: 'total_partner_reward' },
-    // { title: 'Общая сумма вознаграждения D2 + ВСК, руб.', key: 'total_sum_rewards_d2' },
-    // { title: 'Общая сумма вознаграждения ДЗ, руб.', key: 'total_sum_reward_d3' },
     { title: 'Прибыль до налога КУАРГЕТ, руб.', key: 'profit_before_taxes' },
   ]
 
