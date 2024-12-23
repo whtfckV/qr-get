@@ -20,7 +20,8 @@ export type SellersReturn = {
   date_end_insurace: string // Мишена опечатка
   insurance_sum: number
   commission_acquiring: number
-  partner_bonus: number
+  commission_partner: number
+  // partner_bonus: number
   insurance_bonus: number
   service_bonus: number
   netto_qrget: number

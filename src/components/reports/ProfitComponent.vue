@@ -17,8 +17,8 @@
     { title: 'Сумма бонуса сервесера, руб.', key: 'service_bonus_sum' },
     { title: 'Сумма страхового бонуса, руб.', key: 'insurance_bonus_sum' },
     { title: 'Общая сумма вознаграждения партнера, руб.', key: 'total_partner_reward' },
-    { title: 'Общая сумма вознаграждения D2 + ВСК, руб.', key: 'total_sum_rewards_d2' },
-    { title: 'Общая сумма вознаграждения ДЗ, руб.', key: 'total_sum_reward_d3' },
+    // { title: 'Общая сумма вознаграждения D2 + ВСК, руб.', key: 'total_sum_rewards_d2' },
+    // { title: 'Общая сумма вознаграждения ДЗ, руб.', key: 'total_sum_reward_d3' },
     { title: 'Прибыль до налога КУАРГЕТ, руб.', key: 'profit_before_taxes' },
   ]
 

@@ -26,5 +26,6 @@
       item-title="name"
       item-value="id"
       @update:menu="(e) => emit('changeFilter', e)"
+      @click:clear="() => emit('changeFilter', false)"
     />
 </template>

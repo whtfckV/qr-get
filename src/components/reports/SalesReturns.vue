@@ -1,63 +1,65 @@
 <script setup lang="ts">
-import { useSalesGraph } from '@/stores/graphs/sales'
-import { useFiltersStore } from '@/stores/reports/filters'
-import { useSalesReturnsStore } from '@/stores/reports/sales_return'
-import { SellersReturn } from '@/types/reports/sales_return'
+import { useSalesGraph } from "@/stores/graphs/sales";
+import { useFiltersStore } from "@/stores/reports/filters";
+import { useSalesReturnsStore } from "@/stores/reports/sales_return";
+import { SellersReturn } from "@/types/reports/sales_return";
 
 type Headers = {
-  title: string,
-  key: keyof SellersReturn
-}
+  title: string;
+  key: keyof SellersReturn;
+};
 
 const headers: Headers[] = [
-  { title: 'Номер п/п', key: 'id' },
+  { title: "Номер п/п", key: "id" },
   // { title: 'ИД сектора', key: 'sector_id' },
-  { title: 'Название сектора', key: 'sector_name' },
-  { title: 'Номер сертификата', key: 'cert_number' },
+  { title: "Название сектора", key: "sector_name" },
+  { title: "Номер сертификата", key: "cert_number" },
   // { title: 'ИД заказа', key: 'order_id' },
   // { title: 'ИД заказа партнера', key: 'order_partner_id' },
-  { title: 'Дата/время (МСК)', key: 'datetime_msk' },
-  { title: 'ФИО', key: 'fio' },
-  { title: 'Паспортные данные', key: 'passport_info' },
-  { title: 'Дата рождения', key: 'birthday' },
-  { title: 'Email клиента', key: 'email' },
-  { title: 'Номер телефона клиента', key: 'phone' },
-  { title: 'Пакет ДЗ', key: 'packet_dz' },
-  { title: 'Стоимость услуги', key: 'price' },
-  { title: 'PAN Застрахованной карты', key: 'card' },
-  { title: 'Дата подписания Держателем карты Заявления о включении', key: 'date_contract_create' },
-  { title: 'Дата начала срока страхования', key: 'date_start_insurance' },
-  { title: 'Дата окончания срока страхования', key: 'date_end_insurace' },
-  { title: 'Страховая сумма, руб.', key: 'insurance_sum' },
-  { title: 'b2p', key: 'commission_acquiring' },
-  { title: 'АВ партнера(бонус)', key: 'partner_bonus' },
-  { title: 'Страховая премия (бонус страховой)', key: 'insurance_bonus' },
-  { title: 'Премия Сервиса (бонус)', key: 'service_bonus' },
-  { title: 'Нетто Куаргет', key: 'netto_qrget' },
-  { title: 'Дата заявления о расторжении', key: 'date_application_termination' },
-  { title: 'Дата расторжения', key: 'date_termination' },
-  { title: 'Диспут', key: 'disput' },
+  { title: "Дата/время (МСК)", key: "datetime_msk" },
+  { title: "ФИО", key: "fio" },
+  { title: "Паспортные данные", key: "passport_info" },
+  { title: "Дата рождения", key: "birthday" },
+  { title: "Email клиента", key: "email" },
+  { title: "Номер телефона клиента", key: "phone" },
+  { title: "Пакет ДЗ", key: "packet_dz" },
+  { title: "Стоимость услуги", key: "price" },
+  { title: "PAN Застрахованной карты", key: "card" },
+  {
+    title: "Дата подписания Держателем карты Заявления о включении",
+    key: "date_contract_create",
+  },
+  { title: "Дата начала срока страхования", key: "date_start_insurance" },
+  { title: "Дата окончания срока страхования", key: "date_end_insurace" },
+  { title: "Страховая сумма, руб.", key: "insurance_sum" },
+  { title: "b2p", key: "commission_acquiring" },
+  { title: "АВ партнера(бонус)", key: "commission_partner" },
+  { title: "Страховая премия (бонус страховой)", key: "insurance_bonus" },
+  { title: "Премия Сервиса (бонус)", key: "service_bonus" },
+  { title: "Нетто Куаргет", key: "netto_qrget" },
+  { title: "Дата заявления о расторжении", key: "date_application_termination" },
+  { title: "Дата расторжения", key: "date_termination" },
+  { title: "Диспут", key: "disput" },
   // { title: 'Тип операции продажа/возврат', key: 'type' },
-]
+];
 
-const partnersStore = useSalesReturnsStore()
-const salesGraphStore = useSalesGraph()
-const filtersStore = useFiltersStore()
+const partnersStore = useSalesReturnsStore();
+const salesGraphStore = useSalesGraph();
+const filtersStore = useFiltersStore();
 
 const handleChangeSelect = (open: boolean) => {
   if (!open) {
-    partnersStore.getPartners()
-    salesGraphStore.get()
+    partnersStore.getPartners();
+    salesGraphStore.get();
   }
-}
+};
 
 onMounted(async () => {
-  filtersStore.getFilter('customers')
-  filtersStore.getFilter('partners')
-  filtersStore.getFilter('products')
-  await partnersStore.getPartners()
-})
-
+  filtersStore.getFilter("customers");
+  filtersStore.getFilter("partners");
+  filtersStore.getFilter("products");
+  await partnersStore.getPartners();
+});
 </script>
 
 <template>
@@ -88,42 +90,27 @@ onMounted(async () => {
     <v-card>
       <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true">
         <template #item.datetime_msk="{ item }">
-          {{ new Date(item['datetime_msk']).toLocaleTimeString().slice(0, -3) + '/' + new
-            Date(item['datetime_msk']).toLocaleDateString() }}
+          {{
+            new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
+          }} / {{
+            new Date(item["datetime_msk"]).toLocaleDateString()
+          }}
         </template>
         <template #item.date_contract_create="{ item }">
-          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
         </template>
         <template #item.date_start_insurance="{ item }">
-          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
         </template>
         <template #item.date_end_insurace="{ item }">
-          {{ new Date(item['datetime_msk']).toLocaleDateString() }}
+          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
         </template>
         <template #item.disput="{ item }">
-          {{ item['disput'] ? 'Да' : 'Нет' }}
+          {{ item["disput"] ? "Да" : "Нет" }}
         </template>
-        <!-- <template #item="{ index, item }">
-          <tr>
-            <td v-for="header in headers" :key="header.key">
-              <template v-if="header.key === 'datetime_msk'">
-                {{ header.key === 'datetime_msk' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
-              </template>
-              <template v-if="header.key === 'date_contract_create'">
-                {{ header.key === 'date_contract_create' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
-              </template>
-              <template v-if="header.key === 'date_start_insurance'">
-                {{ header.key === 'date_start_insurance' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
-              </template>
-              <template v-if="header.key === 'date_end_insurance'">
-                {{ header.key === 'date_end_insurance' ? new Date(item[header.key]).toLocaleTimeString() + ' ' + new Date(item[header.key]).toLocaleDateString() : '' }}
-              </template>
-              <template v-else>
-                {{ header.key in item ? item[header.key] : index + 1 }}
-              </template>
-            </td>
-          </tr>
-        </template> -->
+        <template #item.birthday="{ item }">
+          {{ new Date(item["birthday"]).toLocaleDateString() }}
+        </template>
       </v-data-table>
     </v-card>
   </v-container>
