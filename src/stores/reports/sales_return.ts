@@ -86,6 +86,7 @@ export const useSalesReturnsStore = defineStore("partner", () => {
     dates,
     type,
     size,
+    page,
     limit,
     isLoading,
     getPartners,

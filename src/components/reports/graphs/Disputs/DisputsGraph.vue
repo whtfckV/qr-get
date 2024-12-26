@@ -19,7 +19,7 @@
   const oldData = computed<TLine[]>(() => ([
     {
       name: 'Диспуты',
-      data: disputsStore.graph.map(({ value }) => value),
+      data: disputsStore.oldGraph.map(({ value }) => value),
       color: '#36FF3046',
     },
   ]))
@@ -30,8 +30,10 @@
 
 </script>
 <template>
+    <!-- :old-data="disputsStore.oldGraph" -->
   <line-chart
     v-model="disputsStore.step"
+    v-model:old="disputsStore.oldStep"
     :data
     :dates
     :old-data

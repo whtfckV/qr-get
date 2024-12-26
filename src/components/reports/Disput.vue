@@ -66,6 +66,8 @@
       item-value="name"
       :items="disputsStore.disputs"
       :show-rows-border="true"
+      :disable-sort="true"
+      class="no-wrap-table"
     >
       <template #item="{ item }">
         <tr>
@@ -74,7 +76,6 @@
           </td>
         </tr>
       </template>
-
     </v-data-table>
   </v-container>
 </template>

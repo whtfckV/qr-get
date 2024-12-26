@@ -46,6 +46,14 @@ type Options = {
   page: 2
 }
 
+const perPage = [
+  { value: 10, title: '10' },
+  { value: 25, title: '25' },
+  { value: 50, title: '50' },
+  { value: 100, title: '100' },
+  { value: 500, title: '500' },
+]
+
 const partnersStore = useSalesReturnsStore();
 const salesGraphStore = useSalesGraph();
 const filtersStore = useFiltersStore();
@@ -58,6 +66,7 @@ const handleChangeSelect = (open: boolean) => {
 };
 
 const handleChangeOptions = (options: Options) => {
+  if (options.itemsPerPage === partnersStore.limit && options.page - 1 === partnersStore.page) return
   partnersStore.setLimit(options.itemsPerPage)
   partnersStore.setPage(options.page - 1)
   partnersStore.getPartners()
@@ -97,8 +106,9 @@ onMounted(async () => {
       </v-col>
     </v-row>
     <v-card>
-      <v-data-table-server :headers="headers" :loading="partnersStore.isLoading" :items-per-page="partnersStore.limit"
-        :items="partnersStore.data" :items-length="partnersStore.size" @update:options="handleChangeOptions">
+      <v-data-table-server class="no-wrap-table" :disable-sort="true" :show-current-page="true" :headers="headers"
+        :loading="partnersStore.isLoading" :items-per-page="partnersStore.limit" :items="partnersStore.data"
+        :items-length="partnersStore.size" :items-per-page-options="perPage" @update:options="handleChangeOptions">
         <template #item.datetime_msk="{ item }">
           {{
             new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
@@ -125,30 +135,6 @@ onMounted(async () => {
           <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
         </template>
       </v-data-table-server>
-      <!-- <v-data-table :headers="headers" :items="partnersStore.data" :show-rows-border="true" :items-per-page="partnersStore.limit">
-        <template #item.datetime_msk="{ item }">
-          {{
-            new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
-          }} / {{
-            new Date(item["datetime_msk"]).toLocaleDateString()
-          }}
-        </template>
-        <template #item.date_contract_create="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
-        </template>
-        <template #item.date_start_insurance="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
-        </template>
-        <template #item.date_end_insurace="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
-        </template>
-        <template #item.disput="{ item }">
-          {{ item["disput"] ? "Да" : "Нет" }}
-        </template>
-        <template #item.birthday="{ item }">
-          {{ new Date(item["birthday"]).toLocaleDateString() }}
-        </template>
-      </v-data-table> -->
     </v-card>
   </v-container>
 </template>

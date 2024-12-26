@@ -60,6 +60,8 @@
         item-value="name"
         :items="profitsStore.profits"
         :show-rows-border="true"
+        :disable-sort="true"
+        class="no-wrap-table"
       >
         <template #item="{ item }">
           <tr>
@@ -72,3 +74,8 @@
     </v-card>
   </v-container>
 </template>
+<style>
+.no-wrap-table .v-table__wrapper td {
+  white-space: nowrap;
+}
+</style>

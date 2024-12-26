@@ -58,7 +58,10 @@ export const useDisputsStore = defineStore("disput", () => {
 
       if (response.success) {
         disputs.splice(0);
-        disputs.push(...response.data.partners, response.data.total);
+        disputs.push(
+          ...response.data.partners,
+          response.data.total,
+        );
       } else {
         error.value = response.error;
       }

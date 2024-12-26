@@ -84,12 +84,13 @@ export class Api {
     body?: string,
     headers: Record<string, string> = {}
   ): Promise<ApiResponse<T> | ApiError> {
-    this.logRequest(method, url, body);
+    // this.logRequest(method, url, body);
     try {
       const response = await fetch(`${BASE_URL}${url}`, {
         method,
         headers,
         body,
+        // credentials: "include",
       });
 
       if (response.status === 401) {
@@ -145,10 +146,10 @@ export class Api {
     );
   }
 
-  private static logRequest(method: string, url: string, body?: string) {
-    console.log(
-      `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ""}`,
-      "color:cyan;font-weight:300;font-size:10px"
-    );
-  }
+  // private static logRequest(method: string, url: string, body?: string) {
+  //   console.log(
+  //     `%cRequest: ${method} ${url} ${body ? `Body: ${body}` : ""}`,
+  //     "color:cyan;font-weight:300;font-size:10px"
+  //   );
+  // }
 }

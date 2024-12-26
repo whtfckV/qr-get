@@ -57,7 +57,10 @@ export const useProfitStore = defineStore("profit", () => {
 
       if (response.success) {
         profits.splice(0);
-        profits.push(...response.data.partners, response.data.total);
+        profits.push(
+          ...response.data.partners,
+          response.data.total
+        );
       } else {
         error.value = response.error;
       }
