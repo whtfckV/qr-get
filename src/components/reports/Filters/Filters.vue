@@ -3,7 +3,7 @@
   import type{ FilterEntity } from '@/types/reports/filters'
 
   // const filtersStore = useFiltersStore()
-  const props = defineProps<{ entitys: FilterEntity[] }>()
+  const props = defineProps<{ entitys: FilterEntity[] | string[] }>()
   const model = defineModel<string[]>()
 
   type Emits = {

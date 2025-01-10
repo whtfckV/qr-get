@@ -3,18 +3,7 @@ import type { Disput } from "@/types/reports/disput";
 import { getDisputsReport } from "@/api/reports/reports";
 import moment from "moment";
 import { useDisputsGraph } from "../graphs/disputs";
-
-// const FILTERS_MOCK = {
-//   partners: [
-//     'b9c64d47-6f70-4084-8012-b33f8d4cc4cc',
-//     '236fb7ff-bb24-4966-b6a7-b8fdc145f45c',
-//   ],
-//   products: [
-//     '743bf09e-373b-4f0f-9816-dd679f733250',
-//   ],
-//   date_start: '2024-08-26',
-//   date_end: '2024-09-25',
-// }
+import { fillMonth } from "@/utils/fillDates";
 
 export const useDisputsStore = defineStore("disput", () => {
   const disputs = reactive<Disput[]>([]);
@@ -23,18 +12,7 @@ export const useDisputsStore = defineStore("disput", () => {
 
   const partners = ref<string[]>([]);
   const products = ref<string[]>([]);
-  const dates = ref<Date[]>([]);
-
-  const today = new Date();
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  for (
-    let date = startOfMonth;
-    date <= today;
-    date.setDate(date.getDate() + 1)
-  ) {
-    dates.value.push(new Date(date));
-  }
+  const dates = ref<Date[]>(fillMonth());
 
   const disputsGraphStore = useDisputsGraph();
 
@@ -58,10 +36,7 @@ export const useDisputsStore = defineStore("disput", () => {
 
       if (response.success) {
         disputs.splice(0);
-        disputs.push(
-          ...response.data.partners,
-          response.data.total,
-        );
+        disputs.push(...response.data.partners, response.data.total);
       } else {
         error.value = response.error;
       }

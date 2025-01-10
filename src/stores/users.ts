@@ -25,6 +25,7 @@ export const useUsersStore = defineStore('users', () => {
       report_sales_returns: usr.settings.report_sales_returns,
       report_disput: usr.settings.report_disput,
       report_profit: usr.settings.report_profit,
+      table_disput: usr.settings.table_disput,
     }
     try {
       const response = await updateUserSettings(data, usr.id)

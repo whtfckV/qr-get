@@ -3,6 +3,7 @@ import { useSalesGraph } from "@/stores/graphs/sales";
 import { useFiltersStore } from "@/stores/reports/filters";
 import { useSalesReturnsStore } from "@/stores/reports/sales_return";
 import { SellersReturn } from "@/types/reports/sales_return";
+import moment from "moment";
 import { VDataTableServer } from "vuetify/components";
 
 type Headers = {
@@ -42,8 +43,8 @@ const headers: Headers[] = [
 ];
 
 type Options = {
-  itemsPerPage: 10,
-  page: 2
+  itemsPerPage: number,
+  page: number
 }
 
 const perPage = [
@@ -81,8 +82,8 @@ onMounted(async () => {
 </script>
 
 <template>
+  <v-app-bar title="Партнеры" />
   <v-container fluid>
-    <v-app-bar title="Партнеры" />
     <v-row dense>
       <v-col cols="12" md="3">
         <DateFilter v-model="partnersStore.dates" />
@@ -110,26 +111,22 @@ onMounted(async () => {
         :loading="partnersStore.isLoading" :items-per-page="partnersStore.limit" :items="partnersStore.data"
         :items-length="partnersStore.size" :items-per-page-options="perPage" @update:options="handleChangeOptions">
         <template #item.datetime_msk="{ item }">
-          {{
-            new Date(item["datetime_msk"]).toLocaleTimeString().slice(0, -3)
-          }} / {{
-            new Date(item["datetime_msk"]).toLocaleDateString()
-          }}
+          {{ moment(item["datetime_msk"]).format("DD.MM.YYYY/HH:mm") }}
         </template>
         <template #item.date_contract_create="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+          {{ moment(item["datetime_msk"]).format('DD.MM.YYYY') }}
         </template>
         <template #item.date_start_insurance="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+          {{ moment(item["datetime_msk"]).format('DD.MM.YYYY') }}
         </template>
         <template #item.date_end_insurace="{ item }">
-          {{ new Date(item["datetime_msk"]).toLocaleDateString() }}
+          {{ moment(item["datetime_msk"]).format('DD.MM.YYYY') }}
         </template>
         <template #item.disput="{ item }">
           {{ item["disput"] ? "Да" : "Нет" }}
         </template>
         <template #item.birthday="{ item }">
-          {{ new Date(item["birthday"]).toLocaleDateString() }}
+          {{ moment(item["birthday"]).format('DD.MM.YYYY') }}
         </template>
         <template v-slot:loading>
           <v-skeleton-loader type="table-row@10"></v-skeleton-loader>

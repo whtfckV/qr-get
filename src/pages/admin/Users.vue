@@ -1,65 +1,67 @@
 <script setup lang="ts">
-  import { useUsersStore } from '@/stores/users'
-  import { storeToRefs } from 'pinia'
+import { useUsersStore } from '@/stores/users'
+import { reposrtsTypes, tablesTypes } from '@/types/settings'
+import { storeToRefs } from 'pinia'
 
-  const usersStore = useUsersStore()
-  const { users, usersSettings } = storeToRefs(usersStore)
-  const dialog = ref(false)
-  const dialogDelete = ref(false)
-  const deleteId = ref()
-  const snackbar = ref(false)
+type Items = {
+  title: string
+  value: reposrtsTypes | tablesTypes
+}
 
-  const openDialog = () => {
-    dialog.value = true
+const usersStore = useUsersStore()
+const { users, usersSettings } = storeToRefs(usersStore)
+const dialog = ref(false)
+const dialogDelete = ref(false)
+const deleteId = ref()
+const snackbar = ref(false)
+
+const openDialog = () => {
+  dialog.value = true
+}
+
+const closeDialog = () => {
+  dialog.value = false
+}
+
+const handleSuccess = () => {
+  snackbar.value = true
+  usersStore.getUsersWithSettings()
+}
+
+const handleDelete = (id: string) => {
+  dialogDelete.value = true
+  deleteId.value = id
+}
+
+const deleteItem = () => {
+  usersStore.deleteCurrentUser(deleteId.value)
+  deleteId.value = ''
+  dialogDelete.value = false
+}
+
+const items: Items[] = [
+  { title: 'Продажи/возвраты', value: 'report_sales_returns' },
+  { title: 'Диспуты', value: 'report_disput' },
+  { title: 'Прибыль', value: 'report_profit' },
+  { title: 'Таблица диспутов', value: 'table_disput' },
+]
+
+const handleFocus = (bool: boolean, id: string) => {
+  if (!bool) {
+    usersStore.updateLocalSettings(id)
   }
+}
 
-  const closeDialog = () => {
-    dialog.value = false
-  }
-
-  const handleSuccess = () => {
-    snackbar.value = true
-    usersStore.getUsersWithSettings()
-  }
-
-  const handleDelete = (id: string) => {
-    dialogDelete.value = true
-    deleteId.value = id
-  }
-
-  const deleteItem = () => {
-    usersStore.deleteCurrentUser(deleteId.value)
-    deleteId.value = ''
-    dialogDelete.value = false
-  }
-
-  const items = [
-    { title: 'Продажи/возвраты', value: 'report_sales_returns' },
-    { title: 'Диспуты', value: 'report_disput' },
-    { title: 'Прибыль', value: 'report_profit' },
-  ]
-
-  const handleFocus = (bool: boolean, id: string) => {
-    if (!bool) {
-      usersStore.updateLocalSettings(id)
-    }
-  }
-
-  onMounted(() => {
-    usersStore.getUsersWithSettings()
-  })
+onMounted(() => {
+  usersStore.getUsersWithSettings()
+})
 </script>
 
 <template>
   <v-app>
     <v-app-bar title="Пользователи">
-      <v-btn
-        base-color="indigo-lighten-2"
-        class="mr-4"
-        prepend-icon="mdi-account-plus"
-        variant="tonal"
-        @click="openDialog"
-      >
+      <v-btn base-color="indigo-lighten-2" class="mr-4" prepend-icon="mdi-account-plus" variant="tonal"
+        @click="openDialog">
         Добавить
       </v-btn>
     </v-app-bar>
@@ -78,17 +80,9 @@
                     Удалить
                   </v-btn>
                 </v-list-item-title>
-                <v-select
-                  v-model="usersSettings[user.id]"
-                  chips
-                  clearable
-                  density="comfortable"
-                  :items="items"
-                  label="Доступные отчеты"
-                  multiple
-                  variant="outlined"
-                  @update:focused="(e) => handleFocus(e, user.id)"
-                />
+                <v-select v-model="usersSettings[user.id]" chips clearable density="comfortable" :items="items"
+                  label="Доступные отчеты" multiple variant="outlined"
+                  @update:focused="(e) => handleFocus(e, user.id)" />
               </v-list-item>
               <v-divider v-if="index !== users.length - 1" color="indigo-lighten-5" />
             </template>
@@ -120,12 +114,7 @@
           </v-card>
         </v-dialog>
         <!-- Уведомление -->
-        <v-snackbar
-          v-model="snackbar"
-          color="success"
-          location="top right"
-          :timeout="2000"
-        >
+        <v-snackbar v-model="snackbar" color="success" location="top right" :timeout="2000">
           Пользователь создан
         </v-snackbar>
       </v-container>

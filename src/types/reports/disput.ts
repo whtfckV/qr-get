@@ -3,12 +3,12 @@
 export type Disput = {
   // id: string
   partner: string
-  succesful_payments: number
-  total_sum_services: number
-  disputs: number
-  disputs_sum: number
-  disputs_percents_by_things: number
-  disputs_percent_by_sum: number
+  succesful_payments: string
+  total_sum_services: string
+  disputs: string
+  disputs_sum: string
+  disputs_percents_by_things: string
+  disputs_percent_by_sum: string
 }
 
 export type Disputs = {

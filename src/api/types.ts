@@ -5,6 +5,7 @@ export enum Post {
   partners= '/sales_returns',
   profit = '/profit',
   disputs = '/disputs',
+  disputsTable = '/disputs/table',
 }
 
 export enum Get {
@@ -14,10 +15,12 @@ export enum Get {
   partners = '/filters/partners',
   products = '/filters/products',
   userSettings = '/settings',
+  disputsStatuses = '/disputs/statuses'
 }
 
 export enum Put {
-  updateUserSettings = '/settings'
+  updateUserSettings = '/settings',
+  updateDisput = '/disputs'
 }
 
 export enum Delete {
