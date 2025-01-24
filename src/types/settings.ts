@@ -1,8 +1,11 @@
 export type reposrtsTypes =
   | "report_sales_returns"
   | "report_disput"
-  | "report_profit" | "table_disput";
-export type tablesTypes = "table_disput";
+  | "report_profit";
+export type tablesTypes =
+  | "table_disput"
+  | "table_verification_payments"
+  | "table_dds";
 
 export type Settings = {
   id: string;
@@ -11,7 +14,7 @@ export type Settings = {
 
 export type SettingsWithoutId = Omit<Settings, "id">;
 
-export type updateSettings = Record<reposrtsTypes, boolean>;
+export type updateSettings = Omit<Settings, "id">;
 
 export type SelectSettings = {
   [key: string]: string[];

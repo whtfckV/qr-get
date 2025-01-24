@@ -6,6 +6,11 @@ export enum Post {
   profit = '/profit',
   disputs = '/disputs',
   disputsTable = '/disputs/table',
+  addPayment = '/verification_payments',
+  addExpense = '/v1/operating_expenses',
+  addExpenseCategory = '/v1/expenses_category',
+  payments = '/verification_payments/table',
+  dds = '/v1/dds/table'
 }
 
 export enum Get {
@@ -15,16 +20,21 @@ export enum Get {
   partners = '/filters/partners',
   products = '/filters/products',
   userSettings = '/settings',
-  disputsStatuses = '/disputs/statuses'
+  disputsStatuses = '/disputs/statuses',
+  balance = '/organization_balance',
+  categories = '/v1/expenses_category/all',
+  groups = '/v1/expenses_group'
 }
 
 export enum Put {
   updateUserSettings = '/settings',
-  updateDisput = '/disputs'
+  updateDisput = '/disputs',
+  updateExpense = '/v1/expenses_category'
 }
 
 export enum Delete {
-  user = '/user'
+  user = '/user',
+  expense = '/v1/expenses_category'
 }
 
 export enum Graphs {

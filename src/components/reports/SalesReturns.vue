@@ -126,7 +126,7 @@ onMounted(async () => {
           {{ item["disput"] ? "Да" : "Нет" }}
         </template>
         <template #item.birthday="{ item }">
-          {{ moment(item["birthday"]).format('DD.MM.YYYY') }}
+          {{ item["birthday"] ? moment(item["birthday"]).format('DD.MM.YYYY') : "" }}
         </template>
         <template v-slot:loading>
           <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
