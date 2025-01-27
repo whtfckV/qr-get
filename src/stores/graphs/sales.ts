@@ -23,7 +23,7 @@ export const useSalesGraph = defineStore("salesGraph", () => {
 
   const createFilters = (old: boolean = false): SalesRequestBody => {
     let startDate = moment(salesReturnsStore.dates[0]).clone();
-    let endDate = moment(salesReturnsStore.dates.at(-1)).clone();
+    let endDate = moment(salesReturnsStore.dates[1]).clone();
 
     if (old) {
       if (oldStep.value === "month") {
@@ -39,8 +39,8 @@ export const useSalesGraph = defineStore("salesGraph", () => {
       partners: salesReturnsStore.partners,
       customers: salesReturnsStore.customers,
       products: salesReturnsStore.products,
-      date_start: startDate.format("YYYY-MM-DD"),
-      date_end: endDate.format("YYYY-MM-DD"),
+      date_start: startDate.format("YYYY-MM-DDTHH:mm"),
+      date_end: endDate.format("YYYY-MM-DDTHH:mm"),
       step: step.value,
       type: type.value,
     };

@@ -23,7 +23,7 @@ export const useDisputsGraph = defineStore("DisputsGraph", () => {
 
   const createFilters = (old: boolean = false): DisputsRequestBody => {
     let startDate = moment(disputStore.dates[0]).clone();
-    let endDate = moment(disputStore.dates.at(-1)).clone();
+    let endDate = moment(disputStore.dates[1]).clone();
 
     if (old) {
       if (oldStep.value === "month") {
@@ -37,8 +37,8 @@ export const useDisputsGraph = defineStore("DisputsGraph", () => {
     return {
       partners: disputStore.partners,
       products: disputStore.products,
-      date_start: startDate.format('YYYY-MM-DD'),
-      date_end: endDate.format('YYYY-MM-DD'),
+      date_start: startDate.format('YYYY-MM-DDTHH:mm'),
+      date_end: endDate.format('YYYY-MM-DDTHH:mm'),
       step: step.value,
       type: type.value,
     };

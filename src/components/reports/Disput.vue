@@ -40,13 +40,17 @@ onMounted(async () => {
     <v-row dense>
       <v-col cols="12" md="1" />
 
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="3">
         <DateFilter v-model="disputsStore.dates" />
       </v-col>
 
-      <v-col cols="12" md="4">
-        <Filters v-model="disputsStore.products" :entitys="filtersStore.filters.products" label="Товар"
-          @change-filter="handleChange" />
+      <v-col cols="12" md="3">
+        <Filters
+          v-model="disputsStore.products"
+          :entitys="filtersStore.filters.products"
+          label="Товар"
+          @change-filter="handleChange"
+        />
       </v-col>
       <v-col cols="12" md="4">
         <Filters v-model="disputsStore.partners" :entitys="filtersStore.filters.partners" label="Партнер"
