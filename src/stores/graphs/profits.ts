@@ -16,7 +16,7 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
 
   const createFilters = (old: boolean = false): ProfitRequestBody => {
     let startDate = moment(profitStore.dates[0]).clone();
-    let endDate = moment(profitStore.dates.at(-1)).clone();
+    let endDate = moment(profitStore.dates[1]).clone();
 
     if (old) {
       if (oldStep.value === "month") {
@@ -30,8 +30,8 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
 
     return {
       partners: profitStore.partners,
-      date_start: startDate.format('YYYY-MM-DD'),
-      date_end: endDate.format('YYYY-MM-DD'),
+      date_start: startDate.format('YYYY-MM-DDTHH:mm'),
+      date_end: endDate.format('YYYY-MM-DDTHH:mm'),
       step: step.value,
     }
   }

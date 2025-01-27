@@ -41,8 +41,8 @@
   <v-container fluid>
     <v-app-bar title="Рентабельность" />
     <v-row dense>
-      <v-col cols="12" md="3" />
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="2" />
+      <v-col cols="12" md="3">
         <DateFilter v-model="profitsStore.dates" />
       </v-col>
       <v-col cols="12" md="4">

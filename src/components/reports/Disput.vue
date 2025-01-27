@@ -40,11 +40,11 @@
     <v-row dense>
       <v-col cols="12" md="1" />
 
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="3">
         <DateFilter v-model="disputsStore.dates" />
       </v-col>
 
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3">
         <Filters
           v-model="disputsStore.products"
           :entitys="filtersStore.filters.products"

@@ -16,33 +16,28 @@ export const useSalesReturnsStore = defineStore("partner", () => {
   const products = ref<string[]>([]);
   const customers = ref<string[]>([]);
   const type = ref<ReportType>("sell");
-  const dates = ref<Date[]>([]);
 
   const today = new Date();
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  today.setHours(23, 59);
 
-  for (
-    let date = startOfMonth;
-    date <= today;
-    date.setDate(date.getDate() + 1)
-  ) {
-    dates.value.push(new Date(date));
-  }
+  const dates = ref<[Date, Date]>([
+    new Date(today.getFullYear(), today.getMonth(), 1),
+    today,
+  ]);
+
 
   const salesGraphStore = useSalesGraph();
 
   const getPartners = async () => {
     isLoading.value = true;
-    const start = dates.value[0];
-    const end = dates.value.at(-1);
 
     const filters = {
       partners: partners.value,
       customers: customers.value,
       products: products.value,
       type: type.value,
-      date_start: moment(start).format("YYYY-MM-DD"),
-      date_end: moment(end).format("YYYY-MM-DD"),
+      date_start: moment(dates.value[0]).format("YYYY-MM-DDTHH:mm"),
+      date_end: moment(dates.value[1]).format("YYYY-MM-DDTHH:mm"),
       limit: limit.value,
       offset: page.value * limit.value,
     };
@@ -68,10 +63,10 @@ export const useSalesReturnsStore = defineStore("partner", () => {
   const setLimit = (newLimit: number) => {
     page.value = 0;
     limit.value = newLimit;
-  }
+  };
   const setPage = (newPage: number) => {
     page.value = newPage;
-  }
+  };
 
   watch([dates, type], () => {
     getPartners();
