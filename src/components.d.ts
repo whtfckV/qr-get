@@ -10,6 +10,7 @@ declare module 'vue' {
     AddMoney: typeof import('./components/AddMoney/AddMoney.vue')['default']
     AddUsers: typeof import('./components/AddUser/AddUsers.vue')['default']
     AuthForm: typeof import('./components/authorization/AuthForm.vue')['default']
+    Confirmation: typeof import('./components/Confirmation/Confirmation.vue')['default']
     DateFilter: typeof import('./components/reports/Filters/DateFilter.vue')['default']
     Disput: typeof import('./components/reports/Disput.vue')['default']
     DisputsGraph: typeof import('./components/reports/graphs/Disputs/DisputsGraph.vue')['default']

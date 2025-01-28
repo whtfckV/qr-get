@@ -83,7 +83,7 @@ onMounted(() => {
                 </v-list-item-title>
                 <v-select v-model="usersSettings[user.id]" chips clearable density="comfortable" :items="items"
                   label="Доступные отчеты" multiple variant="outlined"
-                  @update:focused="(e) => handleFocus(e, user.id)" />
+                  @update:focused="(e: boolean) => handleFocus(e, user.id)" />
               </v-list-item>
               <v-divider v-if="index !== users.length - 1" color="indigo-lighten-5" />
             </template>

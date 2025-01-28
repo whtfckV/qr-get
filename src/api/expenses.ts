@@ -18,6 +18,12 @@ export const getExpensesGroups = async (): Promise<
   ApiResponse<ExpensesGroup[]> | ApiError
 > => Api.get<ExpensesGroup[]>(Get.groups);
 
+export const deleteExpensesGroup = async (
+  id: string
+): Promise<ApiResponse<number> | ApiError> => {
+  return Api.delete<number>(Delete.group, id);
+};
+
 export const addExpense = async (
   body: ExpenseBody
 ): Promise<ApiResponse<Expense> | ApiError> => {
@@ -34,10 +40,10 @@ export const updateExpense = async (
   );
 };
 
-export const deleteExpense = async (
+export const deleteExpenseInGroup = async (
   id: string
 ): Promise<ApiResponse<number> | ApiError> => {
-  return Api.delete<number>(Delete.expense, id);
+  return Api.delete<number>(Delete.expensesInGroup, id);
 };
 
 export const addExpenseCategory = async (

@@ -34,7 +34,8 @@ export enum Put {
 
 export enum Delete {
   user = '/user',
-  expense = '/v1/expenses_category'
+  expensesInGroup = '/v1/expenses_group_items',
+  group = '/v1/expenses_group'
 }
 
 export enum Graphs {
