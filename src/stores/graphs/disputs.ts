@@ -37,8 +37,8 @@ export const useDisputsGraph = defineStore("DisputsGraph", () => {
     return {
       partners: disputStore.partners,
       products: disputStore.products,
-      date_start: startDate.format('YYYY-MM-DDTHH:mm'),
-      date_end: endDate.format('YYYY-MM-DDTHH:mm'),
+      date_start: startDate.format('YYYY-MM-DDTHH:mm:ss'),
+      date_end: endDate.format('YYYY-MM-DDTHH:mm:ss'),
       step: step.value,
       type: type.value,
     };
