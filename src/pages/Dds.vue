@@ -42,7 +42,7 @@ onMounted(() => {
       </v-col>
     </v-row>
     <v-card>
-      <v-data-table :headers items-per-page="-1" :items="ddsStore.categories">
+      <v-data-table :headers items-per-page="-1" :items="ddsStore.categories" :loading="ddsStore.isLoading">
         <template #body.prepend>
           <tr class="bg-grey-lighten-2">
             <td>Начальный остаток</td>

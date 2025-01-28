@@ -20,8 +20,8 @@ export const useDDSStore = defineStore("dds", () => {
     const end = dates.value.at(-1);
 
     return {
-      date_start: moment(start).format("YYYY-MM-DD"),
-      date_end: moment(end).format("YYYY-MM-DD"),
+      date_start: moment(start).format("YYYY-MM-DDTHH:mm:ss"),
+      date_end: moment(end).format("YYYY-MM-DDTHH:mm:ss"),
       partners: partners.value,
       customers: customers.value,
     };

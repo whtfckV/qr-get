@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { VDateInput } from 'vuetify/labs/VDateInput'
 import { Props } from './types';
-import { useExpensesGroupStore } from '@/stores/expensesGroup';
+import { useExpensesCategoriesStore } from '@/stores/expensesCategories';
 import { addPayment } from '@/api/balance';
 import { addExpense } from '@/api/expenses';
 import moment from 'moment';
@@ -13,7 +13,7 @@ const date = ref(new Date())
 const category = ref<string>('')
 const sum = ref<number>()
 
-const expensesCategoriesStore = useExpensesGroupStore()
+const expensesCategoriesStore = useExpensesCategoriesStore()
 
 const rules = {
   isNumber: (value: string | number) => isNaN(Number(value)) ? 'Поле должно быть числом' : true,
@@ -56,7 +56,7 @@ onMounted(() => {
           variant="outlined" />
         <v-select v-if="type === 'expense'" v-model="category" :rules="[rules.required]"
           :loading="expensesCategoriesStore.isLoading" label="Категория расходов" item-title="name" item-value="id"
-          :items="expensesCategoriesStore.expensesCategories" />
+          :items="expensesCategoriesStore.items" />
         <v-text-field v-model="sum" :rules="[rules.isNumber, rules.required]" prefix="₽" dirty label="Сумма" />
       </v-form>
     </v-card-text>

@@ -5,7 +5,8 @@ export type reposrtsTypes =
 export type tablesTypes =
   | "table_disput"
   | "table_verification_payments"
-  | "table_dds";
+  | "table_dds"
+  | "table_opiu";
 
 export type Settings = {
   id: string;

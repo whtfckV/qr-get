@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { useExpensesCategoriesStore } from '@/stores/expensesCategories';
 import { ExpenseCategory } from '@/types/expenses';
-// TODO Сделать добавление категории модалкой с выбором группы
-// TODO сделать сделать редактирование группы
-// TODO и добавление категории
-// TODO и удаление категории
+import { Confirmation } from '../Confirmation';
 
 const expensesCategoriesStore = useExpensesCategoriesStore()
 const selectedCategory = ref<string>();
+const dialogDelete = ref(false)
 
 const handleFocus = (focus: boolean, category: ExpenseCategory) => {
   if (focus) {
@@ -27,25 +25,39 @@ const handleFocus = (focus: boolean, category: ExpenseCategory) => {
 onMounted(() => {
   expensesCategoriesStore.get()
 })
+
+onUnmounted(() => {
+  expensesCategoriesStore.items = expensesCategoriesStore.items.filter((category) => category.name !== '')
+})
 </script>
 
 <template>
-  <v-card>
-    <v-list tag="ul" v-if="expensesCategoriesStore.expensesCategories.length"
-      v-for="group in expensesCategoriesStore.expensesCategories" bg-color="indigo-lighten-2">
-      <v-list-subheader>{{ group.name }}</v-list-subheader>
-      <template v-for="category in group.items" :key="category.id">
-        <v-list-item tag="li">
-          <v-text-field density="compact" v-model="category.name" hide-details="auto" append-icon="mdi-delete"
+  <v-card class="pa-5">
+    <v-card>
+      <v-list tag="ul" v-if="expensesCategoriesStore.items.length" bg-color="indigo-lighten-2">
+        <v-list-item tag="li" v-for="category in expensesCategoriesStore.items">
+          <v-text-field density="compact" v-model="category.name" hide-details="auto"
             @update:focused="(focus: boolean) => handleFocus(focus, category)"
-            @click:append="expensesCategoriesStore.del(category.id)" variant="outlined" />
+            @click:append="expensesCategoriesStore.del(category.id)" variant="outlined">
+            <template #append>
+              <Confirmation v-model="dialogDelete" title="Архивировать категорию?" :message="`Вы уверены что хотите архивировать категорию ${category.name}? \n
+                Это действие нельзя будет отменить \n
+                Вы больше не сможете выбрать ее при добавлении расхода`"
+                confirm-text="Архивировать"
+                @confirm="expensesCategoriesStore.del(category.id)">
+                <template #activator="{ props }">
+                  <v-btn color="red" variant="outline" v-bind="props" icon="mdi-delete" />
+                </template>
+              </Confirmation>
+            </template>
+          </v-text-field>
         </v-list-item>
         <v-list-item tag="li">
-          <v-btn block @click="() => {}">
+          <v-btn block @click="expensesCategoriesStore.create()">
             <v-icon icon="mdi-plus" />
           </v-btn>
         </v-list-item>
-      </template>
-    </v-list>
+      </v-list>
+    </v-card>
   </v-card>
 </template>

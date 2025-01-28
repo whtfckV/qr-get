@@ -44,7 +44,9 @@ const items: Items[] = [
   { title: 'Диспуты', value: 'report_disput' },
   { title: 'Прибыль', value: 'report_profit' },
   { title: 'Таблица диспутов', value: 'table_disput' },
-  { title: 'Точка контроля средств', value: 'table_verification_payments'}
+  { title: 'Точка контроля средств', value: 'table_verification_payments' },
+  { title: 'ДДС', value: 'table_dds' },
+  { title: 'ОПиУ', value: 'table_opiu' },
 ]
 
 const handleFocus = (bool: boolean, id: string) => {

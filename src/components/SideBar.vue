@@ -18,7 +18,8 @@ const reports: Record<keyof Omit<Settings, 'id'>, Report> = {
   report_disput: { title: 'Отчет по диспутам', icon: 'mdi-cash-refund', link: '/reports/Disput' },
   table_disput: { title: 'Таблица диспутов', icon: 'mdi-table', link: '/Disputs' },
   table_verification_payments: { title: 'Точка контроля средств', icon: 'mdi-camera-control', link: '/' },
-  table_dds: {title: 'ДДС', icon: 'mdi-cash', link: '/dds'}
+  table_dds: { title: 'ДДС', icon: 'mdi-cash', link: '/dds' },
+  table_opiu: { title: 'ОПиУ', icon: 'mdi-chart-areaspline-variant', link: '/opiu' },
 };
 
 const toggleLogout = () => {

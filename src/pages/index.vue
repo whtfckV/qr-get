@@ -54,7 +54,7 @@ onMounted(() => {
       variant="tonal">
       Добавить расход
     </v-btn>
-    <v-btn to="categories" base-color="indigo-lighten-2" class="mr-4" prepend-icon="mdi-shape"
+    <v-btn @click="expensesDialog = true" base-color="indigo-lighten-2" class="mr-4" prepend-icon="mdi-shape"
       variant="tonal">
       Категории расходов
     </v-btn>

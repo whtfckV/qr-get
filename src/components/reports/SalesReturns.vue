@@ -128,7 +128,7 @@ onMounted(async () => {
         <template #item.birthday="{ item }">
           {{ item["birthday"] ? moment(item["birthday"]).format('DD.MM.YYYY') : "" }}
         </template>
-        <template v-slot:loading>
+        <template #loading>
           <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
         </template>
       </v-data-table-server>
