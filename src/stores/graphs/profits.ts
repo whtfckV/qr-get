@@ -30,8 +30,8 @@ export const useProfitsGraph = defineStore('ProfitsGraph', () => {
 
     return {
       partners: profitStore.partners,
-      date_start: startDate.format('YYYY-MM-DDTHH:mm'),
-      date_end: endDate.format('YYYY-MM-DDTHH:mm'),
+      date_start: startDate.format('YYYY-MM-DDTHH:mm:ss'),
+      date_end: endDate.format('YYYY-MM-DDTHH:mm:ss'),
       step: step.value,
     }
   }

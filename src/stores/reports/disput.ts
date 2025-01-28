@@ -25,7 +25,7 @@ export const useDisputsStore = defineStore("disput", () => {
   const products = ref<string[]>([]);
 
   const today = new Date();
-  today.setHours(23, 59);
+  today.setHours(23, 59, 59);
   const dates = ref<Date[]>([
     new Date(today.getFullYear(), today.getMonth(), 1),
     today,

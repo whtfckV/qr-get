@@ -27,7 +27,7 @@ export const useProfitStore = defineStore("profit", () => {
   const partners = ref<string[]>([]);
 
   const today = new Date();
-  today.setHours(23, 59);
+  today.setHours(23, 59, 59);
 
   const dates = ref<[Date, Date]>([
     new Date(today.getFullYear(), today.getMonth(), 1),

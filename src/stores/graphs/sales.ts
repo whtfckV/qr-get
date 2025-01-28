@@ -39,8 +39,8 @@ export const useSalesGraph = defineStore("salesGraph", () => {
       partners: salesReturnsStore.partners,
       customers: salesReturnsStore.customers,
       products: salesReturnsStore.products,
-      date_start: startDate.format("YYYY-MM-DDTHH:mm"),
-      date_end: endDate.format("YYYY-MM-DDTHH:mm"),
+      date_start: startDate.format("YYYY-MM-DDTHH:mm:ss"),
+      date_end: endDate.format("YYYY-MM-DDTHH:mm:ss"),
       step: step.value,
       type: type.value,
     };
