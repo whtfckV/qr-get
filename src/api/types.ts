@@ -11,7 +11,9 @@ export enum Post {
   addExpenseCategory = '/v1/expenses_category',
   payments = '/verification_payments/table',
   dds = '/v1/dds/table',
-  opiu = '/v1/opiu/table'
+  opiu = '/v1/opiu/table',
+  addGroup = '/v1/expenses_group',
+  addExpenseInGroup = '/v1/expenses_group_items',
 }
 
 export enum Get {
@@ -24,20 +26,22 @@ export enum Get {
   disputsStatuses = '/disputs/statuses',
   balance = '/organization_balance',
   categories = '/v1/expenses_category/all',
-  groups = '/v1/expenses_group'
+  groupsWithItems = '/v1/expenses_group/with_items',
+  groups = '/v1/expenses_group',
 }
 
 export enum Put {
   updateUserSettings = '/settings',
   updateDisput = '/disputs',
-  updateExpense = '/v1/expenses_category'
+  updateExpense = '/v1/expenses_category',
+  moveExpenseToGroup = '/v1/expenses_group_items/move_to'
 }
 
 export enum Delete {
   user = '/user',
   expense = '/v1/expenses_category',
   expensesInGroup = '/v1/expenses_group_items',
-  group = '/v1/expenses_group'
+  group = '/v1/expenses_group',
 }
 
 export enum Graphs {

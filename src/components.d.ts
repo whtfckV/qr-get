@@ -7,17 +7,22 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddExpenseIntoGroup: typeof import('./components/ExpensesGroup/AddExpenseIntoGroup/AddExpenseIntoGroup.vue')['default']
     AddMoney: typeof import('./components/AddMoney/AddMoney.vue')['default']
     AddUsers: typeof import('./components/AddUser/AddUsers.vue')['default']
     AuthForm: typeof import('./components/authorization/AuthForm.vue')['default']
+    Category: typeof import('./components/ExpensesGroup/Group/Category/Category.vue')['default']
     Confirmation: typeof import('./components/Confirmation/Confirmation.vue')['default']
     DateFilter: typeof import('./components/reports/Filters/DateFilter.vue')['default']
     Disput: typeof import('./components/reports/Disput.vue')['default']
     DisputsGraph: typeof import('./components/reports/graphs/Disputs/DisputsGraph.vue')['default']
+    Expense: typeof import('./components/ExpensesCategories/Expense/Expense.vue')['default']
     ExpensesCategories: typeof import('./components/ExpensesCategories/ExpensesCategories.vue')['default']
     ExpensesGroup: typeof import('./components/ExpensesGroup/ExpensesGroup.vue')['default']
     Filters: typeof import('./components/reports/Filters/Filters.vue')['default']
+    Group: typeof import('./components/ExpensesGroup/Group/Group.vue')['default']
     LineChart: typeof import('./components/LineChart/LineChart.vue')['default']
+    Move: typeof import('./components/ExpensesGroup/Group/Category/Move/Move.vue')['default']
     OpiuTable: typeof import('./components/Opiu/OpiuTable.vue')['default']
     ProfitComponent: typeof import('./components/reports/ProfitComponent.vue')['default']
     ProfitsGraph: typeof import('./components/reports/graphs/Profits/ProfitsGraph.vue')['default']

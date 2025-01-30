@@ -15,7 +15,9 @@ export const useExpensesCategoriesStore = defineStore(
     const isLoading = ref(false);
 
     const get = async () => {
-      isLoading.value = true;
+      if (!items.value.length) {
+        isLoading.value = true;
+      }
       try {
         const response = await getExpensesCategories();
         if (response.success) {

@@ -1,31 +1,8 @@
 <script lang="ts" setup>
 import { useExpensesCategoriesStore } from '@/stores/expensesCategories';
-import { ExpenseCategory } from '@/types/expenses';
-import { Confirmation } from '../Confirmation';
+import Expense from './Expense/Expense.vue';
 
 const expensesCategoriesStore = useExpensesCategoriesStore()
-const selectedCategory = ref<string>();
-const obj: Record<string, boolean> = {}
-expensesCategoriesStore.items.map((category) => {
-  obj[category.id] = false
-})
-const dialogDelete = ref(obj)
-
-const handleFocus = (focus: boolean, category: ExpenseCategory) => {
-  console.log(category)
-  if (focus) {
-    selectedCategory.value = category.name
-  } else {
-    if (selectedCategory.value !== category.name) {
-      if (category.id.startsWith('add')) {
-        expensesCategoriesStore.add(category.id, category.name)
-      } else {
-        expensesCategoriesStore.updateExpenseCategory(category)
-      }
-    }
-    selectedCategory.value = ''
-  }
-}
 
 onMounted(() => {
   expensesCategoriesStore.get()
@@ -40,23 +17,11 @@ onUnmounted(() => {
   <v-card class="pa-5">
     <v-card>
       <v-list tag="ul" v-if="expensesCategoriesStore.items.length" bg-color="indigo-lighten-2">
-        <v-list-item tag="li" v-for="category in expensesCategoriesStore.items" :key="category.id">
-          <v-text-field density="compact" v-model="category.name" hide-details="auto"
-            @update:focused="(focus: boolean) => handleFocus(focus, category)">
-            <template #append>
-              <Confirmation v-model="dialogDelete[category.id]" title="Архивировать категорию?" :message="`Вы уверены что хотите архивировать категорию ${category.name}? \n
-                  Это действие нельзя будет отменить \n
-                  Вы больше не сможете выбрать ее при добавлении расхода`" confirm-text="Архивировать"
-                @confirm="expensesCategoriesStore.del(category.id)" :key="category.id">
-                <template #activator="{ props }">
-                  <v-btn color="red" variant="tonal" v-bind="props" icon="mdi-archive" :key="category.id" />
-                </template>
-              </Confirmation>
-            </template>
-          </v-text-field>
-        </v-list-item>
+        <Expense v-for="category in expensesCategoriesStore.items" :key="category.id" :category="category"
+          @add="expensesCategoriesStore.add" @update="expensesCategoriesStore.updateExpenseCategory"
+          @archive="expensesCategoriesStore.del" />
         <v-list-item tag="li">
-          <v-btn block @click="expensesCategoriesStore.create()">
+          <v-btn title="Добавить категорию" block @click="expensesCategoriesStore.create()">
             <v-icon icon="mdi-plus" />
           </v-btn>
         </v-list-item>
