@@ -1,11 +1,11 @@
 import { ApiError, ApiResponse } from "@/types/api";
-import { ExpensesGroup } from "@/types/expenses";
+import { ExpenseGroup } from "@/types/expenses";
 import { Delete, Get } from "./types";
 import { Api } from ".";
 
 export const getExpensesGroups = async (): Promise<
-  ApiResponse<ExpensesGroup[]> | ApiError
-> => Api.get<ExpensesGroup[]>(Get.groups);
+  ApiResponse<ExpenseGroup[]> | ApiError
+> => Api.get<ExpenseGroup[]>(Get.groups);
 
 export const deleteExpensesGroup = async (
   id: string

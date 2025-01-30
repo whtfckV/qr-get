@@ -14,7 +14,7 @@
       </v-card-title>
 
       <v-card-text>
-        {{ message }}
+          {{ message }}
       </v-card-text>
 
       <v-card-actions>
@@ -41,18 +41,18 @@ interface Props {
   cancelText?: string
 }
 
-const props = withDefaults(defineProps < Props > (), {
+const props = withDefaults(defineProps<Props>(), {
   title: 'Подтвердите удаление',
   message: 'Вы уверены что хотите удалить этот элемент?',
   confirmText: 'Удалить',
   cancelText: 'Отмена'
 })
 
-const emit = defineEmits < {
+const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void
   (e: 'confirm'): void
-    (e: 'cancel'): void
-}> ()
+  (e: 'cancel'): void
+}>()
 
 const showDialog = computed({
   get: () => props.modelValue,

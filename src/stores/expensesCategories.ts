@@ -19,7 +19,8 @@ export const useExpensesCategoriesStore = defineStore(
       try {
         const response = await getExpensesCategories();
         if (response.success) {
-          items.value = response.data;
+          items.value.splice(0);
+          items.value.push(...response.data);
         } else {
           throw new Error(response.error);
         }
@@ -32,13 +33,13 @@ export const useExpensesCategoriesStore = defineStore(
 
     const del = async (id: string) => {
       if (id.startsWith("add")) {
-        items.value = items.value.filter((category) => category.id !== id);
+        items.value.splice(items.value.findIndex((category) => category.id === id), 1);
         return;
       }
       try {
         const response = await deleteExpense(id);
         if (response.success) {
-          items.value = items.value.filter((category) => category.id !== id);
+          items.value.splice(items.value.findIndex((category) => category.id === id), 1);
         } else {
           throw new Error(response.error);
         }

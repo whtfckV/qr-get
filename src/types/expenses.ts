@@ -3,7 +3,7 @@ export type ExpenseCategory = {
   name: string
 }
 
-export type ExpensesGroup = {
+export type ExpenseGroup = {
   id: string
   name: string
   items: ExpenseCategory[]
