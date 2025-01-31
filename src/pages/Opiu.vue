@@ -7,6 +7,7 @@ const filtersStore = useFiltersStore();
 const opuiStore = useOpiuStore();
 
 const handleChangeFilter = (open: boolean) => {
+  console.log(open)
   if (!open) {
     opuiStore.get();
   }

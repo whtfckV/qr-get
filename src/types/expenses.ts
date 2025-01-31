@@ -11,7 +11,8 @@ export type ExpenseGroup = {
 
 export type ExpenseBody = {
   category_id: string,
-  moment: string,
+  dds_moment: string,
+  opiu_moment: string,
   sum: number
 }
 

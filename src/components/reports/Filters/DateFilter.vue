@@ -2,7 +2,10 @@
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-const model = defineModel<Date[]>();
+const model = defineModel<Date[] | Date>();
+withDefaults(defineProps<{ range?: boolean }>(), {
+  range: true
+})
 
 const formatDate = ([dateStart, dateEnd]: [Date, Date]) => {
   return (
@@ -25,11 +28,22 @@ const formatDate = ([dateStart, dateEnd]: [Date, Date]) => {
     })
   );
 };
+
+const formatOneDate = (date: Date) => {
+  return date.toLocaleString("ru-RU", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
 </script>
 
 <template>
-  <VueDatePicker v-model="model" class="vuetify-style-datepicker" range utc locale="ru" select-text="Выбрать"
-    cancel-text="Отменить" position="left" :format="formatDate" :clearable="false" enable-seconds />
+  <VueDatePicker v-model="model" class="vuetify-style-datepicker" :range utc locale="ru" select-text="Выбрать"
+    cancel-text="Отменить" position="left" :format="range ? formatDate : formatOneDate" :clearable="false" enable-seconds />
 </template>
 
 <style lang="scss">

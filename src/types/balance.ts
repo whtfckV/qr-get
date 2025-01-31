@@ -5,7 +5,8 @@ export type Balance = {
 };
 
 export type PaymentBody = {
-  moment: string,
+  dds_moment: string,
+  opiu_moment: string,
   sum: number
 }
 

@@ -59,6 +59,10 @@ export const useOpiuStore = defineStore("opiu", () => {
     }
   };
 
+  watch(dates, () => {
+    get();
+  })
+
   return {
     isLoading,
     dates,

@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import { VDateInput } from 'vuetify/labs/VDateInput'
 import { Props } from './types';
 import { useExpensesCategoriesStore } from '@/stores/expensesCategories';
 import { addPayment } from '@/api/balance';
 import { addExpense } from '@/api/expenses';
 import moment from 'moment';
+import DateFilter from '../reports/Filters/DateFilter.vue';
 
 const props = defineProps<Props>()
 const emit = defineEmits(['success'])
 const valid = ref(false)
-const date = ref(new Date())
+const dateOpiu = ref(new Date())
+const dateDds = ref(new Date())
 const category = ref<string>('')
 const sum = ref<number>()
 
@@ -22,11 +23,12 @@ const rules = {
 
 const handleAdd = async () => {
   if (valid.value) {
-    const formattedDate = moment(date.value).format('YYYY-MM-DD')
+    const formattedDateOpiu = moment(dateOpiu.value).format('YYYY-MM-DDTHH:mm:ss')
+    const formattedDateDds = moment(dateDds.value).format('YYYY-MM-DDTHH:mm:ss')
     try {
       const response = props.type === 'payment' ?
-        await addPayment({ moment: formattedDate, sum: Number(sum.value) }) :
-        await addExpense({ category_id: category.value, moment: formattedDate, sum: Number(sum.value) })
+        await addPayment({ dds_moment: formattedDateDds, opiu_moment: formattedDateOpiu, sum: Number(sum.value) }) :
+        await addExpense({ category_id: category.value, dds_moment: formattedDateDds, opiu_moment: formattedDateOpiu, sum: Number(sum.value) })
       if (response.success) {
         emit('success')
       } else {
@@ -46,14 +48,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-card>
+  <v-card class="overflow-visible">
     <v-card-title>
       {{ type === 'payment' ? 'Добавить доход' : 'Добавить расход' }}
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid">
-        <v-date-input v-model="date" label="Дата платежа" prepend-icon="" prepend-inner-icon="$calendar"
-          variant="outlined" />
+        <v-label text="Дата для ОПиУ" />
+        <DateFilter v-model="dateOpiu" class="mb-3" :range="false" />
+        <v-label text="Дата для ДДС" />
+        <DateFilter v-model="dateDds" class="mb-3" :range="false" />
         <v-select v-if="type === 'expense'" v-model="category" :rules="[rules.required]"
           :loading="expensesCategoriesStore.isLoading" label="Категория расходов" item-title="name" item-value="id"
           :items="expensesCategoriesStore.items" />
