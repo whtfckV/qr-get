@@ -13,6 +13,7 @@ export const useExpesesGroupStore = defineStore("expensesGroup", () => {
   const isLoading = ref(false);
   const items = ref<ExpenseGroup[]>([]);
   const groups = ref<Omit<ExpenseGroup, "items">[]>([]);
+  const error = ref("");
 
   const get = async () => {
     isLoading.value = true;
@@ -71,7 +72,7 @@ export const useExpesesGroupStore = defineStore("expensesGroup", () => {
     }
   };
 
-  const addCategory = async (groupId: string, categoryId: string) => {
+  const addCategory = async (groupId: string, categoryId: string): Promise<boolean> => {
     try {
       const response = await addExpenseToGroup(groupId, categoryId);
       if (response.success) {
@@ -80,12 +81,18 @@ export const useExpesesGroupStore = defineStore("expensesGroup", () => {
             group.items.push(response.data);
           }
         });
+        return true
       } else {
+        if (response.error.includes('400')) {
+          error.value = response.details.detail;
+          return false
+        }
         throw new Error(response.error);
       }
     } catch (error) {
       console.log(error);
     }
+    return false
   };
 
   const moveCategory = async (categoryId: string, groupId: string, oldGroupId: string) => {
@@ -133,6 +140,7 @@ export const useExpesesGroupStore = defineStore("expensesGroup", () => {
     isLoading,
     items,
     groups,
+    error,
     get,
     getOnlyGroups,
     add,

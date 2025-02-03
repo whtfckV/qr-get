@@ -10,7 +10,7 @@ const dialogMove = ref(false)
 
 const handleRemove = () => {
   groupStore.deleteCategory(props.category.id, props.group.id)
-  }
+}
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const handleRemove = () => {
           <Move @close="dialogMove = false" :category="category" :group="group" />
         </v-dialog>
         <Confirmation v-model="dialogRemove" :title="`Убрать категорию из группы ${group.name}?`"
-          :message="`Вы уверены что хотите убрать категорию ${category.name} из группы ${group.name}? Эта категория больше ну бедт отображаться в данной группе в отчете ОПиУ`"
+          :message="`Вы уверены что хотите убрать категорию ${category.name} из группы ${group.name}? Эта категория больше не будет отображаться в данной группе в отчете ОПиУ`"
           @confirm="handleRemove">
           <template #activator="{ props }">
             <v-btn title="Удалить" v-bind="props" variant="text" icon="mdi-minus-circle"></v-btn>

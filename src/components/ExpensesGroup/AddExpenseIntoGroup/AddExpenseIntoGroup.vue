@@ -9,10 +9,16 @@ const expensesCategoriesStore = useExpensesCategoriesStore()
 const groupsStore = useExpesesGroupStore()
 const category = ref('')
 
-const handleAdd = () => {
-  groupsStore.addCategory(props.group.id, category.value)
-  emit('close')
+const handleAdd = async () => {
+  const answer = await groupsStore.addCategory(props.group.id, category.value)
+  if (answer) {
+    emit('close')
+  }
 }
+
+watch(category, () => {
+  groupsStore.error = ''
+})
 
 onMounted(() => {
   expensesCategoriesStore.get()
@@ -27,8 +33,9 @@ onMounted(() => {
         Добавление категории в группу {{ group.name }}
       </v-card-title>
       <v-card-text>
-        <v-select v-model="category" :loading="expensesCategoriesStore.isLoading" label="Выберите категорию"
-          :items="expensesCategoriesStore.items" item-title="name" item-value="id" />
+        <v-select v-model="category" :loading="expensesCategoriesStore.isLoading" :error="!!groupsStore.error"
+          :error-messages="groupsStore.error" label="Выберите категорию" :items="expensesCategoriesStore.items"
+          item-title="name" item-value="id" />
       </v-card-text>
       <v-card-actions>
         <v-spacer />

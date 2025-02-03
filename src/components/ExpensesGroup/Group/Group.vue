@@ -21,7 +21,7 @@ const dialogAdd = ref(false)
           <v-col cols="auto">
             <v-dialog v-model="dialogAdd" max-width="500">
               <template #activator="{ props: activatorProps }">
-                <v-btn title="Добавить группу" v-bind="activatorProps" variant="text" icon="mdi-plus" />
+                <v-btn title="Добавить в группу" v-bind="activatorProps" variant="text" icon="mdi-plus" />
               </template>
               <AddExpenseIntoGroup @close="dialogAdd = false" :group="group" />
             </v-dialog>

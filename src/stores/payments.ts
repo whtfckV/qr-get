@@ -31,8 +31,11 @@ export const usePaymentsStore = defineStore("payments", () => {
     } finally {
       isLoading.value = false;
     }
-
   };
+
+  watch(dates, () => {
+    get();
+  });
 
   return {
     isLoading,

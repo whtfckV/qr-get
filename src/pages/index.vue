@@ -65,13 +65,16 @@ onMounted(() => {
         <DateFilter v-model="paymentsStore.dates" />
       </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="4">
-        <v-skeleton-loader v-if="balanceStore.isLoading" :loading="balanceStore.isLoading" width="300" type="heading" />
-        <h2 v-else>Факт: ₽ {{ balanceStore.balance }}</h2>
+      <v-col cols="2">
+        <h2>На дату: {{ moment().format('DD.MM.YYYY') }}</h2>
       </v-col>
-      <v-col cols="4">
+      <v-col cols="3">
         <v-skeleton-loader v-if="balanceStore.isLoading" :loading="balanceStore.isLoading" width="300" type="heading" />
-        <h2 v-else>План: ₽ {{ balanceStore.balancePlan }}</h2>
+        <h2>Фактический баланс: ₽ {{ balanceStore.balance }}</h2>
+      </v-col>
+      <v-col cols="3">
+        <v-skeleton-loader v-if="balanceStore.isLoading" :loading="balanceStore.isLoading" width="300" type="heading" />
+        <h2 v-else>Планируемый баланс: ₽ {{ balanceStore.balancePlan }}</h2>
       </v-col>
     </v-row>
     <v-row>

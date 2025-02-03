@@ -43,7 +43,7 @@ onMounted(() => {
     </v-row>
     <v-card>
       <v-data-table :headers items-per-page="-1" :items="ddsStore.categories" :loading="ddsStore.isLoading">
-        <template #body.prepend>
+        <template v-if="!ddsStore.isLoading" #body.prepend>
           <tr class="bg-grey-lighten-2">
             <td>Начальный остаток</td>
             <td>{{ ddsStore.startBalance }}</td>
@@ -57,10 +57,10 @@ onMounted(() => {
             <td>{{ ddsStore.outcomingsSum }}</td>
           </tr>
         </template>
-        <template #body.append>
+        <template v-if="!ddsStore.isLoading" #body.append>
           <tr class="bg-grey-lighten-2">
             <td>Конечный остаток</td>
-            <td>{{ ddsStore.outcomingsSum }}</td>
+            <td>{{ ddsStore.finalBalance }}</td>
           </tr>
         </template>
       </v-data-table>

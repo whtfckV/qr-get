@@ -8,8 +8,8 @@ interface TableItem {
 }
 
 const headers = [
-  { title: "Название", key: "name" },
-  { title: "Сумма", key: "sum" },
+  { title: "Название", key: "name", sortable: false },
+  { title: "Сумма", key: "sum", sortable: false },
 ];
 
 
