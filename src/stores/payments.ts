@@ -1,14 +1,18 @@
 import { getPayments } from "@/api/payments";
 import { Payment } from "@/types/payments";
 import { PaymentFilters } from "@/types/payments";
-import { fillMonth } from "@/utils/fillDates";
 import moment from "moment";
 import { defineStore } from "pinia";
 
 export const usePaymentsStore = defineStore("payments", () => {
   const isLoading = ref(false);
   const payments = ref<Payment[]>([]);
-  const dates = ref<Date[]>(fillMonth());
+  const today = new Date();
+  today.setHours(23, 59, 59);
+  const dates = ref<[Date, Date]>([
+    new Date(today.getFullYear(), today.getMonth(), 1),
+    today,
+  ]);
 
   const get = async () => {
     const start = dates.value[0];

@@ -1,12 +1,16 @@
 import { getDds } from "@/api/dds";
 import { Category, DdsFilters } from "@/types/dds";
-import { fillMonth } from "@/utils/fillDates";
 import moment from "moment";
 import { defineStore } from "pinia";
 
 export const useDDSStore = defineStore("dds", () => {
   const isLoading = ref(false);
-  const dates = ref<Date[]>(fillMonth());
+  const today = new Date();
+  today.setHours(23, 59, 59);
+  const dates = ref<[Date, Date]>([
+    new Date(today.getFullYear(), today.getMonth(), 1),
+    today,
+  ]);
   const partners = ref<string[]>([]);
   const customers = ref<string[]>([]);
   const categories = ref<Category[]>([]);
