@@ -35,6 +35,7 @@ const openDialog = (type: dialogTypes) => {
 
 const handleSuccess = () => {
   balanceStore.get()
+  paymentsStore.get()
   closeDialog()
 }
 
