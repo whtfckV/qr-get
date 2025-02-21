@@ -23,6 +23,7 @@ export const useUsersStore = defineStore('users', () => {
   const updateSettings = async (usr: User) => {
     const data: updateSettings = {
       report_sales_returns: usr.settings.report_sales_returns,
+      report_sales_returns_excel: usr.settings.report_sales_returns_excel,
       report_disput: usr.settings.report_disput,
       report_profit: usr.settings.report_profit,
       table_disput: usr.settings.table_disput,

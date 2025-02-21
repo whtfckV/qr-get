@@ -60,7 +60,8 @@ export class Api {
   private static async response<T>(
     response: Response
   ): Promise<ApiResponse<T> | ApiError> {
-    const data = await response.json();
+    // response.headers.get("Content-type")
+    const data = (response.headers.get("Content-type") == "application/json") ? await response.json() : await response.blob();
     if (!response.ok) {
       const errorMessage =
         data?.message || `Ошибка ${response.status}: ${response.statusText}`;
@@ -144,6 +145,17 @@ export class Api {
       body,
       this.getHeaders()
     );
+  }
+
+  static async postFile<T>(
+    url: Post | Graphs,
+    body?: string
+  ): Promise<ApiResponse<T> | ApiError> {
+    return this.request<T>(url, "POST", body, {
+      ...this.getHeaders(),
+      // "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      responseType: 'blob'
+    });
   }
 
   // private static logRequest(method: string, url: string, body?: string) {

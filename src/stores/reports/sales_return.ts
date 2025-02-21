@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { ReportType, SellersReturn } from "@/types/reports/sales_return";
-import { getSalesReturnsReport } from "@/api/reports/reports";
+import { getSalesReturnsReport, getExelReport } from "@/api/reports/reports";
 import moment from "moment";
 import { useSalesGraph } from "../graphs/sales";
 
@@ -10,6 +10,7 @@ export const useSalesReturnsStore = defineStore("partner", () => {
   const limit = ref(10);
   const page = ref(0);
   const isLoading = ref(false);
+  const isLoadingButton = ref(false);
   const error = ref();
   // filters
   const partners = ref<string[]>([]);
@@ -24,6 +25,10 @@ export const useSalesReturnsStore = defineStore("partner", () => {
     new Date(today.getFullYear(), today.getMonth(), 1),
     today,
   ]);
+
+  const excelHref = ref("")
+  // const excelAccess = useUserStore().settingsExcel
+  const isDone = ref(false)
 
 
   const salesGraphStore = useSalesGraph();
@@ -44,7 +49,6 @@ export const useSalesReturnsStore = defineStore("partner", () => {
 
     try {
       const response = await getSalesReturnsReport(filters);
-
       if (response.success) {
         data.splice(0);
         data.push(...response.data.data);
@@ -60,6 +64,34 @@ export const useSalesReturnsStore = defineStore("partner", () => {
     }
   };
 
+  const getExcel = async () => {
+    isLoadingButton.value = true;
+
+    const exelFilters = {
+      partners: partners.value,
+      customers: customers.value,
+      products: products.value,
+      date_start: moment(dates.value[0]).format("YYYY-MM-DDTHH:mm"),
+      date_end: moment(dates.value[1]).format("YYYY-MM-DDTHH:mm"),
+    };
+
+    try {
+      const response = await getExelReport(exelFilters)
+      if (response.success) {
+        const blob: Blob = response.data;
+        const url = window.URL.createObjectURL(blob);
+        excelHref.value = url;
+        isDone.value = true
+      } else {
+        error.value = response.error
+      }
+    } catch (error) {
+      console.log("Get partners error: " + error);
+    } finally {
+      isLoadingButton.value = false;
+    }
+  };
+
   const setLimit = (newLimit: number) => {
     page.value = 0;
     limit.value = newLimit;
@@ -68,7 +100,8 @@ export const useSalesReturnsStore = defineStore("partner", () => {
     page.value = newPage;
   };
 
-  watch([dates, type], () => {
+  watch([dates, type, partners, products, customers], () => {
+    isDone.value = false
     getPartners();
     salesGraphStore.get();
   });
@@ -83,9 +116,14 @@ export const useSalesReturnsStore = defineStore("partner", () => {
     size,
     page,
     limit,
+    isDone,
     isLoading,
+    isLoadingButton,
+    // excelAccess,
+    excelHref,
     getPartners,
     setLimit,
+    getExcel,
     setPage,
   };
 });

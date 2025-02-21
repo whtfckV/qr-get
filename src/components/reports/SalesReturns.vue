@@ -5,6 +5,7 @@ import { useSalesReturnsStore } from "@/stores/reports/sales_return";
 import { SellersReturn } from "@/types/reports/sales_return";
 import moment from "moment";
 import { VDataTableServer } from "vuetify/components";
+import { useUserStore } from "@/stores/user";
 
 type Headers = {
   title: string;
@@ -55,9 +56,11 @@ const perPage = [
   { value: 500, title: '500' },
 ]
 
+const userStore = useUserStore()
 const partnersStore = useSalesReturnsStore();
 const salesGraphStore = useSalesGraph();
 const filtersStore = useFiltersStore();
+
 
 const handleChangeSelect = (open: boolean) => {
   if (!open) {
@@ -73,7 +76,13 @@ const handleChangeOptions = (options: Options) => {
   partnersStore.getPartners()
 }
 
+
+const handleCreate = () => {
+  partnersStore.getExcel()
+}
+
 onMounted(async () => {
+  userStore.getSettings()
   filtersStore.getFilter("customers");
   filtersStore.getFilter("partners");
   filtersStore.getFilter("products");
@@ -82,7 +91,18 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-app-bar title="Партнеры" />
+  <v-app-bar title="Партнеры">
+    <template v-if="userStore.settingsExcel">
+      <v-btn v-if="!partnersStore.isDone" :loading="partnersStore.isLoadingButton" @click="handleCreate"
+        base-color="indigo-lighten-2" class="mr-4" prepend-icon="mdi-download" variant="tonal">
+        сформировать
+      </v-btn>
+      <v-btn v-else :href="partnersStore.excelHref" download base-color="indigo-lighten-2" class="mr-4"
+        prepend-icon="mdi-download" variant="tonal">
+        Скачать
+      </v-btn>
+    </template>
+  </v-app-bar>
   <v-container fluid>
     <v-row dense>
       <v-col cols="12" md="3">

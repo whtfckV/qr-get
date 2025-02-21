@@ -1,7 +1,9 @@
 export type reposrtsTypes =
   | "report_sales_returns"
+  | "report_sales_returns_excel"
   | "report_disput"
   | "report_profit";
+
 export type tablesTypes =
   | "table_disput"
   | "table_verification_payments"

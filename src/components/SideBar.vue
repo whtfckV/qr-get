@@ -12,7 +12,7 @@ type Report = {
 const router = useRouter()
 
 
-const reports: Record<keyof Omit<Settings, 'id'>, Report> = {
+const reports: Record<keyof Omit<Settings, 'id' | 'report_sales_returns_excel'>, Report> = {
   report_profit: { title: 'Отчет о рентабельности', icon: 'mdi-finance', link: '/reports/Profit' },
   report_sales_returns: { title: 'Отчет по партнерам', icon: 'mdi-handshake', link: '/reports/SellersReturn' },
   report_disput: { title: 'Отчет по диспутам', icon: 'mdi-cash-refund', link: '/reports/Disput' },
@@ -48,11 +48,14 @@ onMounted(() => {
         <v-divider thickness="1" />
       </template>
 
-      <template v-if="userStore.settings" v-for="report in Object.keys(userStore.settings) as reposrtsTypes[]"
-        :key="reports[report].title">
-        <v-list-item v-if="userStore.settings[report]" color="#FF9140" link :prepend-icon="reports[report].icon"
-          :title="reports[report].title" :to="`${reports[report].link}`" />
-        <v-divider v-if="userStore.settings[report]" thickness="1" />
+      <template v-if="userStore.settings"
+        v-for="report in Object.keys(userStore.settings) as Omit<reposrtsTypes, 'report_sales_returns_excel'>[]"
+        :key="reports[report as keyof typeof reports].title">
+        <v-list-item v-if="userStore.settings[report as keyof typeof reports]" color="#FF9140" link
+          :prepend-icon="reports[report as keyof typeof reports].icon"
+          :title="reports[report as keyof typeof reports].title"
+          :to="`${reports[report as keyof typeof reports].link}`" />
+        <v-divider v-if="userStore.settings[report as keyof typeof reports]" thickness="1" />
       </template>
     </v-list>
 

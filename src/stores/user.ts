@@ -5,7 +5,9 @@ import { SettingsWithoutId } from "@/types/settings";
 
 export const useUserStore = defineStore("user", () => {
   const user = ref<tJwtTokenDecode>();
-  const settings = ref<SettingsWithoutId>();
+  const settings = ref<Omit<SettingsWithoutId, 'report_sales_returns_excel'>>();
+  const settingsExcel = ref(false);
+
 
   const getUserInfo = async () => {
     user.value = jwtDecode(localStorage.getItem("authToken"));
@@ -16,7 +18,9 @@ export const useUserStore = defineStore("user", () => {
     try {
       const response = await getUserSettings(user.value.sub);
       if (response.success) {
-        const { id, ...settignsWithoutId } = response.data;
+        settingsExcel.value = response.data.report_sales_returns_excel
+        const { id, report_sales_returns_excel, ...settignsWithoutId } = response.data;
+        // console.log(response.data)
         settings.value = settignsWithoutId;
       }
     } catch (error) {
@@ -27,6 +31,7 @@ export const useUserStore = defineStore("user", () => {
   return {
     user,
     settings,
+    settingsExcel,
     getUserInfo,
     getSettings,
   };

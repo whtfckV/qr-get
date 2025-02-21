@@ -40,6 +40,7 @@ const deleteItem = () => {
 }
 
 const items: Items[] = [
+  { title: 'Продажи/возвраты excel', value: 'report_sales_returns_excel' },
   { title: 'Продажи/возвраты', value: 'report_sales_returns' },
   { title: 'Диспуты', value: 'report_disput' },
   { title: 'Прибыль', value: 'report_profit' },

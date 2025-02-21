@@ -2,7 +2,7 @@ export enum Post {
   generation = 'content-generation/generate_test_by_query',
   login = '/auth/login',
   register = '/auth/register',
-  partners= '/sales_returns',
+  partners = '/sales_returns',
   profit = '/profit',
   disputs = '/disputs',
   disputsTable = '/disputs/table',
@@ -14,6 +14,7 @@ export enum Post {
   opiu = '/v1/opiu/table',
   addGroup = '/v1/expenses_group',
   addExpenseInGroup = '/v1/expenses_group_items',
+  getExelReturns = '/sales_returns/excel',
 }
 
 export enum Get {
