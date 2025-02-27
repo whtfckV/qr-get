@@ -39,8 +39,12 @@ const headers: Headers[] = [
   { title: "Нетто Куаргет", key: "netto_qrget" },
   { title: "Дата заявления о расторжении", key: "date_application_termination" },
   { title: "Дата расторжения", key: "date_termination" },
-  { title: "Диспут", key: "disput" },
-  // { title: 'Тип операции продажа/возврат', key: 'type' },
+  { title: "Диспут", key: "dispute" },
+  { title: "Неоспариваемый диступ", key: "dispute_undoubt" },
+  { title: "Дата посутпления диспута", key: "dispute_date" },
+  { title: "Дата списания по диспуту", key: "dispute_date_transfer" },
+  { title: "Дата заключения по диспуту", key: "dispute_date_receipt" },
+  { title: "Дата диспут закрыт без потерь", key: "dispute_date_noloss" },
 ];
 
 type Options = {
@@ -142,8 +146,39 @@ onMounted(async () => {
         <template #item.date_end_insurace="{ item }">
           {{ moment(item["datetime_msk"]).format('DD.MM.YYYY') }}
         </template>
-        <template #item.disput="{ item }">
-          {{ item["disput"] ? "Да" : "Нет" }}
+        <template #item.dispute_date="{ item }">
+          {{
+            item["dispute_date"] ?
+            moment(item["dispute_date"]).format('DD.MM.YYYY/HH:mm') :
+            'Отсутствует'
+            }}
+        </template>
+        <template #item.dispute_date_noloss="{ item }">
+          {{
+            item["dispute_date_noloss"] ?
+            moment(item["dispute_date_noloss"]).format('DD.MM.YYYY/HH:mm') :
+            'Отсутствует'
+            }}
+        </template>
+        <template #item.dispute_date_transfer="{ item }">
+          {{
+            item["dispute_date_transfer"] ?
+            moment(item["dispute_date_transfer"]).format('DD.MM.YYYY/HH:mm') :
+            'Отсутствует'
+            }}
+        </template>
+        <template #item.dispute_date_receipt="{ item }">
+          {{
+            item["dispute_date_receipt"] ?
+            moment(item["dispute_date_receipt"]).format('DD.MM.YYYY/HH:mm') :
+            'Отсутствует'
+            }}
+        </template>
+        <template #item.dispute="{ item }">
+          {{ item["dispute"] ? "Да" : "Нет" }}
+        </template>
+        <template #item.dispute_undoubt="{ item }">
+          {{ item["dispute_undoubt"] ? "Да" : "Нет" }}
         </template>
         <template #item.birthday="{ item }">
           {{ item["birthday"] ? moment(item["birthday"]).format('DD.MM.YYYY') : "" }}

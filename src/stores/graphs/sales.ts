@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getSalesGraphPoints } from "@/api/reports/graphs";
+import { getGraphTable, getSalesGraphPoints } from "@/api/reports/graphs";
 import {
   GraphOldStep,
   GraphStep,
@@ -18,6 +18,7 @@ export const useSalesGraph = defineStore("salesGraph", () => {
   const step = ref<GraphStep>("day");
   const type = ref<GraphType>("sum");
   const oldStep = ref<GraphOldStep>("month");
+  const table = ref<any>([]);
 
   const salesReturnsStore = useSalesReturnsStore();
 
@@ -27,11 +28,11 @@ export const useSalesGraph = defineStore("salesGraph", () => {
 
     if (old) {
       if (oldStep.value === "month") {
-        startDate = startDate.subtract(1, 'month');
-        endDate = endDate.subtract(1, 'month');
+        startDate = startDate.subtract(1, "month");
+        endDate = endDate.subtract(1, "month");
       } else if (oldStep.value === "year") {
-        startDate = startDate.subtract(1, 'year');
-        endDate = endDate.subtract(1, 'year');
+        startDate = startDate.subtract(1, "year");
+        endDate = endDate.subtract(1, "year");
       }
     }
 
@@ -49,7 +50,7 @@ export const useSalesGraph = defineStore("salesGraph", () => {
   const get = async () => {
     isLoading.value = true;
     try {
-      await Promise.all([getSales(), getOldSales()]);
+      await Promise.all([getSales(), getOldSales(), getTable()]);
     } catch (error) {
       console.log("Get Sales Graph Error:", error);
     } finally {
@@ -87,9 +88,21 @@ export const useSalesGraph = defineStore("salesGraph", () => {
     }
   };
 
-  watch(oldStep,() => {
-    getOldSales()
-  })
+  const getTable = async () => {
+    try {
+      const response = await getGraphTable(createFilters());
+      if (response.success) {
+        table.value.splice(0);
+        table.value.push(...response.data);
+      }
+    } catch (error) {
+      console.log("Get Sales Table Error:", error);
+    }
+  };
+
+  watch(oldStep, () => {
+    getOldSales();
+  });
 
   watch([step, type], () => {
     get();
@@ -100,6 +113,7 @@ export const useSalesGraph = defineStore("salesGraph", () => {
     oldGraph,
     step,
     oldStep,
+    table,
     type,
     get,
   };

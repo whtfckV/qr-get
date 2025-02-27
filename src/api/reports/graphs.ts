@@ -14,3 +14,7 @@ export const getDisputsGraphPoints = async (filters: DisputsRequestBody): Promis
 export const getProfitsGraphPoints = async (filters: ProfitRequestBody): Promise<ApiResponse<Profits> | ApiError> => {
   return Api.post<Profits>(Graphs.profits, JSON.stringify(filters))
 }
+
+export const getGraphTable = async (filters: ProfitRequestBody): Promise<ApiResponse<any> | ApiError> => {
+  return Api.post<any>(Graphs.table, JSON.stringify(filters))
+}

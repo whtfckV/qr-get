@@ -49,6 +49,7 @@ export enum Graphs {
   sales = '/sales_returns/graphs',
   profits = '/profit/graphs',
   disputs = '/disputs/graphs',
+  table = '/sales_returns/partners',
 }
 
 export type Methods = 'GET' | 'PUT' | 'POST' | 'DELETE'

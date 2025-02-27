@@ -13,6 +13,7 @@ declare module 'vue' {
     AuthForm: typeof import('./components/authorization/AuthForm.vue')['default']
     Category: typeof import('./components/ExpensesGroup/Group/Category/Category.vue')['default']
     Confirmation: typeof import('./components/Confirmation/Confirmation.vue')['default']
+    DataTable: typeof import('./components/reports/graphs/Sales/DataTable.vue')['default']
     DateFilter: typeof import('./components/reports/Filters/DateFilter.vue')['default']
     Disput: typeof import('./components/reports/Disput.vue')['default']
     DisputsGraph: typeof import('./components/reports/graphs/Disputs/DisputsGraph.vue')['default']
