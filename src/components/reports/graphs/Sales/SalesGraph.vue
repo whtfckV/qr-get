@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import { TLine } from '@/components/LineChart/types'
 import { useSalesGraph } from '@/stores/graphs/sales'
-import { formatDate } from '@/utils/formatDate'
 import moment from 'moment'
-
-interface TableRow {
-  partner: string
-  [key: string]: number | string
-}
 
 const salesStore = useSalesGraph()
 const dates = computed<string[]>(() => salesStore.graph.map(({ period }) =>
@@ -85,15 +79,23 @@ const tableData = computed<any[]>(() => {
     item.partners.forEach((partner: any) => {
       const findPartnerIndex = data.findIndex((dataItem: any) => dataItem.partner === partner.partner_name)
       if (findPartnerIndex < 0) {
-        const obj: Record<string, any> = {
+        data.push({
           partner: partner.partner_name,
-        }
-        obj[`sales_${item.period}`] = formatValue(partner.sales)
-        obj[`returns_${item.period}`] = formatValue(partner.returns)
-        data.push(obj)
-      } else {
-        data[findPartnerIndex][`sales_${item.period}`] = formatValue(partner.sales)
-        data[findPartnerIndex][`returns_${item.period}`] = formatValue(partner.returns)
+        })
+      }
+    })
+  })
+
+  salesStore.table.forEach((item: any) => {
+    data.map((dataItem: any) => {
+      dataItem[`sales_${item.period}`] = formatValue(0)
+      dataItem[`returns_${item.period}`] = formatValue(0)
+
+      const partner = item.partners.find((iPartner: any) => iPartner.partner_name === dataItem.partner)
+      // console.log(partner)
+      if (partner) {
+        dataItem[`sales_${item.period}`] = formatValue(partner.sales)
+        dataItem[`returns_${item.period}`] = formatValue(partner.returns)
       }
     })
   })
