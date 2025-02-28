@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TLine } from '@/components/LineChart/types'
 import { useSalesGraph } from '@/stores/graphs/sales'
+import { formatDate } from '@/utils/formatDate'
 import moment from 'moment'
 
 const salesStore = useSalesGraph()
@@ -53,7 +54,7 @@ const headers = computed(() => {
     },
     ...salesStore.table.map((day: any) => day.period)
       .map((date: string) => ({
-        title: formatDate(date),
+        title: formatDateTable(date),
         // align: 'center',
         children: [
           {
@@ -103,7 +104,7 @@ const tableData = computed<any[]>(() => {
   return data
 })
 
-const formatDate = (date: string) => moment(date).format('DD.MM.YYYY')
+const formatDateTable = (date: string) => moment(date).format('DD.MM.YYYY')
 const formatValue = (value: number) => {
   return Intl.NumberFormat('ru-RU', {
     style: 'currency',
